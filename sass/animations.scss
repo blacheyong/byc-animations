@@ -1,0 +1,146 @@
+// Transition
+// -------------------------
+$defaultTime: 0.5s;
+$opacityTime: 0.35s;
+$translateTime: 0.65s;
+$defaultEasing: ease-in-out;
+
+$animate-delay: 0s;
+$animate-slide-offset: 50px;
+$animate-zoom-start: .5;
+
+[data-animate] {
+  transition-duration: var(--animate-duration, $defaultTime);
+  transition-delay: var(--animate-delay, $animate-delay);
+  transition-timing-function: var(--animate-easing, $defaultEasing);
+}
+
+// Reveal
+[data-animate|='reveal'] {
+  overflow: hidden;
+  position: relative;
+  will-change: transform;
+
+  .reveal__background, 
+  .reveal__foreground {
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    transform: translateY(0);
+    width: 100%;
+  }
+  .reveal__background {
+    transition: transform .45s ease-in-out;
+    z-index: 2;
+  }
+  .reveal__foreground {
+    background-color: inherit;
+    transition: transform .65s ease-in-out;
+    z-index: 3;
+  }
+}
+[data-animate|='reveal'].in-view {
+  .reveal__background {
+    transform: translateY(-100%);
+  }
+  .reveal__foreground {
+    transform: translateY(-100%);
+  }
+}
+
+// .contact-cards { // , .project-cards
+//   [class*='col-'] {
+//     @include transition-delay();
+//   }
+// }
+.project-cards, .team {
+  [data-animate|='reveal'] {
+    .reveal__background {
+      background-color: #131E32;
+    }
+  }
+}
+
+/* / Specific animations */
+// Fade
+[data-animate|='fade'] {
+  opacity: 0;
+  transition-property: opacity;
+}
+
+[data-animate|='fade'].in-view {
+  opacity: 1;
+}
+[data-animate|='fade'].out-view {
+  opacity: 0;
+}
+
+// Slide
+[data-animate|='slide'] {
+  opacity: 0;
+  transform: translateY(var(--animate-slide-offset, $animate-slide-offset));
+  transition-property: opacity, transform;
+  transition-duration: var(--animate-opacity-duration, $opacityTime), var(--animate-slide-duration, $translateTime);
+}
+
+// Zoom
+[data-animate|='zoom'] {
+  opacity: 0;
+  transform: scale(var(--animate-zoom-start, $animate-zoom-start));
+  transform-origin: center center;
+  transition-property: opacity, transform;
+}
+
+[data-animate|='slide'].in-view,
+[data-animate|='zoom'].in-view {
+  opacity: 1;
+  transform: none;
+}
+[data-animate|='slide'].out-view {
+  transform: translateY(var(--animate-slide-offset, - $animate-slide-offset));
+}
+
+// Mobile
+@media only screen and (max-width: 991px) {
+  [data-animate-mobile] {
+    display: block;
+  }
+
+  // Fade
+  [data-animate-mobile|='fade'] {
+    opacity: 0;
+    transition-property: opacity;
+
+    // Unset slide/zoom properties
+    transform: unset;
+  }
+  
+  [data-animate-mobile|='fade'].in-view {
+    opacity: 1;
+  }
+
+  // Slide
+  [data-animate-mobile|='slide'] {
+    opacity: 0;
+    transform: translateY(var(--animate-slide-offset, $animate-slide-offset));
+    transition-property: opacity, transform;
+    transition-duration: var(--animate-opacity-duration, $opacityTime), var(--animate-slide-duration, $translateTime);
+  }
+
+  // Zoom
+  [data-animate-mobile|='zoom'] {
+    opacity: 0;
+    transform: scale(var(--animate-zoom-start, $animate-zoom-start));
+    transform-origin: center center;
+    transition-property: opacity, transform;
+  }
+
+  [data-animate-mobile|='slide'].in-view,
+  [data-animate-mobile|='zoom'].in-view {
+    opacity: 1;
+    transform: none;
+  }
+}

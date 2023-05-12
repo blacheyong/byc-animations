@@ -1,0 +1,16 @@
+@mixin transition-delay {
+    @for $i from 1 through 12 {
+      &:nth-child(#{$i}) {
+        transition-delay: #{.6 + ($i * .1)}s;
+        
+        [data-animate|='reveal'] { 
+          .reveal__background {
+            transition-delay: #{.65 + ($i * .15)}s;
+          }
+          .reveal__foreground {
+            transition-delay: #{0 + ($i * .15)}s;
+          }
+        }
+      }
+    }
+}
