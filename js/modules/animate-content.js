@@ -31,7 +31,7 @@ export default function () {
 
             ScrollTrigger.create({
               trigger: target,
-              start: target.dataset.animateStart ? target.dataset.animateStart : 'top 80%',
+              start: target.dataset.animateStart ? target.dataset.animateStart : 'top 70%',
               onEnter: () => { 
                 console.log('onEnter: add .in-view')
                 target.classList.add('in-view')
@@ -54,6 +54,7 @@ export default function () {
                 }
               },
               once: !isRepeatable,
+              markers: true
             });
         });
     }

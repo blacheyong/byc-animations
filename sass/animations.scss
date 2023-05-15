@@ -1,6 +1,6 @@
 // Transition
 // -------------------------
-$defaultTime: 0.5s;
+$defaultTime: 0.35s;
 $opacityTime: 0.35s;
 $translateTime: 0.65s;
 $defaultEasing: ease-in-out;
@@ -51,19 +51,6 @@ $animate-zoom-start: .5;
   }
 }
 
-// .contact-cards { // , .project-cards
-//   [class*='col-'] {
-//     @include transition-delay();
-//   }
-// }
-.project-cards, .team {
-  [data-animate|='reveal'] {
-    .reveal__background {
-      background-color: #131E32;
-    }
-  }
-}
-
 /* / Specific animations */
 // Fade
 [data-animate|='fade'] {
@@ -98,9 +85,12 @@ $animate-zoom-start: .5;
 [data-animate|='zoom'].in-view {
   opacity: 1;
   transform: none;
+  transition-delay: 0s;
 }
 [data-animate|='slide'].out-view {
+  opacity: 0;
   transform: translateY(var(--animate-slide-offset, - $animate-slide-offset));
+  transition-delay: 0s !important;
 }
 
 // Mobile
