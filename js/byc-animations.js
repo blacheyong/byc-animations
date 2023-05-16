@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------
 // Import Main Styles
 //------------------------------------------------------------------------
-import '../sass/main.scss'
+import '../sass/animations.scss'
 
 //------------------------------------------------------------------------
 // Import Custom Modules
@@ -12,4 +12,5 @@ function BycAnimations() {
     AnimateContent();
 }
 
-module.exports =  BycAnimations
+// module.exports =  BycAnimations
+export default BycAnimations
