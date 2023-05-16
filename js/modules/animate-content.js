@@ -26,6 +26,15 @@ export default function () {
             if (target.hasAttribute('data-animate-offset')) {
                 target.style.setProperty('--animate-slide-offset', target.getAttribute('data-animate-offset'));
             }
+            if (target.hasAttribute('data-background-color')) {
+                target.style.setProperty('--animate-background-color', target.getAttribute('data-background-color'));
+            }
+            if (target.hasAttribute('data-border-radius')) {
+                target.style.setProperty('--animate-border-radius', target.getAttribute('data-border-radius'));
+            }
+            if (target.hasAttribute('data-foreground-color')) {
+                target.style.setProperty('--animate-foreground-color', target.getAttribute('data-foreground-color'));
+            }
 
             const isRepeatable = target.getAttribute('data-animate-repeat');
 

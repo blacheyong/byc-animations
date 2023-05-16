@@ -41,12 +41,44 @@ $animate-zoom-start: .5;
     transition: transform .65s ease-in-out;
     z-index: 3;
   }
+
+  &::before, 
+  &::after {
+    content: '';
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    transform: translateY(0);
+    width: 100%;
+  }
+  &::before {
+    background-color: var(--animate-background-color);
+    transition: transform .45s ease-in-out;
+    z-index: 3;
+  }
+  &::after {
+    background-color: var(--animate-foreground-color);
+    border-radius: var(--animate-border-radius);
+    transition: transform .45s ease-in-out;
+    transition-delay: .35s;
+    z-index: 2;
+  }
 }
 [data-animate|='reveal'].in-view {
   .reveal__background {
     transform: translateY(-100%);
   }
   .reveal__foreground {
+    transform: translateY(-100%);
+  }
+
+  &::before {
+    transform: translateY(-100%);
+  }
+  &::after {
     transform: translateY(-100%);
   }
 }
