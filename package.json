@@ -1,14 +1,21 @@
 {
   "name": "byc-animations",
-  "private": true,
-  "version": "0.0.0",
+  "displayName": "BYC Animations Library",
+  "private": false,
+  "version": "0.0.1",
   "type": "module",
+  "main": "dist/byc-animations.umd.js",
+  "files": [
+    "dist",
+    "sass"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "rollup-plugin-copy": "^3.4.0",
     "sass": "^1.62.1",
     "vite": "^4.3.2"
   },
