@@ -17,6 +17,7 @@ $animate-zoom-start: .5;
 
 // Reveal
 [data-animate|='reveal'] {
+  border-radius: var(--animate-border-radius, 24px);
   overflow: hidden;
   position: relative;
   will-change: transform;
@@ -55,13 +56,13 @@ $animate-zoom-start: .5;
     width: 100%;
   }
   &::before {
-    background-color: var(--animate-background-color);
+    background-color: var(--animate-background-color);// , #FFFFFF
     transition: transform .45s ease-in-out;
     z-index: 3;
   }
   &::after {
-    background-color: var(--animate-foreground-color);
-    border-radius: var(--animate-border-radius);
+    background-color: var(--animate-foreground-color); // , #131E32
+    // border-radius: var(--animate-border-radius, 24px);
     transition: transform .45s ease-in-out;
     transition-delay: .35s;
     z-index: 2;

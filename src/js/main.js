@@ -8,8 +8,10 @@ import '../sass/main.scss'
 //------------------------------------------------------------------------
 import AnimateContent from './modules/animate-content';
 
-function BycAnimations() {
-    AnimateContent();
-}
+AnimateContent();
 
-module.exports =  BycAnimations
+// function BycAnimations() {
+//     AnimateContent();
+// }
+
+// module.exports =  BycAnimations
