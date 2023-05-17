@@ -7,7 +7,7 @@
   "main": "dist/byc-animations.umd.js",
   "files": [
     "dist",
-    "sass"
+    "src/*"
   ],
   "scripts": {
     "dev": "vite",
@@ -15,9 +15,9 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "rollup-plugin-copy": "^3.4.0",
     "sass": "^1.62.1",
-    "vite": "^4.3.2"
+    "vite": "^4.3.2",
+    "vite-plugin-static-copy": "^0.15.0"
   },
   "dependencies": {
     "gsap": "^3.11.5"
