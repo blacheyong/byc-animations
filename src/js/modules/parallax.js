@@ -10,9 +10,11 @@ export default function () {
         const isScrub = (isScrubString === 'true');
 
         const thisTranslate = gsap.fromTo(target, fromObject, toObject);
+        console.log(target.dataset.parallaxTrigger)
         ScrollTrigger.create({
-          trigger: target,
+          trigger: target.dataset.parallaxTrigger ? target.dataset.parallaxTrigger : target,
           start: target.dataset.parallaxStart ? target.dataset.parallaxStart : '75% bottom',
+          end: target.dataset.parallaxEnd ? target.dataset.parallaxEnd : '',
           scrub: isScrubString ? isScrub : true,
           animation: thisTranslate,
         })

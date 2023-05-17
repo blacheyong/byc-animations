@@ -34,6 +34,31 @@
         }
     }
 
+    &--zoom-in {
+        // align-items: center;
+        display: flex;
+        justify-content: center;
+        min-height: 200vh;
+
+        .img-wrapper {
+            background-position: bottom center;
+            border-radius: 50%;
+            height: 350px;
+            overflow: hidden;
+            position: sticky;
+            top: 0;
+            width: 350px;
+
+            img {
+                // border-radius: 50%;
+                // height: 350px;
+                // width: 350px;
+                // object-fit: contain;
+                // width: 100%;
+            }
+        }
+    }
+
     &--reveal {
         [class*='col-'] {
             position: relative;

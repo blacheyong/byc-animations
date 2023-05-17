@@ -1,18 +1,20 @@
 // Transition
 // -------------------------
-$defaultTime: 0.35s !default;
-$opacityTime: 0.35s !default;
-$translateTime: 0.65s !default;
-$defaultEasing: ease-in-out !default;
+$default-time: 0.35s !default;
+$opacity-time: 0.35s !default;
+$reveal-time: .4s !default;
+$reveal-delay: .35s !default;
+$translate-time: 0.65s !default;
+$default-easing: ease-in-out !default;
 
 $animate-delay: 0s !default;
 $animate-slide-offset: 50px !default;
 $animate-zoom-start: .5 !default;
 
-[data-animate] {
-  transition-duration: var(--animate-duration, $defaultTime);
+[data-animate] { // remplacer pour :root ? À tester
+  transition-duration: var(--animate-duration, $default-time);
   transition-delay: var(--animate-delay, $animate-delay);
-  transition-timing-function: var(--animate-easing, $defaultEasing);
+  transition-timing-function: var(--animate-easing, $default-easing);
 }
 
 // Reveal
@@ -34,12 +36,13 @@ $animate-zoom-start: .5 !default;
     width: 100%;
   }
   .reveal__background {
-    transition: transform .45s $defaultEasing;
+    transition: transform $reveal-time $default-easing;
     z-index: 2;
   }
   .reveal__foreground {
     background-color: inherit;
-    transition: transform .65s $defaultEasing;
+    transition: transform $reveal-time $default-easing;
+    transition-delay: $reveal-delay;
     z-index: 3;
   }
 
@@ -57,14 +60,13 @@ $animate-zoom-start: .5 !default;
   }
   &::before {
     background-color: var(--animate-background-color);// , #FFFFFF
-    transition: transform .45s $defaultEasing;
+    transition: transform $reveal-time $default-easing;
     z-index: 3;
   }
   &::after {
     background-color: var(--animate-foreground-color); // , #131E32
-    // border-radius: var(--animate-border-radius, 24px);
-    transition: transform .45s $defaultEasing;
-    transition-delay: .35s;
+    transition: transform $reveal-time $default-easing;
+    transition-delay: $reveal-delay;
     z-index: 2;
   }
 }
@@ -103,7 +105,7 @@ $animate-zoom-start: .5 !default;
   opacity: 0;
   transform: translateY(var(--animate-slide-offset, $animate-slide-offset));
   transition-property: opacity, transform;
-  transition-duration: var(--animate-opacity-duration, $opacityTime), var(--animate-slide-duration, $translateTime);
+  transition-duration: var(--animate-opacity-duration, $opacity-time), var(--animate-slide-duration, $translate-time);
 }
 
 // Zoom
@@ -150,7 +152,7 @@ $animate-zoom-start: .5 !default;
     opacity: 0;
     transform: translateY(var(--animate-slide-offset, $animate-slide-offset));
     transition-property: opacity, transform;
-    transition-duration: var(--animate-opacity-duration, $opacityTime), var(--animate-slide-duration, $translateTime);
+    transition-duration: var(--animate-opacity-duration, $opacity-time), var(--animate-slide-duration, $translate-time);
   }
 
   // Zoom

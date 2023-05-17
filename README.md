@@ -34,7 +34,14 @@ You can override the following variables (need to be done before importing the B
 | Variable                | Default                | Description                                                                                   |
 | ----------------------- | ---------------------- | --------------------------------------------------------------------------------------------- |
 | `$default-time`         | `0.35s`                | Default transition-duration value                                                             |
-| `$default-easing`       | `ease-in-out`          | Default transition-easing value                                                               |
+| `$default-easing`       | `ease-in-out`          | Default transition-easing value    
+| `$opacity-time`         | `0.35s`                | Default opacity-time value   
+| `$reveal-time`          | `0.4s`                 | Default reveal-time value   
+| `$reveal-delay`         | `0.35s`                | Default reveal-delay value   
+| `$translate-time`       | `0.65s`                | Default translate-time value   
+| `$animate-delay`        | `0s`                   | Default animate-delay value   
+| `$animate-slide-offset` | `50px`                 | Default animate-slide-offset value   
+| `$animate-zoom-start`   | `.5`                   | Default animate-zoom-start value                                                               |
 
 ### Markup
 
@@ -47,7 +54,7 @@ You can override the following variables (need to be done before importing the B
 
 | Attribute                    | Values                   | Description                                                                              |
 | ---------------------------- | ------------------------ | ---------------------------------------------------------------------------------------- |
-| `data-animate`               | `fade`, `slide`, `zoom`, `reveal`                         | Detect if element is in viewport. Add classes `.in-view` and `.out-view`. Applies selected animation (CSS). |
+| `data-animate`               | `fade`, `reveal`, `slide`, `zoom`                         | Detect if element is in viewport. Add classes `.in-view` and `.out-view`. Applies selected animation (CSS). |
 | `data-animate-duration`      | `number`                 | (Optional) Override default transition-duration CSS property. Value in seconds. |
 | `data-opacity-duration`      | `number`                 | (Optional) Override default transition-duration CSS property of opacity. Value in seconds. |
 | `data-slide-duration`        | `number`                 | (Optional) Override default transition-duration CSS property of opacity. Value in seconds. |
@@ -55,6 +62,11 @@ You can override the following variables (need to be done before importing the B
 | `data-animate-easing`        | `string`                 | (Optional) Override default easing. Ex: `ease-out` or `cubic-bezier(0.550, 0.055, 0.675, 0.190)`  |
 | `data-animate-offset`        | `string`                 | (Optional) Override default translateY value for "slide" transition. Can be in px or %  |
 | `data-animate-repeat`        | `string`                 | (Optional) Allow to repeat animation every time element enters viewport |
-
+| `data-animate-start`         | `string`                 | (Optional) Override default start position. First value represents the part of the trigger which will initiate the animation once it meets the second value. The second value represents a location in the viewport. Ex: `top center`  |
+| `data-animate-end`           | `string`                 | (Optional) Override default end position. First value represents the part of the trigger which will trigger the animation once it meets the second value. The second value represents a location in the viewport. Ex: `center 20%`  |
+| `data-animate-trigger`       | `string`                 | (Optional) Override default trigger element. Ex: `#page-title`  |
+| `data-animate-background`    | `string`                 | (Optional) Specific to `reveal` animations, color of the `::before` pseudo-element |
+| `data-animate-foreground`    | `string`                 | (Optional) Specific to `reveal` animations, color of the `::after` pseudo-element |
+| `data-animate-border-radius` | `string`                 | (Optional) Specific to `reveal` animations, border-radius value in any unit (px, %, rem, em) |
 
 

@@ -40,8 +40,9 @@ export default function () {
             const isRepeatable = (isRepeatableString === 'true');
 
             ScrollTrigger.create({
-              trigger: target,
+              trigger: target.dataset.animateTrigger ? target.dataset.animateTrigger : target,
               start: target.dataset.animateStart ? target.dataset.animateStart : 'top 70%',
+              end: target.dataset.animateEnd ? target.dataset.animateEnd : '',
               onEnter: () => { 
                 // console.log('onEnter: add .in-view')
                 target.classList.add('in-view')
