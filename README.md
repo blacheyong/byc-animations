@@ -65,8 +65,8 @@ You can override the following variables (need to be done before importing the B
 | `data-animate-start`         | `string`                 | (Optional) Override default start position. First value represents the part of the trigger which will initiate the animation once it meets the second value. The second value represents a location in the viewport. Ex: `top center`  |
 | `data-animate-end`           | `string`                 | (Optional) Override default end position. First value represents the part of the trigger which will trigger the animation once it meets the second value. The second value represents a location in the viewport. Ex: `center 20%`  |
 | `data-animate-trigger`       | `string`                 | (Optional) Override default trigger element. Ex: `#page-title`  |
-| `data-animate-background`    | `string`                 | (Optional) Specific to `reveal` animations, color of the `::before` pseudo-element |
-| `data-animate-foreground`    | `string`                 | (Optional) Specific to `reveal` animations, color of the `::after` pseudo-element |
+| `data-animate-background`    | `string`                 | (Optional) Specific to `reveal` animations, background-color of the `::before` pseudo-element |
+| `data-animate-foreground`    | `string`                 | (Optional) Specific to `reveal` animations, background-color of the `::after` pseudo-element |
 | `data-animate-border-radius` | `string`                 | (Optional) Specific to `reveal` animations, border-radius value in any unit (px, %, rem, em) |
 
 
