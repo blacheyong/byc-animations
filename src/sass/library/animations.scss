@@ -1,13 +1,13 @@
 // Transition
 // -------------------------
-$defaultTime: 0.35s;
-$opacityTime: 0.35s;
-$translateTime: 0.65s;
-$defaultEasing: ease-in-out;
+$defaultTime: 0.35s !default;
+$opacityTime: 0.35s !default;
+$translateTime: 0.65s !default;
+$defaultEasing: ease-in-out !default;
 
-$animate-delay: 0s;
-$animate-slide-offset: 50px;
-$animate-zoom-start: .5;
+$animate-delay: 0s !default;
+$animate-slide-offset: 50px !default;
+$animate-zoom-start: .5 !default;
 
 [data-animate] {
   transition-duration: var(--animate-duration, $defaultTime);
@@ -34,12 +34,12 @@ $animate-zoom-start: .5;
     width: 100%;
   }
   .reveal__background {
-    transition: transform .45s ease-in-out;
+    transition: transform .45s $defaultEasing;
     z-index: 2;
   }
   .reveal__foreground {
     background-color: inherit;
-    transition: transform .65s ease-in-out;
+    transition: transform .65s $defaultEasing;
     z-index: 3;
   }
 
@@ -57,12 +57,13 @@ $animate-zoom-start: .5;
   }
   &::before {
     background-color: var(--animate-background-color);// , #FFFFFF
-    transition: transform .45s ease-in-out;
+    transition: transform .45s $defaultEasing;
     z-index: 3;
   }
   &::after {
     background-color: var(--animate-foreground-color); // , #131E32
-    transition: transform .45s ease-in-out;
+    // border-radius: var(--animate-border-radius, 24px);
+    transition: transform .45s $defaultEasing;
     transition-delay: .35s;
     z-index: 2;
   }

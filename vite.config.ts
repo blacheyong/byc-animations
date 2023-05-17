@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import {resolve} from 'path'
-import copy from 'rollup-plugin-copy'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 export default defineConfig({
     build: {
@@ -17,14 +17,17 @@ export default defineConfig({
             output: {
                 exports: 'named',
                 assetFileNames: `byc-animations.[ext]`,
-            }/* ,
-            plugins: [
-                copy({
-                    targets: [
-                        { src: 'sass/main.scss', dest: 'dist' }
-                    ]
-                })
-            ] */
+            }
         },
-    }
+    },
+    plugins: [
+        viteStaticCopy({
+            targets: [
+              {
+                src: 'src/sass/library/animations.scss',
+                dest: 'sass'
+              }
+            ]
+        })
+    ]
 })
