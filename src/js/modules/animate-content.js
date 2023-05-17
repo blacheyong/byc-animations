@@ -26,38 +26,39 @@ export default function () {
             if (target.hasAttribute('data-animate-offset')) {
                 target.style.setProperty('--animate-slide-offset', target.getAttribute('data-animate-offset'));
             }
-            if (target.hasAttribute('data-background-color')) {
-                target.style.setProperty('--animate-background-color', target.getAttribute('data-background-color'));
+            if (target.hasAttribute('data-animate-background')) {
+                target.style.setProperty('--animate-background-color', target.getAttribute('data-animate-background'));
             }
-            if (target.hasAttribute('data-border-radius')) {
-                target.style.setProperty('--animate-border-radius', target.getAttribute('data-border-radius'));
+            if (target.hasAttribute('data-animate-border-radius')) {
+                target.style.setProperty('--animate-border-radius', target.getAttribute('data-animate-border-radius'));
             }
-            if (target.hasAttribute('data-foreground-color')) {
-                target.style.setProperty('--animate-foreground-color', target.getAttribute('data-foreground-color'));
+            if (target.hasAttribute('data-animate-foreground')) {
+                target.style.setProperty('--animate-foreground-color', target.getAttribute('data-animate-foreground'));
             }
 
-            const isRepeatable = target.getAttribute('data-animate-repeat');
+            const isRepeatableString = target.getAttribute('data-animate-repeat');
+            const isRepeatable = (isRepeatableString === 'true');
 
             ScrollTrigger.create({
               trigger: target,
               start: target.dataset.animateStart ? target.dataset.animateStart : 'top 70%',
               onEnter: () => { 
-                console.log('onEnter: add .in-view')
+                // console.log('onEnter: add .in-view')
                 target.classList.add('in-view')
               },
               onEnterBack: () => {
-                console.log('onEnterBack: add .in-view; remove .out-view')
+                // console.log('onEnterBack: add .in-view; remove .out-view')
                 target.classList.add('in-view')
                 target.classList.remove('out-view')
               },
               onLeave: () => {
-                console.log('onLeave: add .out-view if not repeatable')
-                if (isRepeatable) {
+                // console.log('onLeave: add .out-view if not repeatable')
+                if (isRepeatable == true) {
                     target.classList.add('out-view')
                 }
               },
               onLeaveBack: () => {
-                console.log('onLeaveBack: remove .in-view if not repeatable')
+                // console.log('onLeaveBack: remove .in-view if not repeatable')
                 if (isRepeatable) {
                     target.classList.remove('in-view')
                 }

@@ -62,7 +62,6 @@ $animate-zoom-start: .5;
   }
   &::after {
     background-color: var(--animate-foreground-color); // , #131E32
-    // border-radius: var(--animate-border-radius, 24px);
     transition: transform .45s ease-in-out;
     transition-delay: .35s;
     z-index: 2;
