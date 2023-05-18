@@ -55,10 +55,12 @@ html {
             background-position: bottom center;
             border-radius: 50%;
             height: 350px;
+            left: 50%;
             overflow: hidden;
             position: absolute;
             // position: sticky;
             top: 0;
+            transform: translateX(-50%);
             width: 350px;
 
             img {
