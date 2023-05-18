@@ -5,6 +5,7 @@
   "version": "0.0.4",
   "type": "module",
   "main": "dist/byc-animations.umd.js",
+  "module": "dist/byc-animations.es.js",
   "files": [
     "dist",
     "src/*"
