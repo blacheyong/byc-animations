@@ -36,16 +36,24 @@
 
     &--zoom-in {
         // align-items: center;
-        display: flex;
-        justify-content: center;
-        min-height: 200vh;
+        // display: flex;
+        // justify-content: center;
+        // min-height: 200vh;
+        min-height: 400vh;
+        position: relative;
 
+        .sticky-bg {
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
         .img-wrapper {
             background-position: bottom center;
             border-radius: 50%;
             height: 350px;
             overflow: hidden;
-            position: sticky;
+            position: absolute;
+            // position: sticky;
             top: 0;
             width: 350px;
 
