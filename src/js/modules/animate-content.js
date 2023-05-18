@@ -65,7 +65,6 @@ export default function () {
                 }
               },
               once: !isRepeatable,
-              markers: true
             });
         });
     }
