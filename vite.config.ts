@@ -25,7 +25,7 @@ export default defineConfig({
             targets: [
               {
                 src: 'src/sass/library/byc-animations.scss',
-                dest: 'sass'
+                dest: ''
               }
             ]
         })
