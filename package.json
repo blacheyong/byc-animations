@@ -6,9 +6,10 @@
   "type": "module",
   "main": "dist/byc-animations.umd.js",
   "module": "dist/byc-animations.es.js",
+  "sass": "dist/sass/byc-animations.scss",
+  "style": "dist/byc-animations.css",
   "files": [
-    "dist",
-    "src/*"
+    "dist"
   ],
   "scripts": {
     "dev": "vite",

@@ -24,7 +24,7 @@ export default defineConfig({
         viteStaticCopy({
             targets: [
               {
-                src: 'src/sass/library/animations.scss',
+                src: 'src/sass/library/byc-animations.scss',
                 dest: 'sass'
               }
             ]

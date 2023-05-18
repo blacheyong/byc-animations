@@ -1,0 +1,171 @@
+// Transition
+// -------------------------
+$default-time: 0.35s !default;
+$opacity-time: 0.35s !default;
+$reveal-time: .4s !default;
+$reveal-delay: .35s !default;
+$translate-time: 0.65s !default;
+$default-easing: ease-in-out !default;
+
+$animate-delay: 0s !default;
+$animate-slide-offset: 50px !default;
+$animate-zoom-start: .5 !default;
+
+[data-animate] { // remplacer pour :root ? À tester
+  transition-duration: var(--animate-duration, $default-time);
+  transition-delay: var(--animate-delay, $animate-delay);
+  transition-timing-function: var(--animate-easing, $default-easing);
+}
+
+// Reveal
+[data-animate|='reveal'] {
+  border-radius: var(--animate-border-radius, 24px);
+  overflow: hidden;
+  position: relative;
+  will-change: transform;
+
+  .reveal__background, 
+  .reveal__foreground {
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    transform: translateY(0);
+    width: 100%;
+  }
+  .reveal__background {
+    transition: transform $reveal-time $default-easing;
+    z-index: 2;
+  }
+  .reveal__foreground {
+    background-color: inherit;
+    transition: transform $reveal-time $default-easing;
+    transition-delay: $reveal-delay;
+    z-index: 3;
+  }
+
+  &::before, 
+  &::after {
+    content: '';
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    transform: translateY(0);
+    width: 100%;
+  }
+  &::before {
+    background-color: var(--animate-background-color);// , #FFFFFF
+    transition: transform $reveal-time $default-easing;
+    z-index: 3;
+  }
+  &::after {
+    background-color: var(--animate-foreground-color); // , #131E32
+    transition: transform $reveal-time $default-easing;
+    transition-delay: $reveal-delay;
+    z-index: 2;
+  }
+}
+[data-animate|='reveal'].in-view {
+  .reveal__background {
+    transform: translateY(-100%);
+  }
+  .reveal__foreground {
+    transform: translateY(-100%);
+  }
+
+  &::before {
+    transform: translateY(-100%);
+  }
+  &::after {
+    transform: translateY(-100%);
+  }
+}
+
+/* / Specific animations */
+// Fade
+[data-animate|='fade'] {
+  opacity: 0;
+  transition-property: opacity;
+}
+
+[data-animate|='fade'].in-view {
+  opacity: 1;
+}
+[data-animate|='fade'].out-view {
+  opacity: 0;
+}
+
+// Slide
+[data-animate|='slide'] {
+  opacity: 0;
+  transform: translateY(var(--animate-slide-offset, $animate-slide-offset));
+  transition-property: opacity, transform;
+  transition-duration: var(--animate-opacity-duration, $opacity-time), var(--animate-slide-duration, $translate-time);
+}
+
+// Zoom
+[data-animate|='zoom'] {
+  opacity: 0;
+  transform: scale(var(--animate-zoom-start, $animate-zoom-start));
+  transform-origin: center center;
+  transition-property: opacity, transform;
+}
+
+[data-animate|='slide'].in-view,
+[data-animate|='zoom'].in-view {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0s;
+}
+[data-animate|='slide'].out-view {
+  opacity: 0;
+  transform: translateY(var(--animate-slide-offset, - $animate-slide-offset));
+  transition-delay: 0s !important;
+}
+
+// Mobile
+@media only screen and (max-width: 991px) {
+  [data-animate-mobile] {
+    display: block;
+  }
+
+  // Fade
+  [data-animate-mobile|='fade'] {
+    opacity: 0;
+    transition-property: opacity;
+
+    // Unset slide/zoom properties
+    transform: unset;
+  }
+  
+  [data-animate-mobile|='fade'].in-view {
+    opacity: 1;
+  }
+
+  // Slide
+  [data-animate-mobile|='slide'] {
+    opacity: 0;
+    transform: translateY(var(--animate-slide-offset, $animate-slide-offset));
+    transition-property: opacity, transform;
+    transition-duration: var(--animate-opacity-duration, $opacity-time), var(--animate-slide-duration, $translate-time);
+  }
+
+  // Zoom
+  [data-animate-mobile|='zoom'] {
+    opacity: 0;
+    transform: scale(var(--animate-zoom-start, $animate-zoom-start));
+    transform-origin: center center;
+    transition-property: opacity, transform;
+  }
+
+  [data-animate-mobile|='slide'].in-view,
+  [data-animate-mobile|='zoom'].in-view {
+    opacity: 1;
+    transform: none;
+  }
+}
