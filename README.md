@@ -1,7 +1,3 @@
-<p align="center">
-<img src="https://github.com/blacheyong/byc-animations/assets/34248276/f155d981-a9b0-4637-a41c-3579968dcee1" width="100" alt="BYCO" />
-</p>
-
 <h1 align="center">Blache Yong &amp; CO animations library</h1>
 
 On scroll animation utilities, elements entering viewport + parallax effects. This library uses GSAP and Scrolltrigger.
