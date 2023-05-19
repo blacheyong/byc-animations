@@ -5,6 +5,7 @@ branches:
 debug: true
 ci: true
 dryRun: false
+extends: "semantic-release-npm-github-publish"
 plugins:
   - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
