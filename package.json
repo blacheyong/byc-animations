@@ -19,6 +19,8 @@
   },
   "devDependencies": {
     "sass": "^1.62.1",
+    "semantic-release": "^21.0.2",
+    "semantic-release-npm-github-publish": "^1.5.4",
     "vite": "^4.3.2",
     "vite-plugin-static-copy": "^0.15.0"
   },
