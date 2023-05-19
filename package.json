@@ -2,13 +2,14 @@
   "name": "byc-animations",
   "displayName": "BYC Animations Library",
   "private": false,
-  "version": "0.0.8",
+  "version": "0.0.11",
   "type": "module",
   "main": "dist/byc-animations.umd.js",
   "module": "dist/byc-animations.es.js",
+  "sass": "dist/sass/byc-animations.scss",
+  "style": "dist/byc-animations.css",
   "files": [
-    "dist",
-    "src/*"
+    "dist"
   ],
   "scripts": {
     "dev": "vite",
@@ -18,6 +19,8 @@
   },
   "devDependencies": {
     "sass": "^1.62.1",
+    "semantic-release": "^21.0.2",
+    "semantic-release-npm-github-publish": "^1.5.4",
     "vite": "^4.3.2",
     "vite-plugin-static-copy": "^0.15.0"
   },
