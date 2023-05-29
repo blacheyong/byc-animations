@@ -50,7 +50,7 @@ export default class AnimateContent {
 
         ScrollTrigger.create({
           trigger: target.dataset.animateTrigger ? target.dataset.animateTrigger : target,
-          start: target.dataset.animateStart ? target.dataset.animateStart : 'top 70%',
+          start: target.dataset.animateStart ? target.dataset.animateStart : this.animateStart,
           end: target.dataset.animateEnd ? target.dataset.animateEnd : '',
           onEnter: () => {
             // console.log('onEnter: add .in-view')
