@@ -20,7 +20,7 @@ export default function () {
   
           ScrollTrigger.create({
             trigger: target.dataset.parallaxTrigger ? target.dataset.parallaxTrigger : target,
-            start: target.dataset.parallaxStart ? target.dataset.parallaxStart : '75% bottom',
+            start: target.dataset.parallaxStart ? target.dataset.parallaxStart : 'top bottom',
             end: target.dataset.parallaxEnd ? target.dataset.parallaxEnd : '',
             scrub: isScrubString ? isScrub : true,
             animation: thisTranslate,
