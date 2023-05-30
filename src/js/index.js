@@ -3,6 +3,8 @@ import '../sass/main.scss'
 
 
 const animations = new BycAnimations({
-  animateStart: 'top bottom',
-  scrollDuration: 3
+  // scrollDirection: 'horizontal',
+  // scrollGestureDirection: 'horizontal',
+  // scrollWrapper: document.querySelector('.lenis-wrapper'),
+  // animateMarkers: {startColor: "green", endColor: "yellow", fontSize: "12px"}
 });

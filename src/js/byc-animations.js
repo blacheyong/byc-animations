@@ -30,6 +30,6 @@ export default class BycAnimations {
         }
 
         new AnimateContent(this.options);
-        Parallax();
+        new Parallax(this.options);
     }
 }

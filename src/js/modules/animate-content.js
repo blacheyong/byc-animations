@@ -51,26 +51,27 @@ export default class AnimateContent {
         ScrollTrigger.create({
           trigger: target.dataset.animateTrigger ? target.dataset.animateTrigger : target,
           start: target.dataset.animateStart ? target.dataset.animateStart : this.animateStart,
-          end: target.dataset.animateEnd ? target.dataset.animateEnd : '',
+          end: target.dataset.animateEnd ? target.dataset.animateEnd : this.animateEnd,
+          markers: this.animateMarkers,
           onEnter: () => {
             // console.log('onEnter: add .in-view')
-            target.classList.add('in-view')
+            target.classList.add(this.inViewClass)
           },
           onEnterBack: () => {
             // console.log('onEnterBack: add .in-view; remove .out-view')
-            target.classList.add('in-view')
-            target.classList.remove('out-view')
+            target.classList.add(this.inViewClass)
+            target.classList.remove(this.outViewClass)
           },
           onLeave: () => {
             // console.log('onLeave: add .out-view if not repeatable')
             if (isRepeatable == true) {
-              target.classList.add('out-view')
+              target.classList.add(this.outViewClass)
             }
           },
           onLeaveBack: () => {
             // console.log('onLeaveBack: remove .in-view if not repeatable')
             if (isRepeatable) {
-              target.classList.remove('in-view')
+              target.classList.remove(this.inViewClass)
             }
           },
           once: !isRepeatable,

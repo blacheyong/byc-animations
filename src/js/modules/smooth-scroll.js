@@ -12,14 +12,13 @@ export default class SmoothScroll {
   init() {
     window.lenis = new Lenis({
       duration: this.scrollDuration,
-      // easing: (t) => -(Math.cos(Math.PI *t) - 1) / 2, // https://www.desmos.com/calculator/brs54l4xou
-      direction: 'vertical', // vertical, horizontal
-      gestureDirection: 'vertical', // vertical, horizontal, both
-      smooth: true,
-      mouseMultiplier: 0.5,
-      smoothTouch: false,
-      touchMultiplier: 2,
-      infinite: false,
+      easing: this.scrollEasing,
+      infinite: this.scrollInfinite,
+      orientation: this.scrollDirection,
+      gestureOrientation: this.scrollGestureDirection,
+      touchMultiplier: this.scrollTouchMultiplier,
+      wheelMultiplier: this.scrollWheelMultiplier,
+      wrapper: this.scrollWrapper
     })
     
     // get scroll value
