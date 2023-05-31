@@ -1,21 +1,19 @@
 import { defaults } from '../options';
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default class AnimateContent {
 
-  constructor(options = {}) {
+  constructor(options = {}, gsap, ScrollTrigger) {
     Object.assign(this, defaults, options);
+    this.gsap = gsap;
+    this.ScrollTrigger = ScrollTrigger;
 
     this.init();
   }
 
   init() {
-    gsap.registerPlugin(ScrollTrigger);
-
     const myBlocks = document.querySelectorAll('[data-animate]');
     if (myBlocks) {
-      gsap.utils.toArray(myBlocks).forEach((target) => {
+      this.gsap.utils.toArray(myBlocks).forEach((target) => {
 
         if (target.hasAttribute('data-animate-duration')) {
           target.style.setProperty('--animate-duration', target.getAttribute('data-animate-duration') + 's');
@@ -48,7 +46,7 @@ export default class AnimateContent {
         const isRepeatableString = target.getAttribute('data-animate-repeat');
         const isRepeatable = (isRepeatableString === 'true');
 
-        ScrollTrigger.create({
+        this.ScrollTrigger.create({
           trigger: target.dataset.animateTrigger ? target.dataset.animateTrigger : target,
           start: target.dataset.animateStart ? target.dataset.animateStart : this.animateStart,
           end: target.dataset.animateEnd ? target.dataset.animateEnd : this.animateEnd,

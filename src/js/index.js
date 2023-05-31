@@ -8,3 +8,5 @@ const animations = new BycAnimations({
   // scrollWrapper: document.querySelector('.lenis-wrapper'),
   // animateMarkers: {startColor: "green", endColor: "yellow", fontSize: "12px"}
 });
+
+// animations.destroyScrollTrigger()

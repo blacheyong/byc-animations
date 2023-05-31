@@ -1,17 +1,17 @@
 import { defaults } from '../options';
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default class Parallax {
 
-  constructor(options = {}) {
+  constructor(options = {}, gsap, ScrollTrigger) {
     Object.assign(this, defaults, options);
+    this.gsap = gsap;
+    this.ScrollTrigger = ScrollTrigger;
 
     this.init();
   }
 
   init() {
-    gsap.utils.toArray('[data-parallax-from]').forEach((target)=> {
+    this.gsap.utils.toArray('[data-parallax-from]').forEach((target)=> {
         if (target.getAttribute('data-parallax-to')) {
           const fromObject = JSON.parse(target.getAttribute('data-parallax-from'));
           const toObject = JSON.parse(target.getAttribute('data-parallax-to'));
@@ -25,9 +25,9 @@ export default class Parallax {
             isScrub = Number(isScrubString)
           }
   
-          const thisTranslate = gsap.fromTo(target, fromObject, toObject);
+          const thisTranslate = this.gsap.fromTo(target, fromObject, toObject);
   
-          ScrollTrigger.create({
+          this.ScrollTrigger.create({
             trigger: target.dataset.parallaxTrigger ? target.dataset.parallaxTrigger : target,
             start: target.dataset.parallaxStart ? target.dataset.parallaxStart : this.parallaxStart,
             end: target.dataset.parallaxEnd ? target.dataset.parallaxEnd : this.parallaxEnd,
