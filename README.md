@@ -100,3 +100,11 @@ You can override the following variables (need to be done before importing the B
 | `data-parallax-end`          | `string`                 | (Optional) Override default end position. First value represents the part of the trigger which will trigger the animation once it meets the second value. The second value represents a location in the viewport. Ex: `center 20%`  |
 | `data-parallax-scrub`        | `boolean, number`        | (Optional) <ul style="margin-top: 5px; padding-left: 15px;"><li> **Boolean:** if `true`, links the animation's progress directly to the ScrollTrigger's progress.</li> <li> **Number:** The amount of time (in seconds) that the playhead should take to "catch up", so scrub: 0.5 would cause the animation's playhead to take 0.5 seconds to catch up with the scrollbar's position. It's great for smoothing things out.</li></ul> |
 | `data-parallax-trigger`      | `string`                 | (Optional) Override default trigger element. Ex: `#page-title`  |
+
+### Instance methods
+
+| Method                       | Description                                                | Arguments                                                                                                                                                                 |
+| ---------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `destroy(animate, scroll)`   | `Destroys the scroll events.`                              | <ul style="padding-left: 15px;"><li>`animate` (boolean): Destroy lenis scroll, `true` by default.</li><li>`scroll` (boolean): Destroy all scroll triggers</li></ul>       |
+| `refresh()`                  | `Recalculates the positioning of all of the ScrollTriggers on the page; this typically happens automatically when the window/scroller resizes but you can force it by calling .refresh()`  |        |
+| `scrollTo(target, options)`  | `Scroll to target.`                                        | `target`: goal to reach <ul><li>`number`: value to scroll in pixels</li><li>`string`: CSS selector or keyword (top, left, start, bottom, right, end)</li><li>`HTMLElement`: DOM element</li></ul>     |

@@ -1,16 +1,17 @@
 import { defaults } from '../options';
-import Lenis from '@studio-freight/lenis'
+// import Lenis from '@studio-freight/lenis'
 
 export default class SmoothScroll {
 
-  constructor(options = {}) {
+  constructor(options = {}, Lenis) {
     Object.assign(this, defaults, options);
+    this.Lenis = Lenis;
 
     this.init();
   }
 
   init() {
-    window.lenis = new Lenis({
+    window.lenis = new this.Lenis({
       duration: this.scrollDuration,
       easing: this.scrollEasing,
       infinite: this.scrollInfinite,

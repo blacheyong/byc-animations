@@ -6,6 +6,7 @@ import '../sass/library/byc-animations.scss'
 //------------------------------------------------------------------------
 // Import GSAP + Default options
 //------------------------------------------------------------------------
+import Lenis from '@studio-freight/lenis' // testing
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { defaults } from './options';
@@ -26,24 +27,46 @@ export default class BycAnimations {
         this.init();
     }
 
-    destroyScrollTrigger() {
-        ScrollTrigger.killAll();
-    }
-    refreshScrollTrigger() {
-        ScrollTrigger.refresh()
-    }
-
-    // destroyScroll() {
-    //     lenis
-    // }
-
     init() {
         console.log(this.options);
         if(this.smoothScroll) {
-            new SmoothScroll(this.options);
+            // const scrollLenis = new SmoothScroll(this.options, Lenis);
+            new SmoothScroll(this.options, Lenis);
         }
 
+        // new AnimateContent(this.options, gsap, ScrollTrigger);
+        // new Parallax(this.options, gsap, ScrollTrigger);
+        this.initAnimations();
+    }
+
+    initAnimations() {
         new AnimateContent(this.options, gsap, ScrollTrigger);
         new Parallax(this.options, gsap, ScrollTrigger);
+    }
+
+    destroy(animate = true, scroll = true) {
+        if (animate) {
+            ScrollTrigger.killAll();
+        }
+        if (scroll) {
+            window.lenis.destroy();
+        }
+    }
+
+    refresh() {
+        ScrollTrigger.refresh();
+    }
+
+    scrollTo(target, options) {
+        window.lenis.scrollTo(target, options);
+    }
+
+    start() {
+        window.lenis.start();
+        this.initAnimations();
+    }
+
+    stop() {
+        window.lenis.stop();
     }
 }

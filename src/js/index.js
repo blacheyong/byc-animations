@@ -9,4 +9,13 @@ const animations = new BycAnimations({
   // animateMarkers: {startColor: "green", endColor: "yellow", fontSize: "12px"}
 });
 
-// animations.destroyScrollTrigger()
+const btnToggle = document.querySelector('.btn-toggle-lenis');
+btnToggle.addEventListener('click', () => {
+  animations.destroy();
+})
+
+const btnAnchor = document.querySelector('.btn-anchor');
+const anchor = document.querySelector('#reveal');
+btnAnchor.addEventListener('click', () => {
+  animations.scrollTo(anchor, { offset: 250 })
+})
