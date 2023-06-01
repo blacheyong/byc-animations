@@ -63,7 +63,7 @@ export default class BycAnimations {
 
     start() {
         window.lenis.start();
-        this.initAnimations();
+        // this.initAnimations();
     }
 
     stop() {
