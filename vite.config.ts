@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import {resolve} from 'path'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
     build: {
@@ -28,6 +29,7 @@ export default defineConfig({
                 dest: ''
               }
             ]
-        })
+        }),
+        visualizer()
     ]
 })
