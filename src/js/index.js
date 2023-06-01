@@ -18,5 +18,5 @@ btnToggle.addEventListener('click', () => {
 const btnAnchor = document.querySelector('.btn-anchor');
 const anchor = document.querySelector('#reveal');
 btnAnchor.addEventListener('click', () => {
-  animations.scrollTo(anchor, { offset: 250 })
+  animations.scrollTo(anchor, { offset: 150 })
 })
