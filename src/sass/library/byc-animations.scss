@@ -1,3 +1,4 @@
+// -------------------------
 // Transition
 // -------------------------
 $default-time: 0.35s !default;
@@ -10,6 +11,19 @@ $default-easing: ease-in-out !default;
 $animate-delay: 0s !default;
 $animate-slide-offset: 50px !default;
 $animate-zoom-start: .5 !default;
+
+:root {
+  --default-time: 0.35s;
+  --opacity-time: 5.35s;
+  --reveal-time: .4s;
+  --reveal-delay: .35s;
+  --translate-time: 0.65s;
+  --default-easing: ease-in-out;
+
+  --animate-delay: 0s;
+  --animate-slide-offset: 50px;
+  --animate-zoom-start: .5;
+}
 
 [data-animate] { // remplacer pour :root ? À tester
   transition-duration: var(--animate-duration, $default-time);

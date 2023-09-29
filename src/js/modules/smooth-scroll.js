@@ -12,11 +12,16 @@ export default class SmoothScroll {
 
   init() {
     window.lenis = new this.Lenis({
+      content: this.scrollContent,
       duration: this.scrollDuration,
       easing: this.scrollEasing,
       infinite: this.scrollInfinite,
-      orientation: this.scrollDirection,
-      gestureOrientation: this.scrollGestureDirection,
+      lerp: this.scrollLerp,
+      orientation: this.scrollOrientation,
+      gestureOrientation: this.scrollGestureOrientation,
+      normalizeWheel: this.scrollNormalizeWheel,
+      smoothTouch: this.smoothTouch,
+      smoothWheel: this.smoothWheel,
       touchMultiplier: this.scrollTouchMultiplier,
       wheelMultiplier: this.scrollWheelMultiplier,
       wrapper: this.scrollWrapper
