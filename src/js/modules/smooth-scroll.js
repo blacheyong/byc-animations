@@ -11,6 +11,10 @@ export default class SmoothScroll {
   }
 
   init() {
+    function onScroll({ scroll, limit, velocity, direction, progress }) {
+      console.log(scroll, limit, velocity, direction, progress); // doesnt work
+    }
+
     window.lenis = new this.Lenis({
       content: this.scrollContent,
       duration: this.scrollDuration,
@@ -24,7 +28,8 @@ export default class SmoothScroll {
       smoothWheel: this.smoothWheel,
       touchMultiplier: this.scrollTouchMultiplier,
       wheelMultiplier: this.scrollWheelMultiplier,
-      wrapper: this.scrollWrapper
+      wrapper: this.scrollWrapper,
+      scrollCallback: onScroll
     })
     
     // get scroll value

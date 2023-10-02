@@ -2,6 +2,12 @@ html {
     scroll-behavior: initial !important;
 }
 
+body {
+    // --animate-slide-offset: 300px;
+    // --opacity-time: 5s;
+    // --opacity-end: .5;
+}
+
 .section {
     min-height: 100vh;
     padding: 100px 0;
