@@ -9,7 +9,7 @@ const animations = new BycAnimations({
   // animateMarkers: {startColor: "green", endColor: "yellow", fontSize: "12px"}
 });
 
-animations.destroy(false, true);
+// animations.destroy(false, true);
 const btnToggle = document.querySelector('.btn-toggle-lenis');
 btnToggle.addEventListener('click', () => {
   animations.start();
