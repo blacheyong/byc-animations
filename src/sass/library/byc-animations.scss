@@ -142,12 +142,12 @@
 [data-animate|='zoom'].in-view {
   opacity: var(--opacity-end);
   transform: none;
-  transition-delay: var(--animate-delay);
+  transition-delay: var(--animate-delay); // 0s
 }
 [data-animate|='slide'].out-view {
   opacity: var(--opacity-start);
   transform: translateY(var(--animate-slide-offset, - var(--animate-slide-offset)));
-  transition-delay: var(--animate-delay) !important;
+  transition-delay: var(--animate-delay) !important; // 0s
 }
 
 // Mobile
