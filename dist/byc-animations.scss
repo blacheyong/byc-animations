@@ -1,25 +1,65 @@
-// Transition
+// -------------------------
+// PREFIX
+// -------------------------
+$prefix: byc !default;
+
+// -------------------------
+// SASS VARIABLES
 // -------------------------
 $default-time: 0.35s !default;
+$default-easing: ease-in-out !default;
+
 $opacity-time: 0.35s !default;
 $reveal-time: .4s !default;
 $reveal-delay: .35s !default;
 $translate-time: 0.65s !default;
-$default-easing: ease-in-out !default;
 
 $animate-delay: 0s !default;
 $animate-slide-offset: 50px !default;
 $animate-zoom-start: .5 !default;
 
+$opacity-end: 1 !default;
+
+// -------------------------
+// CSS VARIABLES
+// -------------------------
+:root {
+  --#{$prefix}-default-time: 0.35s;
+  --#{$prefix}-default-easing: ease-in-out;
+
+  --#{$prefix}-reveal-time: 0.4s;
+  --#{$prefix}-reveal-delay: 0.35s;
+  --#{$prefix}-reveal-background-color: #FFFFFF;
+  --#{$prefix}-reveal-foreground-color: #F4F4F4;
+
+  --#{$prefix}-translate-time: 0.65s;
+
+  --#{$prefix}-animate-delay: 0s;
+  --#{$prefix}-animate-slide-offset: 50px;
+  --#{$prefix}-animate-zoom-start: 0.5;
+
+  --#{$prefix}-opacity-time: 0.35s;
+  --#{$prefix}-opacity-start: 0;
+
+  --#{$prefix}-opacity-end: #{$opacity-end};
+  // --#{$prefix}-opacity-end: 1;
+
+  --#{$prefix}-animate-border-radius: 0;
+
+  // --#{$prefix}-animate-zoom-end: none; // usually we use transform: none, sometimes appy to more than 1 effect, variable needed ?
+
+  // transition-delay for slide / zoom ? Should separate their scss
+}
+
 [data-animate] { // remplacer pour :root ? À tester
-  transition-duration: var(--animate-duration, $default-time);
-  transition-delay: var(--animate-delay, $animate-delay);
-  transition-timing-function: var(--animate-easing, $default-easing);
+  transition-duration: var(--#{$prefix}-animate-duration, var(--#{$prefix}-default-time));
+  transition-delay: var(--#{$prefix}-animate-delay, var(--#{$prefix}-animate-delay));
+  transition-timing-function: var(--#{$prefix}-animate-easing, var(--#{$prefix}-default-easing));
 }
 
 // Reveal
 [data-animate|='reveal'] {
-  border-radius: var(--animate-border-radius, 24px);
+  border-radius: var(--#{$prefix}-animate-border-radius);
   overflow: hidden;
   position: relative;
   will-change: transform;
@@ -36,13 +76,13 @@ $animate-zoom-start: .5 !default;
     width: 100%;
   }
   .reveal__background {
-    transition: transform $reveal-time $default-easing;
+    transition: transform var(--#{$prefix}-reveal-time) var(--#{$prefix}-default-easing);
     z-index: 2;
   }
   .reveal__foreground {
     background-color: inherit;
-    transition: transform $reveal-time $default-easing;
-    transition-delay: $reveal-delay;
+    transition: transform var(--#{$prefix}-reveal-time) var(--#{$prefix}-default-easing);
+    transition-delay: var(--#{$prefix}-reveal-delay);
     z-index: 3;
   }
 
@@ -59,14 +99,14 @@ $animate-zoom-start: .5 !default;
     width: 100%;
   }
   &::before {
-    background-color: var(--animate-background-color);// , #FFFFFF
-    transition: transform $reveal-time $default-easing;
+    background-color: var(--#{$prefix}-reveal-background-color);
+    transition: transform var(--#{$prefix}-reveal-time) var(--#{$prefix}-default-easing);
     z-index: 3;
   }
   &::after {
-    background-color: var(--animate-foreground-color); // , #131E32
-    transition: transform $reveal-time $default-easing;
-    transition-delay: $reveal-delay;
+    background-color: var(--#{$prefix}-reveal-foreground-color);
+    transition: transform var(--#{$prefix}-reveal-time) var(--#{$prefix}-default-easing);
+    transition-delay: var(--#{$prefix}-reveal-delay);
     z-index: 2;
   }
 }
@@ -89,43 +129,43 @@ $animate-zoom-start: .5 !default;
 /* / Specific animations */
 // Fade
 [data-animate|='fade'] {
-  opacity: 0;
+  opacity: var(--#{$prefix}-opacity-start);
   transition-property: opacity;
 }
 
 [data-animate|='fade'].in-view {
-  opacity: 1;
+  opacity: var(--#{$prefix}-opacity-end);
 }
 [data-animate|='fade'].out-view {
-  opacity: 0;
+  opacity: var(--#{$prefix}-opacity-start);
 }
 
 // Slide
 [data-animate|='slide'] {
-  opacity: 0;
-  transform: translateY(var(--animate-slide-offset, $animate-slide-offset));
+  opacity: var(--#{$prefix}-opacity-start);
+  transform: translateY(var(--#{$prefix}-animate-slide-offset, var(--#{$prefix}-animate-slide-offset)));
   transition-property: opacity, transform;
-  transition-duration: var(--animate-opacity-duration, $opacity-time), var(--animate-slide-duration, $translate-time);
+  transition-duration: var(--#{$prefix}-animate-opacity-duration, var(--#{$prefix}-opacity-time)), var(--#{$prefix}-animate-slide-duration, var(--#{$prefix}-translate-time));
 }
 
 // Zoom
 [data-animate|='zoom'] {
-  opacity: 0;
-  transform: scale(var(--animate-zoom-start, $animate-zoom-start));
+  opacity: var(--#{$prefix}-opacity-start);
+  transform: scale(var(--#{$prefix}-animate-zoom-start, var(--#{$prefix}-animate-zoom-start)));
   transform-origin: center center;
   transition-property: opacity, transform;
 }
 
 [data-animate|='slide'].in-view,
 [data-animate|='zoom'].in-view {
-  opacity: 1;
+  opacity: var(--#{$prefix}-opacity-end);
   transform: none;
-  transition-delay: 0s;
+  transition-delay: var(--#{$prefix}-animate-delay); // 0s
 }
 [data-animate|='slide'].out-view {
-  opacity: 0;
-  transform: translateY(var(--animate-slide-offset, - $animate-slide-offset));
-  transition-delay: 0s !important;
+  opacity: var(--#{$prefix}-opacity-start);
+  transform: translateY(var(--#{$prefix}-animate-slide-offset, - var(--#{$prefix}-animate-slide-offset)));
+  transition-delay: var(--#{$prefix}-animate-delay) !important; // 0s
 }
 
 // Mobile
@@ -136,7 +176,7 @@ $animate-zoom-start: .5 !default;
 
   // Fade
   [data-animate-mobile|='fade'] {
-    opacity: 0;
+    opacity: var(--#{$prefix}-opacity-start);
     transition-property: opacity;
 
     // Unset slide/zoom properties
@@ -144,28 +184,28 @@ $animate-zoom-start: .5 !default;
   }
   
   [data-animate-mobile|='fade'].in-view {
-    opacity: 1;
+    opacity: var(--#{$prefix}-opacity-end);
   }
 
   // Slide
   [data-animate-mobile|='slide'] {
-    opacity: 0;
-    transform: translateY(var(--animate-slide-offset, $animate-slide-offset));
+    opacity: var(--#{$prefix}-opacity-start);
+    transform: translateY(var(--#{$prefix}-animate-slide-offset, var(--#{$prefix}-animate-slide-offset)));
     transition-property: opacity, transform;
-    transition-duration: var(--animate-opacity-duration, $opacity-time), var(--animate-slide-duration, $translate-time);
+    transition-duration: var(--#{$prefix}-animate-opacity-duration, var(--#{$prefix}-opacity-time)), var(--#{$prefix}-animate-slide-duration, var(--#{$prefix}-translate-time));
   }
 
   // Zoom
   [data-animate-mobile|='zoom'] {
-    opacity: 0;
-    transform: scale(var(--animate-zoom-start, $animate-zoom-start));
+    opacity: var(--#{$prefix}-opacity-start);
+    transform: scale(var(--#{$prefix}-animate-zoom-start, var(--#{$prefix}-animate-zoom-start)));
     transform-origin: center center;
     transition-property: opacity, transform;
   }
 
   [data-animate-mobile|='slide'].in-view,
   [data-animate-mobile|='zoom'].in-view {
-    opacity: 1;
+    opacity: var(--opacity-end);
     transform: none;
   }
 }
