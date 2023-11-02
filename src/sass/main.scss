@@ -1,2 +1,11 @@
+// ------------------------------------------
+// Prism.js
+// ------------------------------------------
+@import '../../node_modules/prismjs/themes/prism';
+@import '../../node_modules/prismjs/plugins/line-numbers/prism-line-numbers';
+
+// ------------------------------------------
+// Local SASS styles (for index.html)
+// ------------------------------------------
 @import "./utilities/mixins";
-@import "./layout/global";
+@import "./layout/p-index";

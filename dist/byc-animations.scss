@@ -6,52 +6,55 @@ $prefix: byc !default;
 // -------------------------
 // SASS VARIABLES
 // -------------------------
-$default-time: 0.35s !default;
 $default-easing: ease-in-out !default;
+$default-time: 0.35s !default;
 
-$opacity-time: 0.35s !default;
-$reveal-time: .4s !default;
-$reveal-delay: .35s !default;
-$translate-time: 0.65s !default;
-
+$animate-border-radius: 0 !default;
 $animate-delay: 0s !default;
 $animate-slide-offset: 50px !default;
 $animate-zoom-start: .5 !default;
 
+$opacity-start: 0 !default;
 $opacity-end: 1 !default;
+$opacity-time: 0.35s !default;
+
+$reveal-background-color: #FFFFFF !default;
+$reveal-foreground-color: #F4F4F4 !default;
+$reveal-delay: .35s !default;
+$reveal-time: .4s !default;
+
+$translate-time: 0.65s !default;
 
 // -------------------------
 // CSS VARIABLES
 // -------------------------
 :root {
-  --#{$prefix}-default-time: 0.35s;
-  --#{$prefix}-default-easing: ease-in-out;
+  --#{$prefix}-default-easing: #{$default-easing};
+  --#{$prefix}-default-time: #{$default-time};
 
-  --#{$prefix}-reveal-time: 0.4s;
-  --#{$prefix}-reveal-delay: 0.35s;
-  --#{$prefix}-reveal-background-color: #FFFFFF;
-  --#{$prefix}-reveal-foreground-color: #F4F4F4;
+  --#{$prefix}-animate-border-radius: #{$animate-border-radius};
+  --#{$prefix}-animate-delay: #{$animate-delay};
+  --#{$prefix}-animate-slide-offset: #{$animate-slide-offset};
+  --#{$prefix}-animate-zoom-start: #{$animate-zoom-start};
 
-  --#{$prefix}-translate-time: 0.65s;
-
-  --#{$prefix}-animate-delay: 0s;
-  --#{$prefix}-animate-slide-offset: 50px;
-  --#{$prefix}-animate-zoom-start: 0.5;
-
-  --#{$prefix}-opacity-time: 0.35s;
-  --#{$prefix}-opacity-start: 0;
-
+  --#{$prefix}-opacity-start: #{$opacity-start};
   --#{$prefix}-opacity-end: #{$opacity-end};
-  // --#{$prefix}-opacity-end: 1;
+  --#{$prefix}-opacity-time: #{$opacity-time};
 
-  --#{$prefix}-animate-border-radius: 0;
+
+  --#{$prefix}-reveal-background-color: #{$reveal-background-color};
+  --#{$prefix}-reveal-foreground-color: #{$reveal-foreground-color};
+  --#{$prefix}-reveal-delay: #{$reveal-delay};
+  --#{$prefix}-reveal-time: #{$reveal-time};
+
+  --#{$prefix}-translate-time: #{$translate-time};
 
   // --#{$prefix}-animate-zoom-end: none; // usually we use transform: none, sometimes appy to more than 1 effect, variable needed ?
 
   // transition-delay for slide / zoom ? Should separate their scss
 }
 
-[data-animate] { // remplacer pour :root ? À tester
+[data-animate] {
   transition-duration: var(--#{$prefix}-animate-duration, var(--#{$prefix}-default-time));
   transition-delay: var(--#{$prefix}-animate-delay, var(--#{$prefix}-animate-delay));
   transition-timing-function: var(--#{$prefix}-animate-easing, var(--#{$prefix}-default-easing));
