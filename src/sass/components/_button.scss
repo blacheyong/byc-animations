@@ -1,0 +1,12 @@
+.btn {
+    &.btn-primary-outline {
+      border: 1px solid $ink;
+      color: $ink;
+  
+      &:hover {
+          background-color: $ink;
+          border-color: $ink;
+          color: $white;
+      }
+    }
+}

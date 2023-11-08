@@ -1,4 +1,6 @@
 export const defaults = {
+  prefix: 'byc',
+  
   // Animate Content
   animateStart: 'top 70%',
   animateEnd: '',

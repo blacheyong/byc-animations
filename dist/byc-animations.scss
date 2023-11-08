@@ -1,25 +1,92 @@
-// Transition
 // -------------------------
-$default-time: 0.35s !default;
-$opacity-time: 0.35s !default;
-$reveal-time: .4s !default;
-$reveal-delay: .35s !default;
-$translate-time: 0.65s !default;
-$default-easing: ease-in-out !default;
+// PREFIX
+// -------------------------
+$prefix: byc !default;
 
+// -------------------------
+// SASS VARIABLES
+// -------------------------
+
+/* General */
+$animate-easing: ease-in-out !default;
 $animate-delay: 0s !default;
-$animate-slide-offset: 50px !default;
-$animate-zoom-start: .5 !default;
+$animate-duration: 0.35s !default;
 
-[data-animate] { // remplacer pour :root ? À tester
-  transition-duration: var(--animate-duration, $default-time);
-  transition-delay: var(--animate-delay, $animate-delay);
-  transition-timing-function: var(--animate-easing, $default-easing);
+/* Fade / Opacity */
+$animate-opacity-duration: 0.35s !default;
+$animate-opacity-start: 0 !default;
+$animate-opacity-end: 1 !default;
+
+/* Reveal */
+$animate-border-radius: 0 !default;
+$animate-background-color: #FFFFFF !default;
+$animate-foreground-color: #F4F4F4 !default;
+$animate-reveal-delay: .35s !default;
+$animate-reveal-duration: .4s !default;
+
+/* Slide */
+$animate-slide-duration: 0.65s !default;
+$animate-slide-offset: 50px !default;
+
+/* Zoom */
+$animate-zoom-start: .5 !default;
+$animate-zoom-end: none !default;
+
+// -------------------------
+// CSS VARIABLES
+// -------------------------
+:root {
+  /* General */
+  --#{$prefix}-animate-easing: #{$animate-easing};
+  --#{$prefix}-animate-delay: #{$animate-delay};
+  --#{$prefix}-animate-duration: #{$animate-duration};
+
+  /* Fade / Opacity */
+  --#{$prefix}-animate-opacity-duration: #{$animate-opacity-duration};
+  --#{$prefix}-animate-opacity-start: #{$animate-opacity-start};
+  --#{$prefix}-animate-opacity-end: #{$animate-opacity-end};
+
+  /* Reveal */
+  --#{$prefix}-animate-border-radius: #{$animate-border-radius};
+  --#{$prefix}-animate-background-color: #{$animate-background-color};
+  --#{$prefix}-animate-foreground-color: #{$animate-foreground-color};
+  --#{$prefix}-animate-reveal-delay: #{$animate-reveal-delay};
+  --#{$prefix}-animate-reveal-duration: #{$animate-reveal-duration};
+
+  /* Slide */
+  --#{$prefix}-animate-slide-duration: #{$animate-slide-duration};
+  --#{$prefix}-animate-slide-offset: #{$animate-slide-offset};
+
+  /* Zoom */
+  --#{$prefix}-animate-zoom-start: #{$animate-zoom-start};
+  --#{$prefix}-animate-zoom-end: #{$animate-zoom-end};
 }
 
-// Reveal
+// -------------------------
+// ANIMATIONS
+// -------------------------
+[data-animate] {
+  transition-duration: var(--#{$prefix}-animate-duration);
+  transition-delay: var(--#{$prefix}-animate-delay);
+  transition-timing-function: var(--#{$prefix}-animate-easing);
+}
+
+/* Fade / Opacity */
+[data-animate|='fade'] {
+  opacity: var(--#{$prefix}-animate-opacity-start);
+  transition-property: opacity;
+}
+
+[data-animate|='fade'].in-view {
+  opacity: var(--#{$prefix}-animate-opacity-end);
+}
+[data-animate|='fade'].out-view {
+  opacity: var(--#{$prefix}-animate-opacity-start);
+}
+
+/* Reveal */
 [data-animate|='reveal'] {
-  border-radius: var(--animate-border-radius, 24px);
+  border-radius: var(--#{$prefix}-animate-border-radius);
   overflow: hidden;
   position: relative;
   will-change: transform;
@@ -36,13 +103,13 @@ $animate-zoom-start: .5 !default;
     width: 100%;
   }
   .reveal__background {
-    transition: transform $reveal-time $default-easing;
+    transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
     z-index: 2;
   }
   .reveal__foreground {
     background-color: inherit;
-    transition: transform $reveal-time $default-easing;
-    transition-delay: $reveal-delay;
+    transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
+    transition-delay: var(--#{$prefix}-animate-reveal-delay);
     z-index: 3;
   }
 
@@ -59,14 +126,14 @@ $animate-zoom-start: .5 !default;
     width: 100%;
   }
   &::before {
-    background-color: var(--animate-background-color);// , #FFFFFF
-    transition: transform $reveal-time $default-easing;
+    background-color: var(--#{$prefix}-animate-background-color);
+    transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
     z-index: 3;
   }
   &::after {
-    background-color: var(--animate-foreground-color); // , #131E32
-    transition: transform $reveal-time $default-easing;
-    transition-delay: $reveal-delay;
+    background-color: var(--#{$prefix}-animate-foreground-color);
+    transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
+    transition-delay: var(--#{$prefix}-animate-reveal-delay);
     z-index: 2;
   }
 }
@@ -86,57 +153,57 @@ $animate-zoom-start: .5 !default;
   }
 }
 
-/* / Specific animations */
-// Fade
-[data-animate|='fade'] {
-  opacity: 0;
-  transition-property: opacity;
-}
-
-[data-animate|='fade'].in-view {
-  opacity: 1;
-}
-[data-animate|='fade'].out-view {
-  opacity: 0;
-}
-
-// Slide
+/* Slide */
 [data-animate|='slide'] {
-  opacity: 0;
-  transform: translateY(var(--animate-slide-offset, $animate-slide-offset));
+  opacity: var(--#{$prefix}-animate-opacity-start);
+  transform: translateY(var(--#{$prefix}-animate-slide-offset, var(--#{$prefix}-animate-slide-offset)));
   transition-property: opacity, transform;
-  transition-duration: var(--animate-opacity-duration, $opacity-time), var(--animate-slide-duration, $translate-time);
+  transition-duration: var(--#{$prefix}-animate-opacity-duration, var(--#{$prefix}-animate-opacity-duration)), var(--#{$prefix}-animate-slide-duration, var(--#{$prefix}-animate-slide-duration));
 }
 
-// Zoom
+[data-animate|='slide'].in-view {
+  opacity: var(--#{$prefix}-animate-opacity-end);
+  transform: none;
+  transition-delay: var(--#{$prefix}-animate-delay);
+}
+
+[data-animate|='slide'].out-view {
+  opacity: var(--#{$prefix}-animate-opacity-start);
+  transform: translateY(var(--#{$prefix}-animate-slide-offset, - var(--#{$prefix}-animate-slide-offset)));
+  transition-delay: var(--#{$prefix}-animate-delay) !important;
+}
+
+/* Zoom */
 [data-animate|='zoom'] {
-  opacity: 0;
-  transform: scale(var(--animate-zoom-start, $animate-zoom-start));
+  opacity: var(--#{$prefix}-animate-opacity-start);
+  transform: scale(var(--#{$prefix}-animate-zoom-start, var(--#{$prefix}-animate-zoom-start)));
   transform-origin: center center;
   transition-property: opacity, transform;
 }
 
-[data-animate|='slide'].in-view,
 [data-animate|='zoom'].in-view {
-  opacity: 1;
-  transform: none;
-  transition-delay: 0s;
+  opacity: var(--#{$prefix}-animate-opacity-end);
+  transform: scale(var(--#{$prefix}-animate-zoom-end, var(--#{$prefix}-animate-zoom-end)));
+  transition-delay: var(--#{$prefix}-animate-delay);
 }
-[data-animate|='slide'].out-view {
-  opacity: 0;
-  transform: translateY(var(--animate-slide-offset, - $animate-slide-offset));
-  transition-delay: 0s !important;
+[data-animate|='zoom'].out-view {
+  opacity: var(--#{$prefix}-animate-opacity-start);
+  transform: scale(var(--#{$prefix}-animate-zoom-start, var(--#{$prefix}-animate-zoom-start)));
+  transition-delay: var(--#{$prefix}-animate-delay);
 }
 
-// Mobile
+
+// -------------------------
+// MOBILE
+// -------------------------
 @media only screen and (max-width: 991px) {
   [data-animate-mobile] {
     display: block;
   }
 
-  // Fade
+  /* Fade */
   [data-animate-mobile|='fade'] {
-    opacity: 0;
+    opacity: var(--#{$prefix}-animate-opacity-start);
     transition-property: opacity;
 
     // Unset slide/zoom properties
@@ -144,28 +211,28 @@ $animate-zoom-start: .5 !default;
   }
   
   [data-animate-mobile|='fade'].in-view {
-    opacity: 1;
+    opacity: var(--#{$prefix}-animate-opacity-end);
   }
 
-  // Slide
+  /* Slide */
   [data-animate-mobile|='slide'] {
-    opacity: 0;
-    transform: translateY(var(--animate-slide-offset, $animate-slide-offset));
+    opacity: var(--#{$prefix}-animate-opacity-start);
+    transform: translateY(var(--#{$prefix}-animate-slide-offset, var(--#{$prefix}-animate-slide-offset)));
     transition-property: opacity, transform;
-    transition-duration: var(--animate-opacity-duration, $opacity-time), var(--animate-slide-duration, $translate-time);
+    transition-duration: var(--#{$prefix}-animate-opacity-duration, var(--#{$prefix}-opacity-duration)), var(--#{$prefix}-animate-slide-duration, var(--#{$prefix}-animate-slide-duration));
   }
 
-  // Zoom
+  /* Zoom */
   [data-animate-mobile|='zoom'] {
-    opacity: 0;
-    transform: scale(var(--animate-zoom-start, $animate-zoom-start));
+    opacity: var(--#{$prefix}-animate-opacity-start);
+    transform: scale(var(--#{$prefix}-animate-zoom-start, var(--#{$prefix}-animate-zoom-start)));
     transform-origin: center center;
     transition-property: opacity, transform;
   }
 
   [data-animate-mobile|='slide'].in-view,
   [data-animate-mobile|='zoom'].in-view {
-    opacity: 1;
+    opacity: var(--#{$prefix}-animate-opacity-end);
     transform: none;
   }
 }
