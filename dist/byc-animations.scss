@@ -13,6 +13,7 @@ $animate-border-radius: 0 !default;
 $animate-delay: 0s !default;
 $animate-slide-offset: 50px !default;
 $animate-zoom-start: .5 !default;
+$animate-zoom-end: none !default;
 
 $opacity-start: 0 !default;
 $opacity-end: 1 !default;
@@ -36,28 +37,42 @@ $translate-time: 0.65s !default;
   --#{$prefix}-animate-delay: #{$animate-delay};
   --#{$prefix}-animate-slide-offset: #{$animate-slide-offset};
   --#{$prefix}-animate-zoom-start: #{$animate-zoom-start};
+  --#{$prefix}-animate-zoom-end: #{$animate-zoom-end};
 
-  --#{$prefix}-opacity-start: #{$opacity-start};
-  --#{$prefix}-opacity-end: #{$opacity-end};
-  --#{$prefix}-opacity-time: #{$opacity-time};
+  --#{$prefix}-animate-opacity-start: #{$opacity-start}; // rename animate-opacity-start
+  --#{$prefix}-animate-opacity-end: #{$opacity-end}; // rename animate-opacity-end
+  --#{$prefix}-animate-opacity-time: #{$opacity-time}; // rename animate-opacity-time
 
 
-  --#{$prefix}-reveal-background-color: #{$reveal-background-color};
-  --#{$prefix}-reveal-foreground-color: #{$reveal-foreground-color};
-  --#{$prefix}-reveal-delay: #{$reveal-delay};
-  --#{$prefix}-reveal-time: #{$reveal-time};
+  --#{$prefix}-reveal-background-color: #{$reveal-background-color}; // rename animate-background-color
+  --#{$prefix}-reveal-foreground-color: #{$reveal-foreground-color}; // rename animate-foreground-color
+  --#{$prefix}-reveal-delay: #{$reveal-delay}; // use data-animate-delay instead (?)
+  --#{$prefix}-reveal-time: #{$reveal-time}; // use default-time instead (?)
 
   --#{$prefix}-translate-time: #{$translate-time};
-
-  // --#{$prefix}-animate-zoom-end: none; // usually we use transform: none, sometimes appy to more than 1 effect, variable needed ?
-
-  // transition-delay for slide / zoom ? Should separate their scss
 }
+
+// -------------------------
+// ANIMATIONS
+// -------------------------
 
 [data-animate] {
   transition-duration: var(--#{$prefix}-animate-duration, var(--#{$prefix}-default-time));
   transition-delay: var(--#{$prefix}-animate-delay, var(--#{$prefix}-animate-delay));
   transition-timing-function: var(--#{$prefix}-animate-easing, var(--#{$prefix}-default-easing));
+}
+
+// Fade
+[data-animate|='fade'] {
+  opacity: var(--#{$prefix}-opacity-start);
+  transition-property: opacity;
+}
+
+[data-animate|='fade'].in-view {
+  opacity: var(--#{$prefix}-opacity-end);
+}
+[data-animate|='fade'].out-view {
+  opacity: var(--#{$prefix}-opacity-start);
 }
 
 // Reveal
@@ -129,26 +144,24 @@ $translate-time: 0.65s !default;
   }
 }
 
-/* / Specific animations */
-// Fade
-[data-animate|='fade'] {
-  opacity: var(--#{$prefix}-opacity-start);
-  transition-property: opacity;
-}
-
-[data-animate|='fade'].in-view {
-  opacity: var(--#{$prefix}-opacity-end);
-}
-[data-animate|='fade'].out-view {
-  opacity: var(--#{$prefix}-opacity-start);
-}
-
 // Slide
 [data-animate|='slide'] {
   opacity: var(--#{$prefix}-opacity-start);
   transform: translateY(var(--#{$prefix}-animate-slide-offset, var(--#{$prefix}-animate-slide-offset)));
   transition-property: opacity, transform;
   transition-duration: var(--#{$prefix}-animate-opacity-duration, var(--#{$prefix}-opacity-time)), var(--#{$prefix}-animate-slide-duration, var(--#{$prefix}-translate-time));
+}
+
+[data-animate|='slide'].in-view {
+  opacity: var(--#{$prefix}-opacity-end);
+  transform: none;
+  transition-delay: var(--#{$prefix}-animate-delay);
+}
+
+[data-animate|='slide'].out-view {
+  opacity: var(--#{$prefix}-opacity-start);
+  transform: translateY(var(--#{$prefix}-animate-slide-offset, - var(--#{$prefix}-animate-slide-offset)));
+  transition-delay: var(--#{$prefix}-animate-delay) !important;
 }
 
 // Zoom
@@ -159,19 +172,16 @@ $translate-time: 0.65s !default;
   transition-property: opacity, transform;
 }
 
-[data-animate|='slide'].in-view,
 [data-animate|='zoom'].in-view {
   opacity: var(--#{$prefix}-opacity-end);
-  transform: none;
-  transition-delay: var(--#{$prefix}-animate-delay); // 0s
-}
-[data-animate|='slide'].out-view {
-  opacity: var(--#{$prefix}-opacity-start);
-  transform: translateY(var(--#{$prefix}-animate-slide-offset, - var(--#{$prefix}-animate-slide-offset)));
-  transition-delay: var(--#{$prefix}-animate-delay) !important; // 0s
+  transform: scale(var(--#{$prefix}-animate-zoom-end, var(--#{$prefix}-animate-zoom-end)));
+  transition-delay: var(--#{$prefix}-animate-delay);
 }
 
-// Mobile
+
+// -------------------------
+// MOBILE
+// -------------------------
 @media only screen and (max-width: 991px) {
   [data-animate-mobile] {
     display: block;

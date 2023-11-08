@@ -17,25 +17,53 @@ import 'prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.js';
 //------------------------------------------------------------------------
 import '../sass/main.scss'
 
+//------------------------------------------------------------------------
+// Initiate BycAnimations
+//------------------------------------------------------------------------
 let animations
-function initBycAnimations() {
-  animations = new BycAnimations({
-    animateMarkers: true
+animations = new BycAnimations({
+  // animateMarkers: true
+})
+
+
+//------------------------------------------------------------------------
+// Toggle animations / smooth scroll
+//------------------------------------------------------------------------
+let destroyAnimations = false;
+let destroyScroll = false;
+
+const scrollToggle = document.querySelector('.btn-toggle-lenis');
+scrollToggle.addEventListener('click', () => {
+  destroyScroll = !destroyScroll;
+  if (destroyScroll) {
+    animations.destroy(destroyAnimations, destroyScroll);
+    scrollToggle.textContent = 'Toggle lenis scroll (Off)';
+  } else {
+    animations.init();
+    scrollToggle.textContent = 'Toggle lenis scroll (On)';
+  }
+})
+
+const animationsToggle = document.querySelector('.btn-toggle-animations');
+
+animationsToggle.addEventListener('click', () => {
+  destroyAnimations = !destroyAnimations;
+  if (destroyAnimations) {
+    animations.destroy(destroyAnimations, destroyScroll);
+    animationsToggle.textContent = 'Toggle animations (Off)';
+  } else {
+    animations.init();
+    animationsToggle.textContent = 'Toggle animations (On)';
+  }
+})
+
+//------------------------------------------------------------------------
+// Scroll to (anchors)
+//------------------------------------------------------------------------
+const anchors = document.querySelectorAll('.btn-anchor');
+anchors.forEach((anchor) => {
+  anchor.addEventListener('click', () => {
+    const target = anchor.dataset.anchor;
+    animations.scrollTo('#' + target, { offset: -50 });
   })
-}
-
-// animations.destroy(false, true);
-// const btnToggle = document.querySelector('.btn-toggle-lenis');
-// btnToggle.addEventListener('click', () => {
-//   animations.start();
-// })
-
-// const btnAnchor = document.querySelector('.btn-anchor');
-// const anchor = document.querySelector('#reveal');
-// btnAnchor.addEventListener('click', () => {
-//   animations.scrollTo(anchor, { offset: 150 })
-// })
-
-window.onload = function () {
-  initBycAnimations();
-}
+})

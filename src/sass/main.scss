@@ -5,7 +5,32 @@
 @import '../../node_modules/prismjs/plugins/line-numbers/prism-line-numbers';
 
 // ------------------------------------------
-// Local SASS styles (for index.html)
+// Settings
+// ------------------------------------------
+@import "./settings/colors";
+@import "./settings/variables";
+
+@import "utilities/font-face";
+@import "settings/fonts";
+
+// ------------------------------------------
+// Utilities
 // ------------------------------------------
 @import "./utilities/mixins";
-@import "./layout/p-index";
+@import "./utilities/functions";
+
+// ------------------------------------------
+// Base
+//-------------------------------------------
+@import "base/typography";
+
+// ------------------------------------------
+// Components
+// ------------------------------------------
+@import "components/button";
+@import "components/code-toolbar";
+
+// ------------------------------------------
+// Page
+// ------------------------------------------
+@import "./page/p-index";

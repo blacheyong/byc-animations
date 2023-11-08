@@ -18,24 +18,27 @@ export default class AnimateContent {
     if (myBlocks) {
       this.gsap.utils.toArray(myBlocks).forEach((target) => {
 
+        /* General */
+        if (target.hasAttribute('data-animate-easing')) {
+          target.style.setProperty(`--${this.prefix}-animate-easing`, target.getAttribute('data-animate-easing'));
+        }
         if (target.hasAttribute('data-animate-duration')) {
           target.style.setProperty(`--${this.prefix}-animate-duration`, target.getAttribute('data-animate-duration') + 's');
-        }
-        if (target.hasAttribute('data-opacity-duration')) {
-          target.style.setProperty(`--${this.prefix}-animate-opacity-duration`, target.getAttribute('data-opacity-duration') + 's');
-        }
-        if (target.hasAttribute('data-slide-duration')) {
-          target.style.setProperty(`--${this.prefix}-animate-slide-duration`, target.getAttribute('data-slide-duration') + 's');
         }
         if (target.hasAttribute('data-animate-delay')) {
           target.style.setProperty(`--${this.prefix}-animate-delay`, target.getAttribute('data-animate-delay') + 's');
         }
-        if (target.hasAttribute('data-animate-easing')) {
-          target.style.setProperty(`--${this.prefix}-animate-easing`, target.getAttribute('data-animate-easing'));
+        /* Fade / Opacity */
+        if (target.hasAttribute('data-animate-opacity-duration')) {
+          target.style.setProperty(`--${this.prefix}-animate-opacity-duration`, target.getAttribute('data-animate-opacity-duration') + 's');
         }
-        if (target.hasAttribute('data-animate-offset')) {
-          target.style.setProperty(`--${this.prefix}-animate-slide-offset`, target.getAttribute('data-animate-offset'));
+        if (target.hasAttribute('data-animate-opacity-start')) {
+          target.style.setProperty(`--${this.prefix}-animate-opacity-start`, target.getAttribute('data-animate-opacity-start'));
         }
+        if (target.hasAttribute('data-animate-opacity-end')) {
+          target.style.setProperty(`--${this.prefix}-animate-opacity-end`, target.getAttribute('data-animate-opacity-end'));
+        }
+        /* Reveal */
         if (target.hasAttribute('data-animate-border-radius')) {
           target.style.setProperty(`--${this.prefix}-animate-border-radius`, target.getAttribute('data-animate-border-radius'));
         }
@@ -43,17 +46,22 @@ export default class AnimateContent {
           target.style.setProperty(`--${this.prefix}-animate-background-color`, target.getAttribute('data-animate-background'));
         }
         if (target.hasAttribute('data-animate-foreground')) {
-          target.style.setProperty(`--${this.prefix}-reveal-foreground-color`, target.getAttribute('data-animate-foreground'));
+          target.style.setProperty(`--${this.prefix}-animate-foreground-color`, target.getAttribute('data-animate-foreground'));
         }
-        if (target.hasAttribute('data-opacity-start')) {
-          target.style.setProperty(`--${this.prefix}-opacity-start`, target.getAttribute('data-opacity-start'));
+        if (target.hasAttribute('data-animate-reveal-delay')) {
+          target.style.setProperty(`--${this.prefix}-animate-reveal-delay`, target.getAttribute('data-animate-reveal-delay') + 's' );
         }
-        if (target.hasAttribute('data-opacity-end')) {
-          target.style.setProperty(`--${this.prefix}-opacity-end`, target.getAttribute('data-opacity-end'));
+        if (target.hasAttribute('data-animate-reveal-duration')) {
+          target.style.setProperty(`--${this.prefix}-animate-reveal-duration`, target.getAttribute('data-animate-reveal-duration') + 's');
         }
-        if (target.hasAttribute('data-animate-zoom-end')) {
-          target.style.setProperty(`--${this.prefix}-animate-zoom-end`, target.getAttribute('data-animate-zoom-end'));
+        /* Slide */
+        if (target.hasAttribute('data-animate-slide-duration')) {
+          target.style.setProperty(`--${this.prefix}-animate-slide-duration`, target.getAttribute('data-animate-slide-duration') + 's');
         }
+        if (target.hasAttribute('data-animate-slide-offset')) {
+          target.style.setProperty(`--${this.prefix}-animate-slide-offset`, target.getAttribute('data-animate-slide-offset'));
+        }
+        /* Zoom */
         if (target.hasAttribute('data-animate-zoom-start')) {
           target.style.setProperty(`--${this.prefix}-animate-zoom-start`, target.getAttribute('data-animate-zoom-start'));
         }
