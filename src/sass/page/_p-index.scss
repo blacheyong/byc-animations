@@ -98,6 +98,12 @@ body {
       max-height: 700px;
     }
   }
+
+  @media only screen and (max-width: 991.99px) {
+    [class*="col-"] {
+      margin-bottom: 15px;
+    }
+  }
 }
 
 .footer {

@@ -28,6 +28,9 @@ export default class AnimateContent {
         if (target.hasAttribute('data-animate-delay')) {
           target.style.setProperty(`--${this.prefix}-animate-delay`, target.getAttribute('data-animate-delay') + 's');
         }
+        if (target.hasAttribute('data-animate-delay-mobile')) {
+          target.style.setProperty(`--${this.prefix}-animate-delay-mobile`, target.getAttribute('data-animate-delay-mobile'));
+        }
         /* Fade / Opacity */
         if (target.hasAttribute('data-animate-opacity-duration')) {
           target.style.setProperty(`--${this.prefix}-animate-opacity-duration`, target.getAttribute('data-animate-opacity-duration') + 's');
@@ -49,7 +52,7 @@ export default class AnimateContent {
           target.style.setProperty(`--${this.prefix}-animate-foreground-color`, target.getAttribute('data-animate-foreground'));
         }
         if (target.hasAttribute('data-animate-reveal-delay')) {
-          target.style.setProperty(`--${this.prefix}-animate-reveal-delay`, target.getAttribute('data-animate-reveal-delay') + 's' );
+          target.style.setProperty(`--${this.prefix}-animate-reveal-delay-extra`, target.getAttribute('data-animate-reveal-delay') + 's' );
         }
         if (target.hasAttribute('data-animate-reveal-duration')) {
           target.style.setProperty(`--${this.prefix}-animate-reveal-duration`, target.getAttribute('data-animate-reveal-duration') + 's');

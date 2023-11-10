@@ -106,7 +106,7 @@ You can override the following variables (need to be done before importing the B
 | `data-animate-end`                   | `string`                 | (Optional) Override default end position. First value represents the part of the trigger which will trigger the animation once it meets the second value. The second value represents a location in the viewport. Ex: `center 20%`  |
 | `data-animate-trigger`               | `string`                 | (Optional) Override default trigger element. Ex: `#page-title`  |
 | `data-animate-easing`                | `string`                 | (Optional) Override default easing. Ex: `ease-out` or `cubic-bezier(0.550, 0.055, 0.675, 0.190)`  |
-| `data-animate-delay`                 | `number`                 | (Optional) Set transition-delay on elemenet. Value in seconds.    
+| `data-animate-delay`                 | `number`                 | (Optional) Set transition-delay on element. Value in seconds.    
 | `data-animate-duration`              | `number`                 | (Optional) Override default transition duration CSS property. Value in seconds. |
 | `data-animate-opacity-duration`      | `number`                 | (Optional) Override default transition duration CSS property of opacity. Value in seconds. |
 | `data-animate-opacity-start`         | `number`                 | (Optional) Override default opacity CSS property at the beginning of the animation. Value from 0.0 - 1.0 |
