@@ -13,67 +13,77 @@ export default class AnimateContent {
     this.init();
   }
 
+  setAnimateAttributes(target, parent = null) {
+    let thisTarget = target;
+
+    if (parent) {
+      thisTarget = parent;
+    }
+
+    if (thisTarget.hasAttribute('data-animate-easing')) {
+      target.style.setProperty(`--${this.prefix}-animate-easing`, thisTarget.getAttribute('data-animate-easing'));
+    }
+    if (thisTarget.hasAttribute('data-animate-duration')) {
+      target.style.setProperty(`--${this.prefix}-animate-duration`, thisTarget.getAttribute('data-animate-duration') + 's');
+    }
+    if (thisTarget.hasAttribute('data-animate-delay')) {
+      target.style.setProperty(`--${this.prefix}-animate-delay`, thisTarget.getAttribute('data-animate-delay') + 's');
+    }
+    if (thisTarget.hasAttribute('data-animate-delay-mobile')) {
+      target.style.setProperty(`--${this.prefix}-animate-delay-mobile`, thisTarget.getAttribute('data-animate-delay-mobile'));
+    }
+    /* Fade / Opacity */
+    if (thisTarget.hasAttribute('data-animate-opacity-duration')) {
+      target.style.setProperty(`--${this.prefix}-animate-opacity-duration`, thisTarget.getAttribute('data-animate-opacity-duration') + 's');
+    }
+    if (thisTarget.hasAttribute('data-animate-opacity-start')) {
+      target.style.setProperty(`--${this.prefix}-animate-opacity-start`, thisTarget.getAttribute('data-animate-opacity-start'));
+    }
+    if (thisTarget.hasAttribute('data-animate-opacity-end')) {
+      target.style.setProperty(`--${this.prefix}-animate-opacity-end`, thisTarget.getAttribute('data-animate-opacity-end'));
+    }
+    /* Reveal */
+    if (thisTarget.hasAttribute('data-animate-border-radius')) {
+      target.style.setProperty(`--${this.prefix}-animate-border-radius`, thisTarget.getAttribute('data-animate-border-radius'));
+    }
+    if (thisTarget.hasAttribute('data-animate-background')) {
+      target.style.setProperty(`--${this.prefix}-animate-background-color`, thisTarget.getAttribute('data-animate-background'));
+    }
+    if (thisTarget.hasAttribute('data-animate-foreground')) {
+      target.style.setProperty(`--${this.prefix}-animate-foreground-color`, thisTarget.getAttribute('data-animate-foreground'));
+    }
+    if (thisTarget.hasAttribute('data-animate-reveal-delay')) {
+      target.style.setProperty(`--${this.prefix}-animate-reveal-delay-extra`, thisTarget.getAttribute('data-animate-reveal-delay') + 's' );
+    }
+    if (thisTarget.hasAttribute('data-animate-reveal-duration')) {
+      target.style.setProperty(`--${this.prefix}-animate-reveal-duration`, thisTarget.getAttribute('data-animate-reveal-duration') + 's');
+    }
+    /* Slide */
+    if (thisTarget.hasAttribute('data-animate-slide-duration')) {
+      target.style.setProperty(`--${this.prefix}-animate-slide-duration`, thisTarget.getAttribute('data-animate-slide-duration') + 's');
+    }
+    if (thisTarget.hasAttribute('data-animate-slide-offset')) {
+      target.style.setProperty(`--${this.prefix}-animate-slide-offset`, thisTarget.getAttribute('data-animate-slide-offset'));
+    }
+    /* Zoom */
+    if (thisTarget.hasAttribute('data-animate-zoom-start')) {
+      target.style.setProperty(`--${this.prefix}-animate-zoom-start`, thisTarget.getAttribute('data-animate-zoom-start'));
+    }
+    if (thisTarget.hasAttribute('data-animate-zoom-end')) {
+      target.style.setProperty(`--${this.prefix}-animate-zoom-end`, thisTarget.getAttribute('data-animate-zoom-end'));
+    }
+  }
+
   init() {
     const myBlocks = document.querySelectorAll('[data-animate]');
+
     if (myBlocks) {
       this.gsap.utils.toArray(myBlocks).forEach((target) => {
 
-        /* General */
-        if (target.hasAttribute('data-animate-easing')) {
-          target.style.setProperty(`--${this.prefix}-animate-easing`, target.getAttribute('data-animate-easing'));
-        }
-        if (target.hasAttribute('data-animate-duration')) {
-          target.style.setProperty(`--${this.prefix}-animate-duration`, target.getAttribute('data-animate-duration') + 's');
-        }
-        if (target.hasAttribute('data-animate-delay')) {
-          target.style.setProperty(`--${this.prefix}-animate-delay`, target.getAttribute('data-animate-delay') + 's');
-        }
-        if (target.hasAttribute('data-animate-delay-mobile')) {
-          target.style.setProperty(`--${this.prefix}-animate-delay-mobile`, target.getAttribute('data-animate-delay-mobile'));
-        }
-        /* Fade / Opacity */
-        if (target.hasAttribute('data-animate-opacity-duration')) {
-          target.style.setProperty(`--${this.prefix}-animate-opacity-duration`, target.getAttribute('data-animate-opacity-duration') + 's');
-        }
-        if (target.hasAttribute('data-animate-opacity-start')) {
-          target.style.setProperty(`--${this.prefix}-animate-opacity-start`, target.getAttribute('data-animate-opacity-start'));
-        }
-        if (target.hasAttribute('data-animate-opacity-end')) {
-          target.style.setProperty(`--${this.prefix}-animate-opacity-end`, target.getAttribute('data-animate-opacity-end'));
-        }
-        /* Reveal */
-        if (target.hasAttribute('data-animate-border-radius')) {
-          target.style.setProperty(`--${this.prefix}-animate-border-radius`, target.getAttribute('data-animate-border-radius'));
-        }
-        if (target.hasAttribute('data-animate-background')) {
-          target.style.setProperty(`--${this.prefix}-animate-background-color`, target.getAttribute('data-animate-background'));
-        }
-        if (target.hasAttribute('data-animate-foreground')) {
-          target.style.setProperty(`--${this.prefix}-animate-foreground-color`, target.getAttribute('data-animate-foreground'));
-        }
-        if (target.hasAttribute('data-animate-reveal-delay')) {
-          target.style.setProperty(`--${this.prefix}-animate-reveal-delay-extra`, target.getAttribute('data-animate-reveal-delay') + 's' );
-        }
-        if (target.hasAttribute('data-animate-reveal-duration')) {
-          target.style.setProperty(`--${this.prefix}-animate-reveal-duration`, target.getAttribute('data-animate-reveal-duration') + 's');
-        }
-        /* Slide */
-        if (target.hasAttribute('data-animate-slide-duration')) {
-          target.style.setProperty(`--${this.prefix}-animate-slide-duration`, target.getAttribute('data-animate-slide-duration') + 's');
-        }
-        if (target.hasAttribute('data-animate-slide-offset')) {
-          target.style.setProperty(`--${this.prefix}-animate-slide-offset`, target.getAttribute('data-animate-slide-offset'));
-        }
-        /* Zoom */
-        if (target.hasAttribute('data-animate-zoom-start')) {
-          target.style.setProperty(`--${this.prefix}-animate-zoom-start`, target.getAttribute('data-animate-zoom-start'));
-        }
-        if (target.hasAttribute('data-animate-zoom-end')) {
-          target.style.setProperty(`--${this.prefix}-animate-zoom-end`, target.getAttribute('data-animate-zoom-end'));
-        }
-
         const isRepeatableString = target.getAttribute('data-animate-repeat');
         const isRepeatable = (isRepeatableString === 'true');
+
+        this.setAnimateAttributes(target);
 
         this.ScrollTrigger.create({
           trigger: target.dataset.animateTrigger ? target.dataset.animateTrigger : target,
@@ -99,6 +109,79 @@ export default class AnimateContent {
           },
           once: !isRepeatable,
         });
+      });
+    }
+
+    const batches = document.querySelectorAll('[data-animate-batch]');
+    if ( batches ) {
+      batches.forEach((batch) => {
+        const targets = batch.querySelectorAll(batch.dataset.animateBatch);
+        const effect = batch.dataset.animateEffect;
+        const inView = this.inViewClass;
+        const outView = this.outViewClass;
+        let animateDelay = 0;
+        let isRepeatable = false;
+
+        if (targets) {
+          targets.forEach(target => {
+            target.setAttribute('data-animate', effect);
+
+            const isRepeatableString = batch.getAttribute('data-animate-repeat');
+            isRepeatable = (isRepeatableString === 'true');
+
+            animateDelay = batch.getAttribute('data-animate-delay');
+
+            this.setAnimateAttributes(target, batch);
+          })
+
+          this.ScrollTrigger.batch(targets, {
+            onEnter: (elements) => {
+              this.gsap.to(elements, {
+                stagger: {
+                  each: animateDelay,
+                  onComplete() {
+                    this.targets()[0].classList.add(inView); // <= the current target
+                  }
+                }
+              })
+            },
+            onEnterBack: (elements) => {
+              this.gsap.to(elements, {
+                stagger: {
+                  each: animateDelay,
+                  onComplete() {
+                    this.targets()[0].classList.add(inView);
+                    this.targets()[0].classList.remove(outView);
+                  }
+                }
+              })
+            },
+            onLeave: (elements) => {
+              if (isRepeatable == true) {
+                this.gsap.to(elements, {
+                  stagger: {
+                    each: animateDelay,
+                    onComplete() {
+                      this.targets()[0].classList.add(outView);
+                    }
+                  }
+                })
+              }
+            },
+            onLeaveBack: (elements) => {
+              if (isRepeatable) {
+                this.gsap.to(elements, {
+                  stagger: {
+                    each: animateDelay,
+                    onComplete() {
+                      this.targets()[0].classList.remove(inView);
+                    }
+                  }
+                })
+              }
+            },
+          });
+        }
       });
     }
   }

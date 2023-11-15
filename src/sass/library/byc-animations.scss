@@ -53,6 +53,7 @@ $animate-zoom-end: none !default;
   --#{$prefix}-animate-background-color: #{$animate-background-color};
   --#{$prefix}-animate-foreground-color: #{$animate-foreground-color};
   --#{$prefix}-animate-reveal-delay: #{$animate-reveal-delay};
+  --#{$prefix}-animate-reveal-delay-extra: #{$animate-reveal-delay-extra};
   --#{$prefix}-animate-reveal-duration: #{$animate-reveal-duration};
 
   /* Slide */
@@ -153,6 +154,22 @@ $animate-zoom-end: none !default;
   }
   &::after {
     transform: translateY(-100%);
+  }
+}
+
+[data-animate|='reveal'].out-view {
+  .reveal__background {
+    transform: translateY(0);
+  }
+  .reveal__foreground {
+    transform: translateY(0);
+  }
+
+  &::before {
+    transform: translateY(0);
+  }
+  &::after {
+    transform: translateY(0);
   }
 }
 

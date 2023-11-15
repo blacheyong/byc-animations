@@ -26,7 +26,7 @@
     "vite-plugin-static-copy": "^0.15.0"
   },
   "dependencies": {
-    "@studio-freight/lenis": "^1.0.24",
+    "@studio-freight/lenis": "^1.0.27",
     "gsap": "^3.11.5"
   }
 }
