@@ -10,6 +10,7 @@ $prefix: byc !default;
 /* General */
 $animate-easing: ease-in-out !default;
 $animate-delay: 0s !default;
+$animate-delay-mobile: 'true' !default; // wip
 $animate-duration: 0.35s !default;
 
 /* Fade / Opacity */
@@ -22,6 +23,7 @@ $animate-border-radius: 0 !default;
 $animate-background-color: #FFFFFF !default;
 $animate-foreground-color: #F4F4F4 !default;
 $animate-reveal-delay: .35s !default;
+$animate-reveal-delay-extra: 0s !default;
 $animate-reveal-duration: .4s !default;
 
 /* Slide */
@@ -51,6 +53,7 @@ $animate-zoom-end: none !default;
   --#{$prefix}-animate-background-color: #{$animate-background-color};
   --#{$prefix}-animate-foreground-color: #{$animate-foreground-color};
   --#{$prefix}-animate-reveal-delay: #{$animate-reveal-delay};
+  --#{$prefix}-animate-reveal-delay-extra: #{$animate-reveal-delay-extra};
   --#{$prefix}-animate-reveal-duration: #{$animate-reveal-duration};
 
   /* Slide */
@@ -128,12 +131,13 @@ $animate-zoom-end: none !default;
   &::before {
     background-color: var(--#{$prefix}-animate-background-color);
     transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
+    transition-delay: var(--#{$prefix}-animate-reveal-delay-extra);
     z-index: 3;
   }
   &::after {
     background-color: var(--#{$prefix}-animate-foreground-color);
     transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
-    transition-delay: var(--#{$prefix}-animate-reveal-delay);
+    transition-delay: calc(var(--#{$prefix}-animate-reveal-delay) + var(--#{$prefix}-animate-reveal-delay-extra));
     z-index: 2;
   }
 }
@@ -150,6 +154,22 @@ $animate-zoom-end: none !default;
   }
   &::after {
     transform: translateY(-100%);
+  }
+}
+
+[data-animate|='reveal'].out-view {
+  .reveal__background {
+    transform: translateY(0);
+  }
+  .reveal__foreground {
+    transform: translateY(0);
+  }
+
+  &::before {
+    transform: translateY(0);
+  }
+  &::after {
+    transform: translateY(0);
   }
 }
 
@@ -196,7 +216,7 @@ $animate-zoom-end: none !default;
 // -------------------------
 // MOBILE
 // -------------------------
-@media only screen and (max-width: 991px) {
+@media only screen and (max-width: 991.99px) {
   [data-animate-mobile] {
     display: block;
   }
