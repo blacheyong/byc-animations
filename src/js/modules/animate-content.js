@@ -13,7 +13,7 @@ export default class AnimateContent {
     this.init();
   }
 
-  setAnimateAttributes(target, parent = null) {
+  setAnimateAttributes(target, parent = null, callback) {
     let thisTarget = target;
 
     if (parent) {
@@ -72,6 +72,11 @@ export default class AnimateContent {
     if (thisTarget.hasAttribute('data-animate-zoom-end')) {
       target.style.setProperty(`--${this.prefix}-animate-zoom-end`, thisTarget.getAttribute('data-animate-zoom-end'));
     }
+
+    // After setting attributes, call the callback if it exists
+    if (callback && typeof callback === 'function') {
+      callback();
+    }
   }
 
   init() {
@@ -112,7 +117,7 @@ export default class AnimateContent {
       });
     }
 
-    const batches = document.querySelectorAll('[data-animate-batch]');
+    const batches = document.querySelectorAll('[data-animate-batch]'); // TODO: by default has opacity: 0;
     if ( batches ) {
       batches.forEach((batch) => {
         const targets = batch.querySelectorAll(batch.dataset.animateBatch);
@@ -123,7 +128,7 @@ export default class AnimateContent {
         let isRepeatable = false;
 
         if (targets) {
-          targets.forEach(target => {
+          targets.forEach((target, index) => {
             target.setAttribute('data-animate', effect);
 
             const isRepeatableString = batch.getAttribute('data-animate-repeat');
@@ -131,7 +136,11 @@ export default class AnimateContent {
 
             animateDelay = batch.getAttribute('data-animate-delay');
 
-            this.setAnimateAttributes(target, batch);
+            this.setAnimateAttributes(target, batch, () => {
+              if (index === targets.length - 1) {
+                batch.classList.add('is-ready');
+              }
+            });
           })
 
           this.ScrollTrigger.batch(targets, {
@@ -182,6 +191,8 @@ export default class AnimateContent {
             },
           });
         }
+        // TODO: Here add class to parent 'is-ready' opacity: 1;
+        // batch.classList.add('is-ready');
       });
     }
   }
