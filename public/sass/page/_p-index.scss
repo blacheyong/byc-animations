@@ -1,0 +1,149 @@
+html {
+  scroll-behavior: initial !important;
+}
+
+body {
+  // --byc-animate-slide-offset: 300px;
+}
+
+.img-wrapper {
+    aspect-ratio: 1;
+    border-radius: 16px;
+    overflow: hidden;
+
+    img {
+        border-radius: 16px;
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+    }
+}
+
+.section {
+  padding: 80px 0;
+
+  &--hero {
+    background-color: $ink;
+    color: $white;
+    min-height: 100vh;
+    padding: 140px 0 130px;
+
+    .container-xl {
+      > .d-flex {
+        min-height: calc(100vh - 200px);
+      }
+    }
+
+    .h1 {
+      border-bottom: 1px solid rgba($white, 0.2);
+      line-height: 1.125;
+      margin: 0;
+      padding: 0 0 60px;
+    }
+
+    .intro {
+        line-height: 1.33;
+        margin: 60px 0 0;
+        max-width: 80%;
+    }
+
+    ul {
+      align-items: center;
+      display: flex;
+      list-style: none;
+      margin: 20px 0 0;
+      padding: 0;
+
+      li {
+        &:not(:last-child) {
+          margin-right: 15px;
+        }
+      }
+
+      svg {
+        transform: scale(.45);
+        transition: $default-animation;
+
+        &:hover {
+          opacity: .75;
+        }
+      }
+    }
+  }
+
+  &--parallax {
+    .image-parallax {
+        height: 500px;
+        overflow: hidden;
+        width: 100%;
+
+        img {
+            height: 150%;
+            object-fit: cover;
+            width: 100%;
+        }
+    }
+
+    [class*="col-"] {
+      display: flex;
+      justify-content: center;
+
+      &:nth-child(even) {
+        margin-top: 150px;
+      }
+    }
+
+    img {
+      aspect-ratio: 450 / 600;
+      max-height: 700px;
+    }
+  }
+
+  @media only screen and (max-width: 991.99px) {
+    [class*="col-"] {
+      margin-bottom: 15px;
+    }
+  }
+}
+
+.footer {
+  background-color: $ink;
+  color: $white;
+  padding: 50px 0;
+
+  &__logo {
+    display: flex;
+    flex-direction: column;
+  }
+  &__logo-text {
+    font-family: $segment-semibold;
+    font-size: pxToRem(35px);
+    line-height: 0.95;
+    margin: 0;
+}
+
+  &__links {
+    ul {
+      align-items: center;
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        &:not(:last-child) {
+          margin-right: 15px;
+        }
+      }
+
+      svg {
+        transform: scale(.35);
+        transition: $default-animation;
+
+        &:hover {
+          opacity: .75;
+        }
+      }
+    }
+  }
+}

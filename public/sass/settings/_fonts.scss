@@ -1,0 +1,9 @@
+@include font-face("Segment-Bold", "../../assets/fonts/segment-bold", null, null, woff2 woff);
+@include font-face("Segment-Medium", "../../assets/fonts/segment-medium", null, null, woff2 woff);
+@include font-face("Segment-Regular", "../../assets/fonts/segment-regular", null, null, woff2 woff);
+@include font-face("Segment-Semibold", "../../assets/fonts/segment-semibold", null, null, woff2 woff);
+
+$segment-bold: "Segment-Bold";
+$segment-medium: "Segment-Medium";
+$segment-regular: "Segment-Regular";
+$segment-semibold: "Segment-Semibold";
