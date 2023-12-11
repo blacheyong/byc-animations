@@ -2,7 +2,7 @@
   "name": "byc-animations",
   "displayName": "BYC Animations Library",
   "private": false,
-  "version": "2.2.0",
+  "version": "2.2.1",
   "type": "module",
   "main": "dist/byc-animations.umd.js",
   "module": "dist/byc-animations.es.js",
