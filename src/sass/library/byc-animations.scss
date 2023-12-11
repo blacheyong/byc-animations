@@ -74,6 +74,15 @@ $animate-zoom-end: none !default;
   transition-timing-function: var(--#{$prefix}-animate-easing);
 }
 
+/* Batch default */
+[data-animate-batch] {
+  opacity: 0;
+
+  &.is-ready {
+    opacity: 1;
+  }
+}
+
 /* Fade / Opacity */
 [data-animate|='fade'] {
   opacity: var(--#{$prefix}-animate-opacity-start);

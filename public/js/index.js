@@ -1,4 +1,4 @@
-import BycAnimations from './byc-animations.js';
+import BycAnimations from '../../src/js/byc-animations.js';
 
 //------------------------------------------------------------------------
 // Import Prims.js
