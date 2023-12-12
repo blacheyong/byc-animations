@@ -13,7 +13,7 @@ export default class AnimateContent {
     this.init();
   }
 
-  setAnimateAttributes(target, parent = null, callback) {
+  async setAnimateAttributes(target, parent = null, callback) {
     let thisTarget = target;
 
     if (parent) {
@@ -128,7 +128,9 @@ export default class AnimateContent {
         let isRepeatable = false;
 
         if (targets) {
-          targets.forEach((target, index) => {
+          // targets.forEach((target, index) => {
+          for (const target of targets) {
+            console.log(target);
             target.setAttribute('data-animate', effect);
 
             const isRepeatableString = batch.getAttribute('data-animate-repeat');
@@ -136,12 +138,9 @@ export default class AnimateContent {
 
             animateDelay = batch.getAttribute('data-animate-delay');
 
-            this.setAnimateAttributes(target, batch, () => {
-              if (index === targets.length - 1) {
-                batch.classList.add('is-ready');
-              }
-            });
-          })
+            this.setAnimateAttributes(target);
+          }
+          //})
 
           this.ScrollTrigger.batch(targets, {
             onEnter: (elements) => {
@@ -192,7 +191,7 @@ export default class AnimateContent {
           });
         }
         // TODO: Here add class to parent 'is-ready' opacity: 1;
-        // batch.classList.add('is-ready');
+        batch.classList.add('is-ready');
       });
     }
   }
