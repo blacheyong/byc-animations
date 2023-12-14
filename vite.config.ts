@@ -8,7 +8,7 @@ export default defineConfig({
         minify: true,
         lib: {
             entry: resolve(__dirname, 'src/js/byc-animations.js'),
-            name: 'bell-vue-components',
+            name: 'byc-animations',
             fileName: (format) => `byc-animations.${format}.js`,
         },
         rollupOptions: {

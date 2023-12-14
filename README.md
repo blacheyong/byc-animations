@@ -7,8 +7,16 @@ On scroll animation utilities, elements entering viewport + parallax effects. Th
 ## CDN links
 | Description               | URL                                                                   |
 | -----------------------   | --------------------------------------------------------------------- | 
-| CSS                       | `https://unpkg.com/byc-animations/dist/byc-animations.css`            | 
-| JS                        | `https://unpkg.com/byc-animations/dist/byc-animations.umd.js`         | 
+| CSS                       | `https://unpkg.com/byc-animations/bundled/byc-animations.min.css`     | 
+| JS                        | `https://unpkg.com/byc-animations/bundled/byc-animations.min.js`      | 
+
+
+```js
+<script>
+	let animations
+    animations = new BycAnimations();
+</script>
+```
 
 ## Package manager (NPM)
 
