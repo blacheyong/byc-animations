@@ -13,7 +13,7 @@ export default class AnimateContent {
     this.init();
   }
 
-  setAnimateAttributes(target, parent = null, callback) {
+  async setAnimateAttributes(target, parent = null) {
     let thisTarget = target;
 
     if (parent) {
@@ -72,11 +72,6 @@ export default class AnimateContent {
     if (thisTarget.hasAttribute('data-animate-zoom-end')) {
       target.style.setProperty(`--${this.prefix}-animate-zoom-end`, thisTarget.getAttribute('data-animate-zoom-end'));
     }
-
-    // After setting attributes, call the callback if it exists
-    if (callback && typeof callback === 'function') {
-      callback();
-    }
   }
 
   init() {
@@ -117,9 +112,9 @@ export default class AnimateContent {
       });
     }
 
-    const batches = document.querySelectorAll('[data-animate-batch]'); // TODO: by default has opacity: 0;
+    const batches = document.querySelectorAll('[data-animate-batch]');
     if ( batches ) {
-      batches.forEach((batch) => {
+      for (const batch of batches) {
         const targets = batch.querySelectorAll(batch.dataset.animateBatch);
         const effect = batch.dataset.animateEffect;
         const inView = this.inViewClass;
@@ -128,20 +123,25 @@ export default class AnimateContent {
         let isRepeatable = false;
 
         if (targets) {
-          targets.forEach((target, index) => {
+          for (const target of targets) {
+            // console.log(target);
             target.setAttribute('data-animate', effect);
+
+            if (batch.dataset.animateStart) {
+              target.setAttribute('data-animate-start', batch.dataset.animateStart);
+            }
+            
+            if (batch.dataset.animateEnd) {
+              target.setAttribute('data-animate-end', batch.dataset.animateEnd);
+            }
 
             const isRepeatableString = batch.getAttribute('data-animate-repeat');
             isRepeatable = (isRepeatableString === 'true');
 
             animateDelay = batch.getAttribute('data-animate-delay');
 
-            this.setAnimateAttributes(target, batch, () => {
-              if (index === targets.length - 1) {
-                batch.classList.add('is-ready');
-              }
-            });
-          })
+            this.setAnimateAttributes(target);
+          }
 
           this.ScrollTrigger.batch(targets, {
             onEnter: (elements) => {
@@ -191,9 +191,8 @@ export default class AnimateContent {
             },
           });
         }
-        // TODO: Here add class to parent 'is-ready' opacity: 1;
-        // batch.classList.add('is-ready');
-      });
+        batch.classList.add('is-ready');
+      };
     }
   }
 }
