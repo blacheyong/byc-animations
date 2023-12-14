@@ -28,7 +28,6 @@ export default class BycAnimations {
     }
 
     init() {
-        // console.log(this.options);
         if(this.smoothScroll) {
             // const scrollLenis = new SmoothScroll(this.options, Lenis);
             new SmoothScroll(this.options, Lenis);
