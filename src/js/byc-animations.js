@@ -1,12 +1,12 @@
 //------------------------------------------------------------------------
 // Import Main Styles
 //------------------------------------------------------------------------
-import '../sass/library/byc-animations.scss'
+import '../sass/library/byc-animations.scss';
 
 //------------------------------------------------------------------------
 // Import GSAP + Default options
 //------------------------------------------------------------------------
-import Lenis from '@studio-freight/lenis' // testing
+import Lenis from '@studio-freight/lenis';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { defaults } from './options';

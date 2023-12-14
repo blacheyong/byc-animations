@@ -2,7 +2,15 @@
 
 On scroll animation utilities, elements entering viewport + parallax effects. This library uses GSAP and Scrolltrigger.
 
-## Installation
+<a href="https://blacheyong.github.io/byc-animations/" target="_blank">Visit our demo page</a>
+
+## CDN links
+| Description               | URL                                                                   |
+| -----------------------   | --------------------------------------------------------------------- | 
+| CSS                       | `https://unpkg.com/byc-animations/dist/byc-animations.css`            | 
+| JS                        | `https://unpkg.com/byc-animations/dist/byc-animations.umd.js`         | 
+
+## Package manager (NPM)
 
 ```sh
 npm install byc-animations
