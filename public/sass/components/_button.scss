@@ -1,12 +1,23 @@
 .btn {
-    &.btn-primary-outline {
-      border: 1px solid $ink;
+    &.btn-primary {
+      background-color: transparent;
+      border: 2px solid $ink;
+      border-radius: 8px;
       color: $ink;
   
       &:hover {
           background-color: $ink;
           border-color: $ink;
           color: $white;
+      }
+    }
+
+    &.btn-link {
+      color: $ink;
+      padding: 0;
+
+      &:hover {
+        text-decoration: none;
       }
     }
 }

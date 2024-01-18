@@ -9411,11 +9411,18 @@
               var target = _step2.value;
               // console.log(target);
               target.setAttribute('data-animate', effect);
+              console.log('effect');
               if (batch.dataset.animateStart) {
                 target.setAttribute('data-animate-start', batch.dataset.animateStart);
               }
               if (batch.dataset.animateEnd) {
                 target.setAttribute('data-animate-end', batch.dataset.animateEnd);
+              }
+              if (batch.dataset.animateBackground) {
+                target.setAttribute('data-animate-background', batch.dataset.animateBackground);
+              }
+              if (batch.dataset.animateForeground) {
+                target.setAttribute('data-animate-foreground', batch.dataset.animateForeground);
               }
               var isRepeatableString = batch.getAttribute('data-animate-repeat');
               isRepeatable = isRepeatableString === 'true';
@@ -9535,7 +9542,6 @@
     }
     var _proto = BycAnimations.prototype;
     _proto.init = function init() {
-      // console.log(this.options);
       if (this.smoothScroll) {
         // const scrollLenis = new SmoothScroll(this.options, Lenis);
         new SmoothScroll(this.options, r);

@@ -126,6 +126,7 @@ export default class AnimateContent {
           for (const target of targets) {
             // console.log(target);
             target.setAttribute('data-animate', effect);
+            console.log('effect');
 
             if (batch.dataset.animateStart) {
               target.setAttribute('data-animate-start', batch.dataset.animateStart);
@@ -133,6 +134,13 @@ export default class AnimateContent {
             
             if (batch.dataset.animateEnd) {
               target.setAttribute('data-animate-end', batch.dataset.animateEnd);
+            }
+
+            if (batch.dataset.animateBackground) {
+              target.setAttribute('data-animate-background', batch.dataset.animateBackground);
+            }
+            if (batch.dataset.animateForeground) {
+              target.setAttribute('data-animate-foreground', batch.dataset.animateForeground);
             }
 
             const isRepeatableString = batch.getAttribute('data-animate-repeat');
