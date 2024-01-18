@@ -6,10 +6,21 @@ body {
   // --byc-animate-slide-offset: 300px;
 }
 
+a {
+  color: $ink;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 .img-wrapper {
     aspect-ratio: 1;
     border-radius: 16px;
     overflow: hidden;
+
+    &--16-9 {
+      aspect-ratio: 16/9;
+    }
 
     img {
         border-radius: 16px;
@@ -62,7 +73,7 @@ body {
 
       svg {
         transform: scale(.45);
-        transition: $default-animation;
+        transition: opacity .25s ease-in-out;
 
         &:hover {
           opacity: .75;
