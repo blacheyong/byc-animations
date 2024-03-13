@@ -159,10 +159,10 @@ $animate-zoom-end: none !default;
   }
 
   &::before {
-    transform: translateY(-100%);
+    transform: translateY(-102%);
   }
   &::after {
-    transform: translateY(-100%);
+    transform: translateY(-102%);
   }
 }
 

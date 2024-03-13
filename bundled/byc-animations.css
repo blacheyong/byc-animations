@@ -114,10 +114,10 @@
   transform: translateY(-100%);
 }
 [data-animate|=reveal].in-view::before {
-  transform: translateY(-100%);
+  transform: translateY(-102%);
 }
 [data-animate|=reveal].in-view::after {
-  transform: translateY(-100%);
+  transform: translateY(-102%);
 }
 
 [data-animate|=reveal].out-view .reveal__background {
