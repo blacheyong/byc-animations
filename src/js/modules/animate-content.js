@@ -124,9 +124,7 @@ export default class AnimateContent {
 
         if (targets) {
           for (const target of targets) {
-            // console.log(target);
             target.setAttribute('data-animate', effect);
-            console.log('effect');
 
             if (batch.dataset.animateStart) {
               target.setAttribute('data-animate-start', batch.dataset.animateStart);

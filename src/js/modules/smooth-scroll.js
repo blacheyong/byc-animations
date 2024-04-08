@@ -1,8 +1,7 @@
-import { defaults } from '../options';
+import { defaults } from "../options";
 // import Lenis from '@studio-freight/lenis'
 
 export default class SmoothScroll {
-
   constructor(options = {}, Lenis) {
     Object.assign(this, defaults, options);
     this.Lenis = Lenis;
@@ -26,24 +25,24 @@ export default class SmoothScroll {
       wheelMultiplier: this.scrollWheelMultiplier,
       wrapper: this.scrollWrapper,
       // scrollCallback: onScroll // remove from readme / doc
-    })
-    
+    });
+
     // get scroll value
-    window.scrollDirection = 'down';
-    
-    lenis.on('scroll', ({ direction, progress }) => {
+    window.scrollDirection = "down";
+
+    lenis.on("scroll", ({ direction, progress }) => {
       if (direction === 1) {
-        window.scrollDirection = 'down';
+        window.scrollDirection = "down";
       } else {
-        window.scrollDirection = 'up';
+        window.scrollDirection = "up";
       }
-    })
-    
+    });
+
     function raf(time) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
+      lenis.raf(time);
+      requestAnimationFrame(raf);
     }
-    
-    requestAnimationFrame(raf)
-  }  
+
+    requestAnimationFrame(raf);
+  }
 }

@@ -24,18 +24,20 @@ export default class BycAnimations {
         this.options = options;
         // Override default options with given ones
         Object.assign(this, defaults, options);
+
         this.init();
     }
 
     init() {
-        if(this.smoothScroll) {
-            // const scrollLenis = new SmoothScroll(this.options, Lenis);
-            new SmoothScroll(this.options, Lenis);
+        const prefersMotion = window.matchMedia('(prefers-reduced-motion: no-preference)');
+        if (prefersMotion.matches) {
+            if(this.smoothScroll) {
+                new SmoothScroll(this.options, Lenis);
+            }
+            
+            this.initAnimations();
         }
-
-        // new AnimateContent(this.options, gsap, ScrollTrigger);
-        // new Parallax(this.options, gsap, ScrollTrigger);
-        this.initAnimations();
+       
     }
 
     initAnimations() {

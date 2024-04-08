@@ -1,4 +1,4 @@
-// import BycAnimations from '../../src/js/byc-animations.js';
+import BycAnimations from '../../src/js/byc-animations.js';
 
 //------------------------------------------------------------------------
 // Import Prims.js
@@ -20,10 +20,10 @@ import '../sass/main.scss'
 //------------------------------------------------------------------------
 // Initiate BycAnimations
 //------------------------------------------------------------------------
-// let animations
-// animations = new BycAnimations({
-//   // animateMarkers: true
-// })
+let animations
+animations = new BycAnimations({
+  // animateMarkers: true
+})
 
 
 //------------------------------------------------------------------------
