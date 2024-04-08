@@ -9410,17 +9410,61 @@
             for (var _iterator2 = _createForOfIteratorHelperLoose(targets), _step2; !(_step2 = _iterator2()).done;) {
               var target = _step2.value;
               target.setAttribute('data-animate', effect);
+              if (batch.dataset.animateEasing) {
+                target.setAttribute('data-animate-easing', batch.dataset.animateEasing);
+              }
+              if (batch.dataset.animateDuration) {
+                target.setAttribute('data-animate-duration', batch.dataset.animateDuration);
+              }
               if (batch.dataset.animateStart) {
                 target.setAttribute('data-animate-start', batch.dataset.animateStart);
               }
               if (batch.dataset.animateEnd) {
                 target.setAttribute('data-animate-end', batch.dataset.animateEnd);
               }
+
+              /* Opacity */
+              if (batch.dataset.animateOpacityDuration) {
+                target.setAttribute('data-animate-opacity-duration', batch.dataset.animateOpacityDuration);
+              }
+              if (batch.dataset.animateOpacityStart) {
+                target.setAttribute('data-animate-opacity-start', batch.dataset.animateOpacityStart);
+              }
+              if (batch.dataset.animateOpacityEnd) {
+                target.setAttribute('data-animate-opacity-end', batch.dataset.animateOpacityEnd);
+              }
+
+              /* Reveal */
+              if (batch.dataset.animateBorderRadius) {
+                target.setAttribute('data-animate-border-radius', batch.dataset.animateBorderRadius);
+              }
               if (batch.dataset.animateBackground) {
                 target.setAttribute('data-animate-background', batch.dataset.animateBackground);
               }
               if (batch.dataset.animateForeground) {
                 target.setAttribute('data-animate-foreground', batch.dataset.animateForeground);
+              }
+              if (batch.dataset.animateRevealDelay) {
+                target.setAttribute('data-animate-reveal-delay', batch.dataset.animateRevealDelay);
+              }
+              if (batch.dataset.animateRevealDuration) {
+                target.setAttribute('data-animate-reveal-duration', batch.dataset.animateRevealDuration);
+              }
+
+              /* Slide */
+              if (batch.dataset.animateSlideDuration) {
+                target.setAttribute('data-animate-slide-duration', batch.dataset.animateSlideDuration);
+              }
+              if (batch.dataset.animateSlideOffset) {
+                target.setAttribute('data-animate-slide-offset', batch.dataset.animateSlideOffset);
+              }
+
+              /* Zoom */
+              if (batch.dataset.animateZoomStart) {
+                target.setAttribute('data-animate-zoom-start', batch.dataset.animateZoomStart);
+              }
+              if (batch.dataset.animateZoomEnd) {
+                target.setAttribute('data-animate-zoom-end', batch.dataset.animateZoomEnd);
               }
               var isRepeatableString = batch.getAttribute('data-animate-repeat');
               isRepeatable = isRepeatableString === 'true';
