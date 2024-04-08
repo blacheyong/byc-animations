@@ -9232,13 +9232,13 @@
       });
 
       // get scroll value
-      window.scrollDirection = 'down';
-      lenis.on('scroll', function (_ref) {
+      window.scrollDirection = "down";
+      lenis.on("scroll", function (_ref) {
         var direction = _ref.direction;
         if (direction === 1) {
-          window.scrollDirection = 'down';
+          window.scrollDirection = "down";
         } else {
-          window.scrollDirection = 'up';
+          window.scrollDirection = "up";
         }
       });
       function raf(time) {
@@ -9542,14 +9542,14 @@
     var _proto = Parallax.prototype;
     _proto.init = function init() {
       var _this = this;
-      this.gsap.utils.toArray('[data-parallax-from]').forEach(function (target) {
-        if (target.getAttribute('data-parallax-to')) {
-          var fromObject = JSON.parse(target.getAttribute('data-parallax-from'));
-          var toObject = JSON.parse(target.getAttribute('data-parallax-to'));
-          var isScrubString = target.getAttribute('data-parallax-scrub');
+      this.gsap.utils.toArray("[data-parallax-from]").forEach(function (target) {
+        if (target.getAttribute("data-parallax-to")) {
+          var fromObject = JSON.parse(target.getAttribute("data-parallax-from"));
+          var toObject = JSON.parse(target.getAttribute("data-parallax-to"));
+          var isScrubString = target.getAttribute("data-parallax-scrub");
           var isScrub = isScrubString;
-          if (isScrubString === 'true' || isScrubString === 'false') {
-            isScrub = isScrubString === 'true';
+          if (isScrubString === "true" || isScrubString === "false") {
+            isScrub = isScrubString === "true";
           } else {
             isScrub = Number(isScrubString);
           }
@@ -9563,7 +9563,7 @@
             markers: _this.parallaxMarkers
           });
         } else {
-          console.log('ERROR: data-parallax-to value is missing');
+          console.log("ERROR: data-parallax-to value is missing");
         }
       });
     };
@@ -9584,14 +9584,13 @@
     }
     var _proto = BycAnimations.prototype;
     _proto.init = function init() {
-      if (this.smoothScroll) {
-        // const scrollLenis = new SmoothScroll(this.options, Lenis);
-        new SmoothScroll(this.options, r);
+      var prefersMotion = window.matchMedia('(prefers-reduced-motion: no-preference)');
+      if (prefersMotion.matches) {
+        if (this.smoothScroll) {
+          new SmoothScroll(this.options, r);
+        }
+        this.initAnimations();
       }
-
-      // new AnimateContent(this.options, gsap, ScrollTrigger);
-      // new Parallax(this.options, gsap, ScrollTrigger);
-      this.initAnimations();
     };
     _proto.initAnimations = function initAnimations() {
       new AnimateContent(this.options, gsapWithCSS, ScrollTrigger);

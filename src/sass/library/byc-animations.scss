@@ -65,203 +65,205 @@ $animate-zoom-end: none !default;
   --#{$prefix}-animate-zoom-end: #{$animate-zoom-end};
 }
 
-// -------------------------
-// ANIMATIONS
-// -------------------------
-[data-animate] {
-  transition-duration: var(--#{$prefix}-animate-duration);
-  transition-delay: var(--#{$prefix}-animate-delay);
-  transition-timing-function: var(--#{$prefix}-animate-easing);
-}
-
-/* Batch default */
-[data-animate-batch] {
-  opacity: 0;
-
-  &.is-ready {
-    opacity: 1;
-  }
-}
-
-/* Fade / Opacity */
-[data-animate|='fade'] {
-  opacity: var(--#{$prefix}-animate-opacity-start);
-  transition-property: opacity;
-}
-
-[data-animate|='fade'].in-view {
-  opacity: var(--#{$prefix}-animate-opacity-end);
-}
-[data-animate|='fade'].out-view {
-  opacity: var(--#{$prefix}-animate-opacity-start);
-}
-
-/* Reveal */
-[data-animate|='reveal'] {
-  border-radius: var(--#{$prefix}-animate-border-radius);
-  overflow: hidden;
-  position: relative;
-  will-change: transform;
-
-  .reveal__background, 
-  .reveal__foreground {
-    display: block;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    pointer-events: none;
-    top: 0;
-    transform: translateY(0);
-    width: 100%;
-  }
-  .reveal__background {
-    transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
-    z-index: 2;
-  }
-  .reveal__foreground {
-    background-color: inherit;
-    transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
-    transition-delay: var(--#{$prefix}-animate-reveal-delay);
-    z-index: 3;
+@media (prefers-reduced-motion: no-preference) {
+  // -------------------------
+  // ANIMATIONS
+  // -------------------------
+  [data-animate] {
+    transition-duration: var(--#{$prefix}-animate-duration);
+    transition-delay: var(--#{$prefix}-animate-delay);
+    transition-timing-function: var(--#{$prefix}-animate-easing);
   }
 
-  &::before, 
-  &::after {
-    content: '';
-    display: block;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    pointer-events: none;
-    top: 0;
-    transform: translateY(0);
-    width: 100%;
-  }
-  &::before {
-    background-color: var(--#{$prefix}-animate-background-color);
-    transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
-    transition-delay: var(--#{$prefix}-animate-reveal-delay-extra);
-    z-index: 3;
-  }
-  &::after {
-    background-color: var(--#{$prefix}-animate-foreground-color);
-    transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
-    transition-delay: calc(var(--#{$prefix}-animate-reveal-delay) + var(--#{$prefix}-animate-reveal-delay-extra));
-    z-index: 2;
-  }
-}
-[data-animate|='reveal'].in-view {
-  .reveal__background {
-    transform: translateY(-100%);
-  }
-  .reveal__foreground {
-    transform: translateY(-100%);
+  /* Batch default */
+  [data-animate-batch] {
+    opacity: 0;
+
+    &.is-ready {
+      opacity: 1;
+    }
   }
 
-  &::before {
-    transform: translateY(-102%);
-  }
-  &::after {
-    transform: translateY(-102%);
-  }
-}
-
-[data-animate|='reveal'].out-view {
-  .reveal__background {
-    transform: translateY(0);
-  }
-  .reveal__foreground {
-    transform: translateY(0);
-  }
-
-  &::before {
-    transform: translateY(0);
-  }
-  &::after {
-    transform: translateY(0);
-  }
-}
-
-/* Slide */
-[data-animate|='slide'] {
-  opacity: var(--#{$prefix}-animate-opacity-start);
-  transform: translateY(var(--#{$prefix}-animate-slide-offset, var(--#{$prefix}-animate-slide-offset)));
-  transition-property: opacity, transform;
-  transition-duration: var(--#{$prefix}-animate-opacity-duration, var(--#{$prefix}-animate-opacity-duration)), var(--#{$prefix}-animate-slide-duration, var(--#{$prefix}-animate-slide-duration));
-}
-
-[data-animate|='slide'].in-view {
-  opacity: var(--#{$prefix}-animate-opacity-end);
-  transform: none;
-  transition-delay: var(--#{$prefix}-animate-delay);
-}
-
-[data-animate|='slide'].out-view {
-  opacity: var(--#{$prefix}-animate-opacity-start);
-  transform: translateY(var(--#{$prefix}-animate-slide-offset, - var(--#{$prefix}-animate-slide-offset)));
-  transition-delay: var(--#{$prefix}-animate-delay) !important;
-}
-
-/* Zoom */
-[data-animate|='zoom'] {
-  opacity: var(--#{$prefix}-animate-opacity-start);
-  transform: scale(var(--#{$prefix}-animate-zoom-start, var(--#{$prefix}-animate-zoom-start)));
-  transform-origin: center center;
-  transition-property: opacity, transform;
-}
-
-[data-animate|='zoom'].in-view {
-  opacity: var(--#{$prefix}-animate-opacity-end);
-  transform: scale(var(--#{$prefix}-animate-zoom-end, var(--#{$prefix}-animate-zoom-end)));
-  transition-delay: var(--#{$prefix}-animate-delay);
-}
-[data-animate|='zoom'].out-view {
-  opacity: var(--#{$prefix}-animate-opacity-start);
-  transform: scale(var(--#{$prefix}-animate-zoom-start, var(--#{$prefix}-animate-zoom-start)));
-  transition-delay: var(--#{$prefix}-animate-delay);
-}
-
-
-// -------------------------
-// MOBILE
-// -------------------------
-@media only screen and (max-width: 991.99px) {
-  [data-animate-mobile] {
-    display: block;
-  }
-
-  /* Fade */
-  [data-animate-mobile|='fade'] {
+  /* Fade / Opacity */
+  [data-animate|='fade'] {
     opacity: var(--#{$prefix}-animate-opacity-start);
     transition-property: opacity;
-
-    // Unset slide/zoom properties
-    transform: unset;
   }
-  
-  [data-animate-mobile|='fade'].in-view {
+
+  [data-animate|='fade'].in-view {
     opacity: var(--#{$prefix}-animate-opacity-end);
+  }
+  [data-animate|='fade'].out-view {
+    opacity: var(--#{$prefix}-animate-opacity-start);
+  }
+
+  /* Reveal */
+  [data-animate|='reveal'] {
+    border-radius: var(--#{$prefix}-animate-border-radius);
+    overflow: hidden;
+    position: relative;
+    will-change: transform;
+
+    .reveal__background, 
+    .reveal__foreground {
+      display: block;
+      height: 100%;
+      left: 0;
+      position: absolute;
+      pointer-events: none;
+      top: 0;
+      transform: translateY(0);
+      width: 100%;
+    }
+    .reveal__background {
+      transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
+      z-index: 2;
+    }
+    .reveal__foreground {
+      background-color: inherit;
+      transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
+      transition-delay: var(--#{$prefix}-animate-reveal-delay);
+      z-index: 3;
+    }
+
+    &::before, 
+    &::after {
+      content: '';
+      display: block;
+      height: 100%;
+      left: 0;
+      position: absolute;
+      pointer-events: none;
+      top: 0;
+      transform: translateY(0);
+      width: 100%;
+    }
+    &::before {
+      background-color: var(--#{$prefix}-animate-background-color);
+      transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
+      transition-delay: var(--#{$prefix}-animate-reveal-delay-extra);
+      z-index: 3;
+    }
+    &::after {
+      background-color: var(--#{$prefix}-animate-foreground-color);
+      transition: transform var(--#{$prefix}-animate-reveal-duration) var(--#{$prefix}-animate-easing);
+      transition-delay: calc(var(--#{$prefix}-animate-reveal-delay) + var(--#{$prefix}-animate-reveal-delay-extra));
+      z-index: 2;
+    }
+  }
+  [data-animate|='reveal'].in-view {
+    .reveal__background {
+      transform: translateY(-100%);
+    }
+    .reveal__foreground {
+      transform: translateY(-100%);
+    }
+
+    &::before {
+      transform: translateY(-100%);
+    }
+    &::after {
+      transform: translateY(-100%);
+    }
+  }
+
+  [data-animate|='reveal'].out-view {
+    .reveal__background {
+      transform: translateY(0);
+    }
+    .reveal__foreground {
+      transform: translateY(0);
+    }
+
+    &::before {
+      transform: translateY(0);
+    }
+    &::after {
+      transform: translateY(0);
+    }
   }
 
   /* Slide */
-  [data-animate-mobile|='slide'] {
+  [data-animate|='slide'] {
     opacity: var(--#{$prefix}-animate-opacity-start);
     transform: translateY(var(--#{$prefix}-animate-slide-offset, var(--#{$prefix}-animate-slide-offset)));
     transition-property: opacity, transform;
-    transition-duration: var(--#{$prefix}-animate-opacity-duration, var(--#{$prefix}-opacity-duration)), var(--#{$prefix}-animate-slide-duration, var(--#{$prefix}-animate-slide-duration));
+    transition-duration: var(--#{$prefix}-animate-opacity-duration, var(--#{$prefix}-animate-opacity-duration)), var(--#{$prefix}-animate-slide-duration, var(--#{$prefix}-animate-slide-duration));
+  }
+
+  [data-animate|='slide'].in-view {
+    opacity: var(--#{$prefix}-animate-opacity-end);
+    transform: none;
+    transition-delay: var(--#{$prefix}-animate-delay);
+  }
+
+  [data-animate|='slide'].out-view {
+    opacity: var(--#{$prefix}-animate-opacity-start);
+    transform: translateY(var(--#{$prefix}-animate-slide-offset, - var(--#{$prefix}-animate-slide-offset)));
+    transition-delay: var(--#{$prefix}-animate-delay) !important;
   }
 
   /* Zoom */
-  [data-animate-mobile|='zoom'] {
+  [data-animate|='zoom'] {
     opacity: var(--#{$prefix}-animate-opacity-start);
     transform: scale(var(--#{$prefix}-animate-zoom-start, var(--#{$prefix}-animate-zoom-start)));
     transform-origin: center center;
     transition-property: opacity, transform;
   }
 
-  [data-animate-mobile|='slide'].in-view,
-  [data-animate-mobile|='zoom'].in-view {
+  [data-animate|='zoom'].in-view {
     opacity: var(--#{$prefix}-animate-opacity-end);
-    transform: none;
+    transform: scale(var(--#{$prefix}-animate-zoom-end, var(--#{$prefix}-animate-zoom-end)));
+    transition-delay: var(--#{$prefix}-animate-delay);
+  }
+  [data-animate|='zoom'].out-view {
+    opacity: var(--#{$prefix}-animate-opacity-start);
+    transform: scale(var(--#{$prefix}-animate-zoom-start, var(--#{$prefix}-animate-zoom-start)));
+    transition-delay: var(--#{$prefix}-animate-delay);
+  }
+
+
+  // -------------------------
+  // MOBILE
+  // -------------------------
+  @media only screen and (max-width: 991.99px) {
+    [data-animate-mobile] {
+      display: block;
+    }
+
+    /* Fade */
+    [data-animate-mobile|='fade'] {
+      opacity: var(--#{$prefix}-animate-opacity-start);
+      transition-property: opacity;
+
+      // Unset slide/zoom properties
+      transform: unset;
+    }
+    
+    [data-animate-mobile|='fade'].in-view {
+      opacity: var(--#{$prefix}-animate-opacity-end);
+    }
+
+    /* Slide */
+    [data-animate-mobile|='slide'] {
+      opacity: var(--#{$prefix}-animate-opacity-start);
+      transform: translateY(var(--#{$prefix}-animate-slide-offset, var(--#{$prefix}-animate-slide-offset)));
+      transition-property: opacity, transform;
+      transition-duration: var(--#{$prefix}-animate-opacity-duration, var(--#{$prefix}-opacity-duration)), var(--#{$prefix}-animate-slide-duration, var(--#{$prefix}-animate-slide-duration));
+    }
+
+    /* Zoom */
+    [data-animate-mobile|='zoom'] {
+      opacity: var(--#{$prefix}-animate-opacity-start);
+      transform: scale(var(--#{$prefix}-animate-zoom-start, var(--#{$prefix}-animate-zoom-start)));
+      transform-origin: center center;
+      transition-property: opacity, transform;
+    }
+
+    [data-animate-mobile|='slide'].in-view,
+    [data-animate-mobile|='zoom'].in-view {
+      opacity: var(--#{$prefix}-animate-opacity-end);
+      transform: none;
+    }
   }
 }
