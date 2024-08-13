@@ -25,6 +25,7 @@ $animate-foreground-color: #F4F4F4 !default;
 $animate-reveal-delay: .35s !default;
 $animate-reveal-delay-extra: 0s !default;
 $animate-reveal-duration: .4s !default;
+$animate-reveal-translate-y: -100% !default;
 
 /* Slide */
 $animate-slide-duration: 0.65s !default;
@@ -55,6 +56,7 @@ $animate-zoom-end: none !default;
   --#{$prefix}-animate-reveal-delay: #{$animate-reveal-delay};
   --#{$prefix}-animate-reveal-delay-extra: #{$animate-reveal-delay-extra};
   --#{$prefix}-animate-reveal-duration: #{$animate-reveal-duration};
+  --#{$prefix}-animate-reveal-translate-y: #{$animate-reveal-translate-y};
 
   /* Slide */
   --#{$prefix}-animate-slide-duration: #{$animate-slide-duration};
@@ -85,7 +87,7 @@ $animate-zoom-end: none !default;
   }
 
   /* Fade / Opacity */
-  [data-animate|='fade'] {
+  [data-animate|='fade'], [data-animate-effect="fade"]:not(.is-ready) > * {
     opacity: var(--#{$prefix}-animate-opacity-start);
     transition-property: opacity;
   }
@@ -98,7 +100,7 @@ $animate-zoom-end: none !default;
   }
 
   /* Reveal */
-  [data-animate|='reveal'] {
+  [data-animate|='reveal'], [data-animate-effect="reveal"]:not(.is-ready) > * {
     border-radius: var(--#{$prefix}-animate-border-radius);
     overflow: hidden;
     position: relative;
@@ -153,17 +155,17 @@ $animate-zoom-end: none !default;
   }
   [data-animate|='reveal'].in-view {
     .reveal__background {
-      transform: translateY(-100%);
+      transform: translateY(var(--#{$prefix}-animate-reveal-translate-y));
     }
     .reveal__foreground {
-      transform: translateY(-100%);
+      transform: translateY(var(--#{$prefix}-animate-reveal-translate-y));
     }
 
     &::before {
-      transform: translateY(-100%);
+      transform: translateY(var(--#{$prefix}-animate-reveal-translate-y));
     }
     &::after {
-      transform: translateY(-100%);
+      transform: translateY(var(--#{$prefix}-animate-reveal-translate-y));
     }
   }
 
@@ -184,7 +186,7 @@ $animate-zoom-end: none !default;
   }
 
   /* Slide */
-  [data-animate|='slide'] {
+  [data-animate|='slide'], [data-animate-effect="slide"]:not(.is-ready) > * {
     opacity: var(--#{$prefix}-animate-opacity-start);
     transform: translateY(var(--#{$prefix}-animate-slide-offset, var(--#{$prefix}-animate-slide-offset)));
     transition-property: opacity, transform;

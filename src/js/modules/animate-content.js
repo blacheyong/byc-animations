@@ -58,6 +58,9 @@ export default class AnimateContent {
     if (thisTarget.hasAttribute('data-animate-reveal-duration')) {
       target.style.setProperty(`--${this.prefix}-animate-reveal-duration`, thisTarget.getAttribute('data-animate-reveal-duration') + 's');
     }
+    if (thisTarget.hasAttribute('data-animate-reveal-translate-y')) {
+      target.style.setProperty(`--${this.prefix}-animate-reveal-translate-y`, thisTarget.getAttribute('data-animate-reveal-translate-y'));
+    }
     /* Slide */
     if (thisTarget.hasAttribute('data-animate-slide-duration')) {
       target.style.setProperty(`--${this.prefix}-animate-slide-duration`, thisTarget.getAttribute('data-animate-slide-duration') + 's');
@@ -122,6 +125,8 @@ export default class AnimateContent {
         let animateDelay = 0;
         let isRepeatable = false;
 
+        console.log(batch)
+
         if (targets) {
           for (const target of targets) {
             target.setAttribute('data-animate', effect);
@@ -166,6 +171,9 @@ export default class AnimateContent {
             if (batch.dataset.animateRevealDuration) {
               target.setAttribute('data-animate-reveal-duration', batch.dataset.animateRevealDuration);
             }
+            if (batch.dataset.animateRevealTranslateY) {
+              target.setAttribute('data-animate-reveal-translate-y', batch.dataset.animateRevealTranslateY);
+            }
 
             /* Slide */
             if (batch.dataset.animateSlideDuration) {
@@ -193,6 +201,8 @@ export default class AnimateContent {
           }
 
           this.ScrollTrigger.batch(targets, {
+            start: batch.dataset.animateStart ? batch.dataset.animateStart : this.animateStart,
+            end: batch.dataset.animateEnd ? batch.dataset.animateEnd : this.animateEnd,
             onEnter: (elements) => {
               this.gsap.to(elements, {
                 stagger: {
