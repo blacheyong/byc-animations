@@ -19,6 +19,7 @@
   --byc-animate-reveal-delay: 0.35s;
   --byc-animate-reveal-delay-extra: 0s;
   --byc-animate-reveal-duration: 0.4s;
+  --byc-animate-reveal-translate-y: -100%;
   /* Slide */
   --byc-animate-slide-duration: 0.65s;
   --byc-animate-slide-offset: 50px;
@@ -41,7 +42,7 @@
     opacity: 1;
   }
   /* Fade / Opacity */
-  [data-animate|=fade] {
+  [data-animate|=fade], [data-animate-effect=fade]:not(.is-ready) > * {
     opacity: var(--byc-animate-opacity-start);
     transition-property: opacity;
   }
@@ -52,14 +53,15 @@
     opacity: var(--byc-animate-opacity-start);
   }
   /* Reveal */
-  [data-animate|=reveal] {
+  [data-animate|=reveal], [data-animate-effect=reveal]:not(.is-ready) > * {
     border-radius: var(--byc-animate-border-radius);
     overflow: hidden;
     position: relative;
     will-change: transform;
   }
   [data-animate|=reveal] .reveal__background,
-  [data-animate|=reveal] .reveal__foreground {
+  [data-animate|=reveal] .reveal__foreground, [data-animate-effect=reveal]:not(.is-ready) > * .reveal__background,
+  [data-animate-effect=reveal]:not(.is-ready) > * .reveal__foreground {
     display: block;
     height: 100%;
     left: 0;
@@ -69,17 +71,17 @@
     transform: translateY(0);
     width: 100%;
   }
-  [data-animate|=reveal] .reveal__background {
+  [data-animate|=reveal] .reveal__background, [data-animate-effect=reveal]:not(.is-ready) > * .reveal__background {
     transition: transform var(--byc-animate-reveal-duration) var(--byc-animate-easing);
     z-index: 2;
   }
-  [data-animate|=reveal] .reveal__foreground {
+  [data-animate|=reveal] .reveal__foreground, [data-animate-effect=reveal]:not(.is-ready) > * .reveal__foreground {
     background-color: inherit;
     transition: transform var(--byc-animate-reveal-duration) var(--byc-animate-easing);
     transition-delay: var(--byc-animate-reveal-delay);
     z-index: 3;
   }
-  [data-animate|=reveal]::before, [data-animate|=reveal]::after {
+  [data-animate|=reveal]::before, [data-animate|=reveal]::after, [data-animate-effect=reveal]:not(.is-ready) > *::before, [data-animate-effect=reveal]:not(.is-ready) > *::after {
     content: "";
     display: block;
     height: 100%;
@@ -90,29 +92,29 @@
     transform: translateY(0);
     width: 100%;
   }
-  [data-animate|=reveal]::before {
+  [data-animate|=reveal]::before, [data-animate-effect=reveal]:not(.is-ready) > *::before {
     background-color: var(--byc-animate-background-color);
     transition: transform var(--byc-animate-reveal-duration) var(--byc-animate-easing);
     transition-delay: var(--byc-animate-reveal-delay-extra);
     z-index: 3;
   }
-  [data-animate|=reveal]::after {
+  [data-animate|=reveal]::after, [data-animate-effect=reveal]:not(.is-ready) > *::after {
     background-color: var(--byc-animate-foreground-color);
     transition: transform var(--byc-animate-reveal-duration) var(--byc-animate-easing);
     transition-delay: calc(var(--byc-animate-reveal-delay) + var(--byc-animate-reveal-delay-extra));
     z-index: 2;
   }
   [data-animate|=reveal].in-view .reveal__background {
-    transform: translateY(-100%);
+    transform: translateY(var(--byc-animate-reveal-translate-y));
   }
   [data-animate|=reveal].in-view .reveal__foreground {
-    transform: translateY(-100%);
+    transform: translateY(var(--byc-animate-reveal-translate-y));
   }
   [data-animate|=reveal].in-view::before {
-    transform: translateY(-100%);
+    transform: translateY(var(--byc-animate-reveal-translate-y));
   }
   [data-animate|=reveal].in-view::after {
-    transform: translateY(-100%);
+    transform: translateY(var(--byc-animate-reveal-translate-y));
   }
   [data-animate|=reveal].out-view .reveal__background {
     transform: translateY(0);
@@ -127,7 +129,7 @@
     transform: translateY(0);
   }
   /* Slide */
-  [data-animate|=slide] {
+  [data-animate|=slide], [data-animate-effect=slide]:not(.is-ready) > * {
     opacity: var(--byc-animate-opacity-start);
     transform: translateY(var(--byc-animate-slide-offset, var(--byc-animate-slide-offset)));
     transition-property: opacity, transform;

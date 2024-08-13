@@ -9343,6 +9343,9 @@
         if (thisTarget.hasAttribute('data-animate-reveal-duration')) {
           target.style.setProperty("--" + _this.prefix + "-animate-reveal-duration", thisTarget.getAttribute('data-animate-reveal-duration') + 's');
         }
+        if (thisTarget.hasAttribute('data-animate-reveal-translate-y')) {
+          target.style.setProperty("--" + _this.prefix + "-animate-reveal-translate-y", thisTarget.getAttribute('data-animate-reveal-translate-y'));
+        }
         /* Slide */
         if (thisTarget.hasAttribute('data-animate-slide-duration')) {
           target.style.setProperty("--" + _this.prefix + "-animate-slide-duration", thisTarget.getAttribute('data-animate-slide-duration') + 's');
@@ -9406,6 +9409,7 @@
           var outView = _this2.outViewClass;
           var animateDelay = 0;
           var isRepeatable = false;
+          console.log(batch);
           if (targets) {
             for (var _iterator2 = _createForOfIteratorHelperLoose(targets), _step2; !(_step2 = _iterator2()).done;) {
               var target = _step2.value;
@@ -9450,6 +9454,9 @@
               if (batch.dataset.animateRevealDuration) {
                 target.setAttribute('data-animate-reveal-duration', batch.dataset.animateRevealDuration);
               }
+              if (batch.dataset.animateRevealTranslateY) {
+                target.setAttribute('data-animate-reveal-translate-y', batch.dataset.animateRevealTranslateY);
+              }
 
               /* Slide */
               if (batch.dataset.animateSlideDuration) {
@@ -9472,6 +9479,8 @@
               _this2.setAnimateAttributes(target);
             }
             _this2.ScrollTrigger.batch(targets, {
+              start: batch.dataset.animateStart ? batch.dataset.animateStart : _this2.animateStart,
+              end: batch.dataset.animateEnd ? batch.dataset.animateEnd : _this2.animateEnd,
               onEnter: function onEnter(elements) {
                 _this2.gsap.to(elements, {
                   stagger: {

@@ -37,7 +37,7 @@ export default class BycAnimations {
             
             this.initAnimations();
         }
-       
+
     }
 
     initAnimations() {
