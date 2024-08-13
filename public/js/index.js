@@ -15,7 +15,7 @@ import 'prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.js';
 //------------------------------------------------------------------------
 // Import SCSS
 //------------------------------------------------------------------------
-import '../sass/main.scss'
+import '../sass/main.scss';
 
 //------------------------------------------------------------------------
 // Initiate BycAnimations
