@@ -1,0 +1,12 @@
+{
+    "copyFiles": [
+      {
+        "from": "src/sass/library/byc-animations.scss",
+        "to": "dist/byc-animations.scss"
+      }
+    ],
+    "copyFilesSettings": {
+        "whenFileExists": "overwrite"
+    }
+}
+  
