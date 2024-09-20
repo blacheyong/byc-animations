@@ -2,7 +2,7 @@
   "name": "byc-animations",
   "displayName": "BYC Animations Library",
   "private": false,
-  "version": "2.6.4",
+  "version": "2.6.5",
   "files": [
     "dist",
     "bundled"
