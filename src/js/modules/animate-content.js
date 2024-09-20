@@ -125,8 +125,6 @@ export default class AnimateContent {
         let animateDelay = 0;
         let isRepeatable = false;
 
-        console.log(batch)
-
         if (targets) {
           for (const target of targets) {
             target.setAttribute('data-animate', effect);
