@@ -3,6 +3,7 @@ export const defaults = {
   
   // Animate Content
   animateStart: 'top 70%',
+  animateMobileStart: 'top bottom',
   animateEnd: '',
   animateMarkers: false,
   inViewClass: 'in-view',

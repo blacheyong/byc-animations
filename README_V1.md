@@ -1,6 +1,6 @@
-<h1 align="center">Blache Yong &amp; CO Animations Library Documentation</h1>
+<h1 align="center">Blache Yong &amp; CO animations library</h1>
 
-Welcome to the Blache Yong & Co animations library! This library provides utilities for on-scroll animations, viewport entry effects, and parallax features. Powered by GSAP and ScrollTrigger, it enables dynamic and engaging animations.
+On scroll animation utilities, elements entering viewport + parallax effects. This library uses GSAP and Scrolltrigger.
 
 <a href="https://blacheyong.github.io/byc-animations/" target="_blank">Visit our demo page</a>
 
@@ -37,21 +37,21 @@ const animation = new BycAnimations();
 
 | Option                    | Type                   | Default         | Description                                                                 |
 | -----------------------   | ---------------------- | --------------- | --------------------------------------------------------------------------- |
-| `animateStart`            | `string`               | `top 70%`       | Trigger animation when a specific part of the element meets a location in the viewport.     |
-| `animateMobileStart`      | `string`               | `top bottom`    | Similar to animateStart, but for viewports smaller than 768px.    |
-| `animateEnd`              | `string`               | `''`            | Defines when the animation should stop based on viewport positions.      |
-| `animateMarkers`          | `boolean, object`      | `false`         | Displays markers during development to debug animation trigger points. Example:  `{startColor: "green", endColor: "red", fontSize: "12px"}`       |
-| `inViewClass`             | `string`               | `in-view`       | Class applied to an element when it enters the viewport.                |
-| `outViewClass`            | `string`               | `out-view`      | Class applied when the element leaves the viewport.            |
-| `parallaxStart`           | `string`               | `top bottom`    | Trigger parallax animation when a specific part of the element meets a location in the viewport.    |
-| `parallaxEnd`             | `string`               | `''`            | Defines the stopping point for parallax effects.      |
-| `parallaxMarkers`         | `boolean, object`      | `false`         | Displays visual markers for parallax debug. Example: `{startColor: "green", endColor: "red", fontSize: "12px"}`              |
-| `parallaxScrub`           | `boolean, number`      | `true`          | If `true`, syncs animation progress to scroll. Use a `number` for smooth scrubbing in seconds (e.g., `0.5`).        |
-| `smoothScroll`            | `boolean`              | `true`          | Disables smooth scrolling if set to `false`.                           |
+| `animateStart`            | `string`               | `top 70%`       | First value represents the part of the trigger which will initiate the animation once it meets the second value. The second value represents a location in the viewport.     |
+| `animateMobileStart`      | `string`               | `top bottom`    | For viewports < 768px. First value represents the part of the trigger which will initiate the animation once it meets the second value. The second value represents a location in the viewport.    |
+| `animateEnd`              | `string`               | `''`            | First value represents the part of the trigger which will trigger the animation once it meets the second value. The second value represents a location in the viewport.      |
+| `animateMarkers`          | `boolean, object`      | `false`         | Enable visual markers for animate-content during development to see exactly where the start/end/trigger points are. Customization options abound, like markers: `{startColor: "green", endColor: "red", fontSize: "12px"}`       |
+| `inViewClass`             | `string`               | `in-view`       | HTML class to apply on an element once its in the viewport.                 |
+| `outViewClass`            | `string`               | `out-view`      | HTML class to apply on an element once its outside the viewport.            |
+| `parallaxStart`           | `string`               | `top bottom`    | First value represents the part of the trigger which will initiate the animation once it meets the second value. The second value represents a location in the viewport.     |
+| `parallaxEnd`             | `string`               | `''`            | First value represents the part of the trigger which will trigger the animation once it meets the second value. The second value represents a location in the viewport.      |
+| `parallaxMarkers`         | `boolean, object`      | `false`         | Enable visual markers for parallax during development to see exactly where the start/end/trigger points are. Customization options abound, like markers: `{startColor: "green", endColor: "red", fontSize: "12px"}`              |
+| `parallaxScrub`           | `boolean, number`      | `true`          | <ul style="padding-left: 15px;"><li> **Boolean:** if `true`, links the animation's progress directly to the ScrollTrigger's progress.</li> <li> **Number:** The amount of time (in seconds) that the playhead should take to "catch up", so scrub: 0.5 would cause the animation's playhead to take 0.5 seconds to catch up with the scrollbar's position. It's great for smoothing things out.</li></ul>        |
+| `smoothScroll`            | `boolean`              | `true`          | Set to `false` to disable lenis smooth scrolling.                           |
 | `scrollDirection`         | `string`               | `vertical`      | Scroll direction: `vertical` or `horizontal`                                |
 | `scrollGestureDirection`  | `string`               | `vertical`      | Your gesture direction on your trackpad/magic mouse or your touch devices. `vertical`, `horizontal` or `both`                                                                |
-| `scrollDuration`          | `number`               | `1.2`           | Animation duration for scroll effects in seconds.                              |
-| `scrollEasing`            | `function`             | `Math.min(1, 1.001 - Math.pow(2, -10 * t))`           | Easing function for scroll animations. <a href="https://easings.net/en">Expore Easings</a>.    |
+| `scrollDuration`          | `number`               | `1.2`           | The duration of scroll animation (in seconds).                              |
+| `scrollEasing`            | `function`             | `Math.min(1, 1.001 - Math.pow(2, -10 * t))`           | The easing function to use for the scroll animation, our default is custom but you can pick one from <a href="https://easings.net/en">Easings.net</a>.    |
 | `scrollInfinite`          | `boolean`              | `false`         | Enable infinite scrolling.                                                  |
 | `scrollTouchMultiplier`   | `number`               | `2`             | Multiply touch action to scroll faster than finger movement.                                    |
 | `scrollWheelMultiplier`   | `number`               | `1`             | Multiply wheel action to scroll faster than wheel movement.                                    |
@@ -70,20 +70,20 @@ You can override the following variables (need to be done before importing the B
 
 | Variable                         | Default                | Description                                                                                   |
 | -------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------- |
-| `$animate-easing`                | `ease-in-out` | Default easing function for transitions.  
-| `$animate-delay`                 | `0s`          | Delay before animation starts.
-| `$animate-duration`              | `0.35s`       | Duration of the animation.                                                             |  
+| `$animate-easing`                | `ease-in-out` | Default transition easing value  
+| `$animate-delay`                 | `0s`          | Default delay value  
+| `$animate-duration`              | `0.35s`       | Default transition duration value                                                             |  
 | `$animate-opacity-duration`      | `0.35s`       | Default opacity duration value   
-| `$animate-opacity-start`         | `0`           | Starting opacity for animations. 
-| `$animate-opacity-end`           | `1`           | Ending opacity for animations.   
+| `$animate-opacity-start`         | `0`           | Default opacity start value  
+| `$animate-opacity-end`           | `1`           | Default opacity end value   
 | `$animate-border-radius`         | `0`           | Default border-radius value on reveal pseudo-elements 
-| `$animate-background-color`      | `#FFFFFF`     | Background color for reveal animations.
+| `$animate-background-color`      | `#FFFFFF`     | Default background-color value of reveal animation 
 | `$animate-foreground-color`      | `#F4F4F4`     | Default foreground-color value of reveal animation 
 | `$animate-reveal-delay`          | `0.35s`       | Default reveal delay value   
 | `$animate-reveal-duration`       | `0.4s`        | Default reveal duration value   
 | `$animate-reveal-translate-y`    | `-100%`       | Default reveal translate-y value   
 | `$animate-slide-duration`        | `0.65s`       | Default slide duration value    
-| `$animate-slide-offset`          | `50px`        | Offset value for slide animations.
+| `$animate-slide-offset`          | `50px`        | Default slide offset value   
 | `$animate-zoom-start`            | `.5`          | Default zoom start value                             |
 | `$animate-zoom-end`              | `none`        | Default zoom end value                               |
 
@@ -149,8 +149,8 @@ You can override the following variables (need to be done before importing the B
 
 | Attribute                    | Type                     | Description                                                                              |
 | ---------------------------- | ------------------------ | ---------------------------------------------------------------------------------------- |
-| `data-parallax-from`         | `string`                 | Starting values for parallax animation. Example: `{ "opacity": "1", "translateY": "0" }`|
-| `data-parallax-to`           | `string`                 | Ending values for parallax animation. Example: `{ "opacity": "0.25", "translateY": "-350px" }` |
+| `data-parallax-from`         | `string`                 | Define the starting values to animate "from". Ex: `{ "opacity": "1", "translateY": "0" }`|
+| `data-parallax-to`           | `string`                 | Define the end values to animate "to". Ex: `{ "opacity": "0.25", "translateY": "-350px" }` |
 | `data-parallax-start`        | `string`                 | (Optional) Override default start position. First value represents the part of the trigger which will initiate the animation once it meets the second value. The second value represents a location in the viewport. Ex: `top center`  |
 | `data-parallax-end`          | `string`                 | (Optional) Override default end position. First value represents the part of the trigger which will trigger the animation once it meets the second value. The second value represents a location in the viewport. Ex: `center 20%`  |
 | `data-parallax-scrub`        | `boolean, number`        | (Optional) <ul style="margin-top: 5px; padding-left: 15px;"><li> **Boolean:** if `true`, links the animation's progress directly to the ScrollTrigger's progress.</li> <li> **Number:** The amount of time (in seconds) that the playhead should take to "catch up", so scrub: 0.5 would cause the animation's playhead to take 0.5 seconds to catch up with the scrollbar's position. It's great for smoothing things out.</li></ul> |
