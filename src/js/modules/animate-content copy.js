@@ -7,7 +7,6 @@ export default class AnimateContent {
     Object.assign(this, defaults, options);
     this.gsap = gsap;
     this.ScrollTrigger = ScrollTrigger;
-    this.mm = gsap.matchMedia();
 
     this.prefix = options.prefix ? options.prefix : defaults.prefix;
 
@@ -99,7 +98,7 @@ export default class AnimateContent {
           trigger: target.dataset.animateTrigger ? target.dataset.animateTrigger : target,
           start: animateStart,
           end: target.dataset.animateEnd ? target.dataset.animateEnd : this.animateEnd,
-          markers: target.dataset.showMarkers ? target.dataset.showMarkers : this.animateMarkers,
+          markers: this.animateMarkers,
           onEnter: () => {
             target.classList.add(this.inViewClass)
           },
@@ -129,8 +128,7 @@ export default class AnimateContent {
         const effect = batch.dataset.animateEffect;
         const inView = this.inViewClass;
         const outView = this.outViewClass;
-        let animateStart = batch.dataset.animateStart ? batch.dataset.animateStart : this.animateStart
-        let animateDelay = batch.getAttribute('data-animate-delay') ? batch.getAttribute('data-animate-delay'): 0;
+        let animateDelay = 0;
         let isRepeatable = false;
 
         if (targets) {
@@ -210,9 +208,8 @@ export default class AnimateContent {
           }
 
           this.ScrollTrigger.batch(targets, {
-            start: animateStart,
+            start: batch.dataset.animateStart ? batch.dataset.animateStart : this.animateStart,
             end: batch.dataset.animateEnd ? batch.dataset.animateEnd : this.animateEnd,
-            markers: batch.dataset.showMarkers ? batch.dataset.showMarkers : this.animateMarkers,
             onEnter: (elements) => {
               this.gsap.to(elements, {
                 stagger: {

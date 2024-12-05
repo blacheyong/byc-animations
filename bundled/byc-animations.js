@@ -9170,6 +9170,7 @@
     prefix: 'byc',
     // Animate Content
     animateStart: 'top 70%',
+    animateMobileStart: 'top bottom',
     animateEnd: '',
     animateMarkers: false,
     inViewClass: 'in-view',
@@ -9291,6 +9292,7 @@
       Object.assign(this, defaults, options);
       this.gsap = gsap;
       this.ScrollTrigger = ScrollTrigger;
+      this.mm = gsap.matchMedia();
       this.prefix = options.prefix ? options.prefix : defaults.prefix;
       this.init();
     }
@@ -9372,12 +9374,16 @@
         this.gsap.utils.toArray(myBlocks).forEach(function (target) {
           var isRepeatableString = target.getAttribute('data-animate-repeat');
           var isRepeatable = isRepeatableString === 'true';
+          var animateStart = target.dataset.animateStart ? target.dataset.animateStart : _this2.animateStart;
+          _this2.mm.add("(max-width: 767.98px)", function () {
+            animateStart = target.getAttribute('data-animate-mobile-start') ? target.getAttribute('data-animate-mobile-start') : _this2.animateMobileStart;
+          });
           _this2.setAnimateAttributes(target);
           _this2.ScrollTrigger.create({
             trigger: target.dataset.animateTrigger ? target.dataset.animateTrigger : target,
-            start: target.dataset.animateStart ? target.dataset.animateStart : _this2.animateStart,
+            start: animateStart,
             end: target.dataset.animateEnd ? target.dataset.animateEnd : _this2.animateEnd,
-            markers: _this2.animateMarkers,
+            markers: target.dataset.showMarkers ? target.dataset.showMarkers : _this2.animateMarkers,
             onEnter: function onEnter() {
               target.classList.add(_this2.inViewClass);
             },
@@ -9407,9 +9413,9 @@
           var effect = batch.dataset.animateEffect;
           var inView = _this2.inViewClass;
           var outView = _this2.outViewClass;
-          var animateDelay = 0;
+          var animateStart = batch.dataset.animateStart ? batch.dataset.animateStart : _this2.animateStart;
+          var animateDelay = batch.getAttribute('data-animate-delay') ? batch.getAttribute('data-animate-delay') : 0;
           var isRepeatable = false;
-          console.log(batch);
           if (targets) {
             for (var _iterator2 = _createForOfIteratorHelperLoose(targets), _step2; !(_step2 = _iterator2()).done;) {
               var target = _step2.value;
@@ -9475,12 +9481,16 @@
               }
               var isRepeatableString = batch.getAttribute('data-animate-repeat');
               isRepeatable = isRepeatableString === 'true';
-              animateDelay = batch.getAttribute('data-animate-delay');
+              _this2.mm.add("(max-width: 767.98px)", function () {
+                animateDelay = batch.getAttribute('data-animate-mobile-delay') ? batch.getAttribute('data-animate-mobile-delay') : animateDelay;
+                animateStart = batch.getAttribute('data-animate-mobile-start') ? batch.getAttribute('data-animate-mobile-start') : _this2.animateMobileStart;
+              });
               _this2.setAnimateAttributes(target);
             }
             _this2.ScrollTrigger.batch(targets, {
-              start: batch.dataset.animateStart ? batch.dataset.animateStart : _this2.animateStart,
+              start: animateStart,
               end: batch.dataset.animateEnd ? batch.dataset.animateEnd : _this2.animateEnd,
+              markers: batch.dataset.showMarkers ? batch.dataset.showMarkers : _this2.animateMarkers,
               onEnter: function onEnter(elements) {
                 _this2.gsap.to(elements, {
                   stagger: {
