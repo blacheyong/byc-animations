@@ -1,5 +1,6 @@
 export const defaults = {
   prefix: 'byc',
+  wrapper: document,
   
   // Animate Content
   animateStart: 'top 70%',
