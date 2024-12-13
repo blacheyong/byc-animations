@@ -9,6 +9,8 @@ export default class AnimateContent {
     this.ScrollTrigger = ScrollTrigger;
     this.mm = gsap.matchMedia();
 
+    this.wrapper = options.wrapper ? document.querySelector(options.wrapper) : document;
+
     this.prefix = options.prefix ? options.prefix : defaults.prefix;
 
     this.init();
@@ -79,7 +81,7 @@ export default class AnimateContent {
   }
 
   init() {
-    const myBlocks = document.querySelectorAll('[data-animate]');
+    const myBlocks = this.wrapper.querySelectorAll('[data-animate]');
 
     if (myBlocks) {
       this.gsap.utils.toArray(myBlocks).forEach((target) => {
@@ -122,7 +124,7 @@ export default class AnimateContent {
       });
     }
 
-    const batches = document.querySelectorAll('[data-animate-batch]');
+    const batches = this.wrapper.querySelectorAll('[data-animate-batch]');
     if ( batches ) {
       for (const batch of batches) {
         const targets = batch.querySelectorAll(batch.dataset.animateBatch);

@@ -37,6 +37,7 @@ const animation = new BycAnimations();
 
 | Option                    | Type                   | Default         | Description                                                                 |
 | -----------------------   | ---------------------- | --------------- | --------------------------------------------------------------------------- |
+| `wrapper`            | `string`               | `document`       | Specifies the wrapper element for scoping animations to a specific wrapper instead of the entire document.     |
 | `animateStart`            | `string`               | `top 70%`       | Trigger animation when a specific part of the element meets a location in the viewport.     |
 | `animateMobileStart`      | `string`               | `top bottom`    | Similar to animateStart, but for viewports smaller than 768px.    |
 | `animateEnd`              | `string`               | `''`            | Defines when the animation should stop based on viewport positions.      |
