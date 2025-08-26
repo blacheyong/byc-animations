@@ -9542,12 +9542,38 @@
 
       // get scroll value
       window.scrollDirection = "down";
+      var _ticking = false;
+      var invokeCallback = function invokeCallback(args) {
+        if (typeof _this.scrollCallback === 'function') {
+          try {
+            _this.scrollCallback(args);
+          } catch (e) {/* noop */}
+        }
+      };
       lenis.on("scroll", function (_ref) {
-        var direction = _ref.direction;
+        var direction = _ref.direction,
+          progress = _ref.progress,
+          scroll = _ref.scroll,
+          limit = _ref.limit,
+          velocity = _ref.velocity;
         if (direction === 1) {
           window.scrollDirection = "down";
         } else {
           window.scrollDirection = "up";
+        }
+        // rAF-throttle user callback
+        if (!_ticking) {
+          _ticking = true;
+          requestAnimationFrame(function () {
+            _ticking = false;
+            invokeCallback({
+              direction: direction,
+              progress: progress,
+              scroll: scroll,
+              limit: limit,
+              velocity: velocity
+            });
+          });
         }
       });
 
@@ -9626,8 +9652,18 @@
       this.ScrollTrigger = ScrollTrigger;
       this.mm = gsap.matchMedia();
       this._isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
-      // Resolve wrapper lazily for SSR safety
-      this.wrapper = this._isBrowser ? options.wrapper ? document.querySelector(options.wrapper) : document : null;
+      // Resolve wrapper lazily for SSR safety; accept selector string or Element
+      if (this._isBrowser) {
+        if (options.wrapper instanceof Element) {
+          this.wrapper = options.wrapper;
+        } else if (typeof options.wrapper === 'string') {
+          this.wrapper = document.querySelector(options.wrapper) || document;
+        } else {
+          this.wrapper = document;
+        }
+      } else {
+        this.wrapper = null;
+      }
       this.prefix = options.prefix ? options.prefix : defaults.prefix;
       this.init();
     }
@@ -9894,8 +9930,18 @@
       this.ScrollTrigger = ScrollTrigger;
       // SSR guard + lazy wrapper resolution
       this._isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
-      // Scope queries to wrapper (string selector) like AnimateContent does
-      this.wrapper = this._isBrowser ? options.wrapper ? document.querySelector(options.wrapper) : document : null;
+      // Scope queries to wrapper; accept Element or selector string
+      if (this._isBrowser) {
+        if (options.wrapper instanceof Element) {
+          this.wrapper = options.wrapper;
+        } else if (typeof options.wrapper === 'string') {
+          this.wrapper = document.querySelector(options.wrapper) || document;
+        } else {
+          this.wrapper = document;
+        }
+      } else {
+        this.wrapper = null;
+      }
       this.init();
     }
     var _proto = Parallax.prototype;

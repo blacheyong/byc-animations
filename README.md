@@ -37,7 +37,7 @@ const animation = new BycAnimations();
 
 | Option                    | Type                   | Default         | Description                                                                 |
 | -----------------------   | ---------------------- | --------------- | --------------------------------------------------------------------------- |
-| `wrapper`            | `string`               | `document` (SSR-safe) | Specifies the wrapper element for scoping animations (AnimateContent and Parallax) to a specific wrapper instead of the entire document. In SSR, it is resolved at runtime in the browser.     |
+| `wrapper`            | `string | Element`    | `document` (SSR-safe) | Specifies the wrapper element (selector or DOM Element) for scoping animations (AnimateContent and Parallax). In SSR, it is resolved at runtime in the browser.     |
 | `animateStart`            | `string`               | `top 94%`       | Trigger animation when a specific part of the element meets a location in the viewport.     |
 | `animateMobileStart`      | `string`               | `top bottom`    | Similar to animateStart, but for viewports smaller than 768px.    |
 | `animateEnd`              | `string`               | `''`            | Defines when the animation should stop based on viewport positions.      |
@@ -54,6 +54,7 @@ const animation = new BycAnimations();
 | `scrollDuration`          | `number`               | `1.2`           | Animation duration for scroll effects in seconds.                              |
 | `scrollEasing`            | `function`             | `Math.min(1, 1.001 - Math.pow(2, -10 * t))`           | Easing function for scroll animations. <a href="https://easings.net/en">Expore Easings</a>.    |
 | `scrollInfinite`          | `boolean`              | `false`         | Enable infinite scrolling.                                                  |
+| `scrollCallback`          | `function`             | `null`          | Optional scroll event callback (rAF‑throttled). Receives `{ direction, progress, scroll, limit, velocity }`. |
 | `scrollTouchMultiplier`   | `number`               | `2`             | Multiply touch action to scroll faster than finger movement.                                    |
 | `scrollWheelMultiplier`   | `number`               | `1`             | Multiply wheel action to scroll faster than wheel movement.                                    |
 | `scrollWrapper`           | `HTMLElement, Window`  | `window`        | The element that will be used as the scroll container.                      |
@@ -167,3 +168,26 @@ You can override the following variables (need to be done before importing the B
 | `scrollTo(target, options)`  | `Scroll to target.`                                        | `target`: goal to reach <ul><li>`number`: value to scroll in pixels</li><li>`string`: CSS selector or keyword (top, left, start, bottom, right, end)</li><li>`HTMLElement`: DOM element</li></ul> `target`: goal to reach <ul><li>`offset` (number): equivalent to <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-padding-top">scroll-padding-top</a></li><li>`lerp` (number): animation lerp intensity</li><li>`duration` (number): animation duration (in seconds)</li><li>`easing` (function): animation easing</li><li>`immediate` (boolean): ignore duration, easing and lerp</li><li>`lock` (boolean): whether or not to prevent the user from scrolling until the target is reached</li><li>`force` (boolean): reach target even if instance is stopped</li><li>`onComplete` (function): called when the target is reached</li></ul>     |
 | `start()`                    | `Resumes the scroll`                                       |        |
 | `stop()`                     | `Pauses the scroll`                                        |        |
+
+### Scroll callback
+
+You can observe scroll state from Lenis via an optional `scrollCallback` passed to `BycAnimations`.
+
+Usage (simplified):
+
+```js
+const animations = new BycAnimations({
+	scrollCallback: ({ direction, progress, scroll, limit, velocity }) => {
+		// direction: 1 (down), -1 (up)
+		// progress: 0..1, scroll/limit: numbers, velocity: current scroll speed
+	}
+});
+```
+
+Notes:
+- The callback is throttled with `requestAnimationFrame` for performance.
+- It’s active only when smooth scroll is enabled and initialized in the browser.
+
+### Bundlers and CSS side effects
+
+This package marks CSS and style‑emitting entries as `sideEffects` in `package.json` so bundlers don’t tree‑shake styles. If you import the library’s CSS via JS, it will be preserved in production builds.

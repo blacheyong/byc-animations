@@ -39,11 +39,26 @@ export default class SmoothScroll {
     // get scroll value
     window.scrollDirection = "down";
 
-    lenis.on("scroll", ({ direction, progress }) => {
+    let _ticking = false;
+    const invokeCallback = (args) => {
+      if (typeof this.scrollCallback === 'function') {
+        try { this.scrollCallback(args); } catch (e) { /* noop */ }
+      }
+    };
+
+    lenis.on("scroll", ({ direction, progress, scroll, limit, velocity }) => {
       if (direction === 1) {
         window.scrollDirection = "down";
       } else {
         window.scrollDirection = "up";
+      }
+      // rAF-throttle user callback
+      if (!_ticking) {
+        _ticking = true;
+        requestAnimationFrame(() => {
+          _ticking = false;
+          invokeCallback({ direction, progress, scroll, limit, velocity });
+        });
       }
     });
 

@@ -7,10 +7,18 @@ export default class Parallax {
     this.ScrollTrigger = ScrollTrigger;
     // SSR guard + lazy wrapper resolution
     this._isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
-    // Scope queries to wrapper (string selector) like AnimateContent does
-    this.wrapper = this._isBrowser
-      ? (options.wrapper ? document.querySelector(options.wrapper) : document)
-      : null;
+    // Scope queries to wrapper; accept Element or selector string
+    if (this._isBrowser) {
+      if (options.wrapper instanceof Element) {
+        this.wrapper = options.wrapper;
+      } else if (typeof options.wrapper === 'string') {
+        this.wrapper = document.querySelector(options.wrapper) || document;
+      } else {
+        this.wrapper = document;
+      }
+    } else {
+      this.wrapper = null;
+    }
 
     this.init();
   }

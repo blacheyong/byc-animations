@@ -10,10 +10,18 @@ export default class AnimateContent {
     this.mm = gsap.matchMedia();
 
     this._isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
-    // Resolve wrapper lazily for SSR safety
-    this.wrapper = this._isBrowser
-      ? (options.wrapper ? document.querySelector(options.wrapper) : document)
-      : null;
+    // Resolve wrapper lazily for SSR safety; accept selector string or Element
+    if (this._isBrowser) {
+      if (options.wrapper instanceof Element) {
+        this.wrapper = options.wrapper;
+      } else if (typeof options.wrapper === 'string') {
+        this.wrapper = document.querySelector(options.wrapper) || document;
+      } else {
+        this.wrapper = document;
+      }
+    } else {
+      this.wrapper = null;
+    }
 
     this.prefix = options.prefix ? options.prefix : defaults.prefix;
 

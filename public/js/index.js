@@ -23,9 +23,37 @@ import '../sass/main.scss';
 //------------------------------------------------------------------------
 // Initiate BycAnimations
 //------------------------------------------------------------------------
+// Small on-screen scroll indicator for testing scrollCallback
+const _makeScrollIndicator = () => {
+  const el = document.createElement('div');
+  el.id = 'byc-scroll-indicator';
+  el.style.position = 'fixed';
+  el.style.right = '12px';
+  el.style.bottom = '12px';
+  el.style.zIndex = '9999';
+  el.style.padding = '6px 8px';
+  el.style.borderRadius = '6px';
+  el.style.background = 'rgba(0,0,0,.6)';
+  el.style.color = '#fff';
+  el.style.font = '12px/1.2 -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif';
+  el.style.pointerEvents = 'none';
+  el.textContent = 'scroll: 0% (↓ 0.00)';
+  document.addEventListener('DOMContentLoaded', () => document.body.appendChild(el));
+  return el;
+};
+const _indicator = _makeScrollIndicator();
+
 let animations
 animations = new BycAnimations({
-  // animateMarkers: true
+  // animateMarkers: true,
+  // Test: throttled scroll callback from SmoothScroll
+  scrollCallback: ({ direction, progress, velocity }) => {
+    if (!_indicator) return;
+    const arrow = direction === 1 ? '↓' : '↑';
+    const pct = Math.round((progress || 0) * 100);
+    const vel = Number.isFinite(velocity) ? velocity.toFixed(2) : '0.00';
+    _indicator.textContent = `scroll: ${pct}% (${arrow} ${vel})`;
+  }
 })
 
 
