@@ -11,6 +11,9 @@ import 'prismjs/plugins/unescaped-markup/prism-unescaped-markup.js';
 import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace.js';
 import 'prismjs/plugins/toolbar/prism-toolbar.js';
 import 'prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.js';
+// Prism CSS moved here to avoid Sass @import deprecation warnings
+import 'prismjs/themes/prism.css';
+import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
 
 //------------------------------------------------------------------------
 // Import SCSS

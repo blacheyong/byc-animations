@@ -20,21 +20,32 @@ import Parallax from './modules/parallax';
 
 export default class BycAnimations {
     constructor(options = {}) {
-        gsap.registerPlugin(ScrollTrigger);
         this.options = options;
         // Override default options with given ones
         Object.assign(this, defaults, options);
+
+        // SSR guard
+        this._isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+
+        if (this._isBrowser) {
+            gsap.registerPlugin(ScrollTrigger);
+        }
 
         this.init();
     }
 
     init() {
-        const prefersMotion = window.matchMedia('(prefers-reduced-motion: no-preference)');
+        if (!this._isBrowser) return; // No-op on server
+
+        const prefersMotion = typeof window.matchMedia === 'function'
+          ? window.matchMedia('(prefers-reduced-motion: no-preference)')
+          : { matches: true };
+
         if (prefersMotion.matches) {
             if(this.smoothScroll) {
-                new SmoothScroll(this.options, Lenis);
+                // Keep a reference so we can destroy/stop RAF later
+                this._smooth = new SmoothScroll(this.options, Lenis);
             }
-            
             this.initAnimations();
         }
 
@@ -46,28 +57,44 @@ export default class BycAnimations {
     }
 
     destroy(animate = true, scroll = true) {
+        if (!this._isBrowser) return; // No-op on server
         if (animate) {
             ScrollTrigger.killAll();
         }
         if (scroll) {
-            window.lenis.destroy();
+            // Stop RAF loop and destroy lenis cleanly if SmoothScroll was initialized
+            if (this._smooth && typeof this._smooth.destroy === 'function') {
+                this._smooth.destroy();
+            } else if (window.lenis && typeof window.lenis.destroy === 'function') {
+                window.lenis.destroy();
+            }
         }
     }
 
     refresh() {
+        if (!this._isBrowser) return; // No-op on server
         ScrollTrigger.refresh();
     }
 
     scrollTo(target, options) {
-        window.lenis.scrollTo(target, options);
+        if (!this._isBrowser) return; // No-op on server
+        if (window.lenis && typeof window.lenis.scrollTo === 'function') {
+            window.lenis.scrollTo(target, options);
+        }
     }
 
     start() {
-        window.lenis.start();
+        if (!this._isBrowser) return; // No-op on server
+        if (window.lenis && typeof window.lenis.start === 'function') {
+            window.lenis.start();
+        }
         // this.initAnimations();
     }
 
     stop() {
-        window.lenis.stop();
+        if (!this._isBrowser) return; // No-op on server
+        if (window.lenis && typeof window.lenis.stop === 'function') {
+            window.lenis.stop();
+        }
     }
 }

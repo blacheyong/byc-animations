@@ -1,8 +1,4 @@
-// ------------------------------------------
-// Prism.js
-// ------------------------------------------
-@import '../node_modules/prismjs/themes/prism';
-@import '../node_modules/prismjs/plugins/line-numbers/prism-line-numbers';
+// Prism CSS is imported from JS to avoid Sass @import deprecation.
 
 // ------------------------------------------
 // Settings

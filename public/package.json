@@ -12,11 +12,11 @@
   "author": "BYC",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.2.1",
+  "@types/node": "^20.19.11",
     "prismjs": "^1.29.0",
-    "rollup-plugin-visualizer": "^5.9.0",
+  "rollup-plugin-visualizer": "^5.14.0",
     "sass": "^1.62.1",
-    "vite": "^4.3.2",
+  "vite": "^4.5.14",
     "vite-plugin-static-copy": "^0.15.0"
   }
 }
