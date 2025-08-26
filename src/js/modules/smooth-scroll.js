@@ -8,6 +8,7 @@ export default class SmoothScroll {
   this._rafId = null;
   this._running = false;
   this._isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+  this._onVisibilityChange = null;
 
     this.init();
   }
@@ -33,7 +34,6 @@ export default class SmoothScroll {
       touchMultiplier: this.scrollTouchMultiplier,
       wheelMultiplier: this.scrollWheelMultiplier,
       wrapper,
-      // scrollCallback: onScroll // remove from readme / doc
     });
 
     // get scroll value
@@ -73,6 +73,32 @@ export default class SmoothScroll {
       this._rafId = requestAnimationFrame(raf);
     };
     this._rafId = requestAnimationFrame(raf);
+
+    // Pause/resume on tab visibility changes
+    this._onVisibilityChange = () => {
+      if (document.hidden) {
+        // Stop RAF and pause lenis
+        this._running = false;
+        if (this._rafId) {
+          cancelAnimationFrame(this._rafId);
+          this._rafId = null;
+        }
+        if (window.lenis && typeof window.lenis.stop === 'function') {
+          window.lenis.stop();
+        }
+      } else {
+        // Resume lenis and restart RAF only if lenis exists
+        const canResume = window.lenis && typeof window.lenis.start === 'function' && typeof window.lenis.raf === 'function';
+        if (canResume) {
+          window.lenis.start();
+          if (!this._running) {
+            this._running = true;
+            this._rafId = requestAnimationFrame(raf);
+          }
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', this._onVisibilityChange);
   }
 
   destroy() {
@@ -83,10 +109,24 @@ export default class SmoothScroll {
       cancelAnimationFrame(this._rafId);
       this._rafId = null;
     }
+    // Remove visibility listener
+    if (this._onVisibilityChange) {
+      document.removeEventListener('visibilitychange', this._onVisibilityChange);
+      this._onVisibilityChange = null;
+    }
     // Destroy lenis instance if present
     if (window.lenis && typeof window.lenis.destroy === 'function') {
       window.lenis.destroy();
     }
+    // Remove common Lenis CSS classes to restore native scroll styling
+    try {
+      const html = document.documentElement;
+      const body = document.body;
+      ['lenis', 'lenis-smooth', 'lenis-stopped'].forEach(cls => {
+        html && html.classList && html.classList.remove(cls);
+        body && body.classList && body.classList.remove(cls);
+      });
+    } catch (_) { /* noop */ }
     // Clean up global
     try {
       delete window.lenis;

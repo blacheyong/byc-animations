@@ -27,7 +27,7 @@ export default class BycAnimations {
         // SSR guard
         this._isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
 
-        if (this._isBrowser) {
+    if (this._isBrowser) {
             gsap.registerPlugin(ScrollTrigger);
         }
 
@@ -49,6 +49,19 @@ export default class BycAnimations {
             this.initAnimations();
         }
 
+        // Pause GSAP/ScrollTrigger when tab is hidden; resume when visible
+        this._onVisibilityChange = () => {
+            if (document.hidden) {
+                try { gsap.ticker.sleep(); } catch (_) {}
+                try { ScrollTrigger.getAll().forEach(t => t.disable()); } catch (_) {}
+            } else {
+                try { gsap.ticker.wake(); } catch (_) {}
+                try { ScrollTrigger.getAll().forEach(t => t.enable()); } catch (_) {}
+                try { ScrollTrigger.refresh(); } catch (_) {}
+            }
+        };
+        document.addEventListener('visibilitychange', this._onVisibilityChange);
+
     }
 
     initAnimations() {
@@ -58,6 +71,11 @@ export default class BycAnimations {
 
     destroy(animate = true, scroll = true) {
         if (!this._isBrowser) return; // No-op on server
+        // Remove visibility listener
+        if (this._onVisibilityChange) {
+            document.removeEventListener('visibilitychange', this._onVisibilityChange);
+            this._onVisibilityChange = null;
+        }
         if (animate) {
             ScrollTrigger.killAll();
         }
@@ -80,7 +98,19 @@ export default class BycAnimations {
         if (!this._isBrowser) return; // No-op on server
         if (window.lenis && typeof window.lenis.scrollTo === 'function') {
             window.lenis.scrollTo(target, options);
+            return;
         }
+        // Native fallback when Lenis is off
+        try {
+            const el = typeof target === 'string' ? document.querySelector(target) : target;
+            if (el && typeof el.getBoundingClientRect === 'function') {
+                const rect = el.getBoundingClientRect();
+                const currentY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+                const offset = (options && typeof options.offset === 'number') ? options.offset : 0;
+                const y = rect.top + currentY + offset;
+                window.scrollTo({ top: y, behavior: (options && options.behavior) || 'smooth' });
+            }
+        } catch (_) { /* noop */ }
     }
 
     start() {

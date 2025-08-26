@@ -9513,6 +9513,7 @@
       this._rafId = null;
       this._running = false;
       this._isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+      this._onVisibilityChange = null;
       this.init();
     }
     var _proto = SmoothScroll.prototype;
@@ -9537,7 +9538,6 @@
         touchMultiplier: this.scrollTouchMultiplier,
         wheelMultiplier: this.scrollWheelMultiplier,
         wrapper: wrapper
-        // scrollCallback: onScroll // remove from readme / doc
       });
 
       // get scroll value
@@ -9588,6 +9588,32 @@
         _this._rafId = requestAnimationFrame(_raf);
       };
       this._rafId = requestAnimationFrame(_raf);
+
+      // Pause/resume on tab visibility changes
+      this._onVisibilityChange = function () {
+        if (document.hidden) {
+          // Stop RAF and pause lenis
+          _this._running = false;
+          if (_this._rafId) {
+            cancelAnimationFrame(_this._rafId);
+            _this._rafId = null;
+          }
+          if (window.lenis && typeof window.lenis.stop === 'function') {
+            window.lenis.stop();
+          }
+        } else {
+          // Resume lenis and restart RAF only if lenis exists
+          var canResume = window.lenis && typeof window.lenis.start === 'function' && typeof window.lenis.raf === 'function';
+          if (canResume) {
+            window.lenis.start();
+            if (!_this._running) {
+              _this._running = true;
+              _this._rafId = requestAnimationFrame(_raf);
+            }
+          }
+        }
+      };
+      document.addEventListener('visibilitychange', this._onVisibilityChange);
     };
     _proto.destroy = function destroy() {
       if (!this._isBrowser) return; // No-op on server
@@ -9597,10 +9623,24 @@
         cancelAnimationFrame(this._rafId);
         this._rafId = null;
       }
+      // Remove visibility listener
+      if (this._onVisibilityChange) {
+        document.removeEventListener('visibilitychange', this._onVisibilityChange);
+        this._onVisibilityChange = null;
+      }
       // Destroy lenis instance if present
       if (window.lenis && typeof window.lenis.destroy === 'function') {
         window.lenis.destroy();
       }
+      // Remove common Lenis CSS classes to restore native scroll styling
+      try {
+        var html = document.documentElement;
+        var body = document.body;
+        ['lenis', 'lenis-smooth', 'lenis-stopped'].forEach(function (cls) {
+          html && html.classList && html.classList.remove(cls);
+          body && body.classList && body.classList.remove(cls);
+        });
+      } catch (_) {/* noop */}
       // Clean up global
       try {
         delete window.lenis;
@@ -10061,6 +10101,33 @@
         }
         this.initAnimations();
       }
+
+      // Pause GSAP/ScrollTrigger when tab is hidden; resume when visible
+      this._onVisibilityChange = function () {
+        if (document.hidden) {
+          try {
+            gsapWithCSS.ticker.sleep();
+          } catch (_) {}
+          try {
+            ScrollTrigger.getAll().forEach(function (t) {
+              return t.disable();
+            });
+          } catch (_) {}
+        } else {
+          try {
+            gsapWithCSS.ticker.wake();
+          } catch (_) {}
+          try {
+            ScrollTrigger.getAll().forEach(function (t) {
+              return t.enable();
+            });
+          } catch (_) {}
+          try {
+            ScrollTrigger.refresh();
+          } catch (_) {}
+        }
+      };
+      document.addEventListener('visibilitychange', this._onVisibilityChange);
     };
     _proto.initAnimations = function initAnimations() {
       new AnimateContent(this.options, gsapWithCSS, ScrollTrigger);
@@ -10074,6 +10141,11 @@
         scroll = true;
       }
       if (!this._isBrowser) return; // No-op on server
+      // Remove visibility listener
+      if (this._onVisibilityChange) {
+        document.removeEventListener('visibilitychange', this._onVisibilityChange);
+        this._onVisibilityChange = null;
+      }
       if (animate) {
         ScrollTrigger.killAll();
       }
@@ -10094,7 +10166,22 @@
       if (!this._isBrowser) return; // No-op on server
       if (window.lenis && typeof window.lenis.scrollTo === 'function') {
         window.lenis.scrollTo(target, options);
+        return;
       }
+      // Native fallback when Lenis is off
+      try {
+        var el = typeof target === 'string' ? document.querySelector(target) : target;
+        if (el && typeof el.getBoundingClientRect === 'function') {
+          var rect = el.getBoundingClientRect();
+          var currentY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+          var offset = options && typeof options.offset === 'number' ? options.offset : 0;
+          var y = rect.top + currentY + offset;
+          window.scrollTo({
+            top: y,
+            behavior: options && options.behavior || 'smooth'
+          });
+        }
+      } catch (_) {/* noop */}
     };
     _proto.start = function start() {
       if (!this._isBrowser) return; // No-op on server
