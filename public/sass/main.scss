@@ -1,32 +1,10 @@
 // Prism CSS is imported from JS to avoid Sass @import deprecation.
 
 // ------------------------------------------
-// Settings
+// Module entry
 // ------------------------------------------
-@import "./settings/colors";
-@import "./settings/variables";
-
-@import "utilities/font-face";
-@import "settings/fonts";
-
-// ------------------------------------------
-// Utilities
-// ------------------------------------------
-@import "./utilities/mixins";
-@import "./utilities/functions";
-
-// ------------------------------------------
-// Base
-//-------------------------------------------
-@import "base/typography";
-
-// ------------------------------------------
-// Components
-// ------------------------------------------
-@import "components/button";
-@import "components/code-toolbar";
-
-// ------------------------------------------
-// Page
-// ------------------------------------------
-@import "./page/p-index";
+@use './utilities' as *;
+@use './settings' as *;
+@use './base';
+@use './components';
+@use './page';

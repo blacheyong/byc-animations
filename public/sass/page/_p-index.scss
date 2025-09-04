@@ -1,3 +1,6 @@
+@use '../settings' as *;
+@use '../utilities' as *;
+
 html {
   scroll-behavior: initial !important;
 }
