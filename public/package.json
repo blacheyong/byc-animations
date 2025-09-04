@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,11 +15,11 @@
   "author": "BYC",
   "license": "ISC",
   "devDependencies": {
-  "@types/node": "^20.19.11",
+    "@types/node": "^24.3.0",
     "prismjs": "^1.29.0",
-  "rollup-plugin-visualizer": "^5.14.0",
-    "sass": "^1.62.1",
-  "vite": "^4.5.14",
+    "rollup-plugin-visualizer": "^6.0.3",
+    "sass": "^1.77.8",
+    "vite": "^4.5.14",
     "vite-plugin-static-copy": "^0.15.0"
   }
 }
