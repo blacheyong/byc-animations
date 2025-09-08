@@ -1,9 +1,9 @@
 export const defaults = {
   prefix: 'byc',
-  wrapper: document,
+  wrapper: null, // Defer DOM resolution to runtime to be SSR-safe
   
   // Animate Content
-  animateStart: 'top 70%',
+  animateStart: 'top 94%',
   animateMobileStart: 'top bottom',
   animateEnd: '',
   animateMarkers: false,
@@ -21,7 +21,7 @@ export const defaults = {
   smoothTouch: false,
   smoothWheel: true,
   scrollCallback: null, // todo: testing
-  scrollContent: document.documentElement,
+  scrollContent: null, // Defer DOM resolution to runtime to be SSR-safe
   scrollOrientation: 'vertical', // todo: testing
   scrollGestureOrientation: 'vertical', // todo: testing
   scrollDuration: 1.2,
@@ -31,5 +31,5 @@ export const defaults = {
   scrollNormalizeWheel: true,
   scrollTouchMultiplier: 2,
   scrollWheelMultiplier: 1,
-  scrollWrapper: window
+  scrollWrapper: null // Defer DOM resolution to runtime to be SSR-safe
 }

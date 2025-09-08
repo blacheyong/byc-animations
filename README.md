@@ -37,8 +37,8 @@ const animation = new BycAnimations();
 
 | Option                    | Type                   | Default         | Description                                                                 |
 | -----------------------   | ---------------------- | --------------- | --------------------------------------------------------------------------- |
-| `wrapper`            | `string`               | `document`       | Specifies the wrapper element for scoping animations to a specific wrapper instead of the entire document.     |
-| `animateStart`            | `string`               | `top 70%`       | Trigger animation when a specific part of the element meets a location in the viewport.     |
+| `wrapper`            | `string | Element`    | `document` (SSR-safe) | Specifies the wrapper element (selector or DOM Element) for scoping animations (AnimateContent and Parallax). In SSR, it is resolved at runtime in the browser.     |
+| `animateStart`            | `string`               | `top 94%`       | Trigger animation when a specific part of the element meets a location in the viewport.     |
 | `animateMobileStart`      | `string`               | `top bottom`    | Similar to animateStart, but for viewports smaller than 768px.    |
 | `animateEnd`              | `string`               | `''`            | Defines when the animation should stop based on viewport positions.      |
 | `animateMarkers`          | `boolean, object`      | `false`         | Displays markers during development to debug animation trigger points. Example:  `{startColor: "green", endColor: "red", fontSize: "12px"}`       |
@@ -49,11 +49,12 @@ const animation = new BycAnimations();
 | `parallaxMarkers`         | `boolean, object`      | `false`         | Displays visual markers for parallax debug. Example: `{startColor: "green", endColor: "red", fontSize: "12px"}`              |
 | `parallaxScrub`           | `boolean, number`      | `true`          | If `true`, syncs animation progress to scroll. Use a `number` for smooth scrubbing in seconds (e.g., `0.5`).        |
 | `smoothScroll`            | `boolean`              | `true`          | Disables smooth scrolling if set to `false`.                           |
-| `scrollDirection`         | `string`               | `vertical`      | Scroll direction: `vertical` or `horizontal`                                |
-| `scrollGestureDirection`  | `string`               | `vertical`      | Your gesture direction on your trackpad/magic mouse or your touch devices. `vertical`, `horizontal` or `both`                                                                |
+| `scrollOrientation`       | `string`               | `vertical`      | Scroll orientation: `vertical` or `horizontal`.                                                                 |
+| `scrollGestureOrientation`| `string`               | `vertical`      | Gesture direction on trackpad/magic mouse or touch: `vertical`, `horizontal` or `both`.                       |
 | `scrollDuration`          | `number`               | `1.2`           | Animation duration for scroll effects in seconds.                              |
 | `scrollEasing`            | `function`             | `Math.min(1, 1.001 - Math.pow(2, -10 * t))`           | Easing function for scroll animations. <a href="https://easings.net/en">Expore Easings</a>.    |
 | `scrollInfinite`          | `boolean`              | `false`         | Enable infinite scrolling.                                                  |
+| `scrollCallback`          | `function`             | `null`          | Optional scroll event callback (rAF‑throttled). Receives `{ direction, progress, scroll, limit, velocity }`. |
 | `scrollTouchMultiplier`   | `number`               | `2`             | Multiply touch action to scroll faster than finger movement.                                    |
 | `scrollWheelMultiplier`   | `number`               | `1`             | Multiply wheel action to scroll faster than wheel movement.                                    |
 | `scrollWrapper`           | `HTMLElement, Window`  | `window`        | The element that will be used as the scroll container.                      |
@@ -150,19 +151,43 @@ You can override the following variables (need to be done before importing the B
 
 | Attribute                    | Type                     | Description                                                                              |
 | ---------------------------- | ------------------------ | ---------------------------------------------------------------------------------------- |
-| `data-parallax-from`         | `string`                 | Starting values for parallax animation. Example: `{ "opacity": "1", "translateY": "0" }`|
-| `data-parallax-to`           | `string`                 | Ending values for parallax animation. Example: `{ "opacity": "0.25", "translateY": "-350px" }` |
+| `data-parallax-from`         | `string`                 | Starting values for parallax animation. Example: `{ "yPercent": -12, "scale": 1.12 }` |
+| `data-parallax-to`           | `string`                 | Ending values for parallax animation. Example: `{ "yPercent": 12, "scale": 1.12 }` |
 | `data-parallax-start`        | `string`                 | (Optional) Override default start position. First value represents the part of the trigger which will initiate the animation once it meets the second value. The second value represents a location in the viewport. Ex: `top center`  |
 | `data-parallax-end`          | `string`                 | (Optional) Override default end position. First value represents the part of the trigger which will trigger the animation once it meets the second value. The second value represents a location in the viewport. Ex: `center 20%`  |
 | `data-parallax-scrub`        | `boolean, number`        | (Optional) <ul style="margin-top: 5px; padding-left: 15px;"><li> **Boolean:** if `true`, links the animation's progress directly to the ScrollTrigger's progress.</li> <li> **Number:** The amount of time (in seconds) that the playhead should take to "catch up", so scrub: 0.5 would cause the animation's playhead to take 0.5 seconds to catch up with the scrollbar's position. It's great for smoothing things out.</li></ul> |
-| `data-parallax-trigger`      | `string`                 | (Optional) Override default trigger element. Ex: `#page-title`  |
+| `data-parallax-trigger`      | `string`                 | (Optional) Override default trigger element. Ex: `#page-title`. When using `options.wrapper`, selector resolution is scoped to that wrapper first. |
+| `data-parallax-markers`      | `boolean, object`        | (Optional) Show ScrollTrigger markers on a specific element regardless of the global `parallaxMarkers` option. Accepts `true`/`false` or an object like `{ "startColor": "#0f0", "endColor": "#f00" }` if supported by your GSAP version. |
 
 ### Instance methods
 
 | Method                       | Description                                                | Arguments                                                                                                                                                                 |
 | ---------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `destroy(animate, scroll)`   | `Destroys the scroll events.`                              | <ul style="padding-left: 15px;"><li>`animate` (boolean): Destroy all scroll triggers, `true` by default.</li><li>`scroll` (boolean): Destroy lenis scroll, `true` by default.</li></ul>       |
+| `destroy(animate, scroll)`   | `Destroys scroll-related resources.`                       | <ul style="padding-left: 15px;"><li>`animate` (boolean): Destroy all ScrollTriggers, `true` by default.</li><li>`scroll` (boolean): Stop the RAF loop and destroy Lenis cleanly, `true` by default.</li></ul>       |
 | `refresh()`                  | `Recalculates the positioning of all of the ScrollTriggers on the page; this typically happens automatically when the window/scroller resizes but you can force it by calling .refresh()`  |        |
 | `scrollTo(target, options)`  | `Scroll to target.`                                        | `target`: goal to reach <ul><li>`number`: value to scroll in pixels</li><li>`string`: CSS selector or keyword (top, left, start, bottom, right, end)</li><li>`HTMLElement`: DOM element</li></ul> `target`: goal to reach <ul><li>`offset` (number): equivalent to <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-padding-top">scroll-padding-top</a></li><li>`lerp` (number): animation lerp intensity</li><li>`duration` (number): animation duration (in seconds)</li><li>`easing` (function): animation easing</li><li>`immediate` (boolean): ignore duration, easing and lerp</li><li>`lock` (boolean): whether or not to prevent the user from scrolling until the target is reached</li><li>`force` (boolean): reach target even if instance is stopped</li><li>`onComplete` (function): called when the target is reached</li></ul>     |
 | `start()`                    | `Resumes the scroll`                                       |        |
 | `stop()`                     | `Pauses the scroll`                                        |        |
+
+### Scroll callback
+
+You can observe scroll state from Lenis via an optional `scrollCallback` passed to `BycAnimations`.
+
+Usage (simplified):
+
+```js
+const animations = new BycAnimations({
+	scrollCallback: ({ direction, progress, scroll, limit, velocity }) => {
+		// direction: 1 (down), -1 (up)
+		// progress: 0..1, scroll/limit: numbers, velocity: current scroll speed
+	}
+});
+```
+
+Notes:
+- The callback is throttled with `requestAnimationFrame` for performance.
+- It’s active only when smooth scroll is enabled and initialized in the browser.
+
+### Bundlers and CSS side effects
+
+This package marks CSS and style‑emitting entries as `sideEffects` in `package.json` so bundlers don’t tree‑shake styles. If you import the library’s CSS via JS, it will be preserved in production builds.

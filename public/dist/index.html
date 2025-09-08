@@ -11,8 +11,8 @@
     <!-- <link rel="stylesheet" href="https://unpkg.com/byc-animations/bundled/byc-animations.min.css"> -->
 
     <title>BYC Animations Library</title>
-    <script type="module" crossorigin src="https://blacheyong.github.io/byc-animations/assets/index-14686c20.js"></script>
-    <link rel="stylesheet" href="https://blacheyong.github.io/byc-animations/assets/index-e059ca32.css">
+    <script type="module" crossorigin src="https://blacheyong.github.io/byc-animations/assets/index-ccc31232.js"></script>
+    <link rel="stylesheet" href="https://blacheyong.github.io/byc-animations/assets/index-8d19676e.css">
   </head>
   <body>
     <div id="app">
@@ -335,12 +335,30 @@
       </div>
       <div class="section section--parallax">
         <div class="image-parallax">
-          <img src="https://blacheyong.github.io/byc-animations/assets/img-parallax-2fd8ba38.jpg" alt="Parallax image" height="500" data-parallax-from='{ "translateY": "-10%" }' data-parallax-to='{ "translateY": "10%" }' data-parallax-scrub="1" data-parallax-start="-5% 50%">
+          <img src="https://blacheyong.github.io/byc-animations/assets/img-parallax-2fd8ba38.jpg" alt="Parallax image" height="500" data-parallax-from='{ "yPercent": -12, "scale": 1.12 }' data-parallax-to='{ "yPercent": 12, "scale": 1.12 }' data-parallax-scrub="1" data-parallax-start="-5% 50%">
         </div>
         <div class="container-xl">
           <script type="text/plain" class="mt-5 language-markup">
             <div class="image-parallax">
-              <img src="{{url}}" alt="Parallax image" data-parallax-from='{ "translateY": "-10%" }' data-parallax-to='{ "translateY": "10%" }' data-parallax-scrub="1" data-parallax-start="-5% 50%">
+              <img src="{{url}}" alt="Parallax image" data-parallax-from='{ "yPercent": -12, "scale": 1.12 }' data-parallax-to='{ "yPercent": 12, "scale": 1.12 }' data-parallax-scrub="1" data-parallax-start="-5% 50%">
+            </div>
+          </script>
+          <h4 class="h4 mt-5">Parallax markers (per-element)</h4>
+          <p>Add <code>data-parallax-markers</code> to enable markers for a specific element regardless of the global setting.</p>
+          <div class="image-parallax mt-3">
+            <img src="https://blacheyong.github.io/byc-animations/assets/img-parallax-2fd8ba38.jpg" alt="Parallax image with markers" height="300" data-parallax-from='{ "yPercent": -8, "scale": 1.12 }' data-parallax-to='{ "yPercent": 8, "scale": 1.12 }' data-parallax-scrub="0.5" data-parallax-start="top 94%" data-parallax-markers="true">
+          </div>
+          <script type="text/plain" class="mt-3 language-markup">
+            <div class="image-parallax">
+              <img
+                src="{{url}}"
+                alt="Parallax image with markers"
+                data-parallax-from='{ "yPercent": -8, "scale": 1.12 }'
+                data-parallax-to='{ "yPercent": 8, "scale": 1.12 }'
+                data-parallax-scrub="0.5"
+                data-parallax-start="top 80%"
+                data-parallax-markers="true"
+              >
             </div>
           </script>
         </div>

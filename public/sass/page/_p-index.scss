@@ -1,10 +1,8 @@
+@use '../settings' as *;
+@use '../utilities' as *;
+
 html {
   scroll-behavior: initial !important;
-}
-
-body {
-  // --byc-animate-slide-offset: 300px;
-  // --byc-animate-reveal-translate-y: 100%;
 }
 
 a {
@@ -90,9 +88,13 @@ a {
         width: 100%;
 
         img {
-            height: 150%;
-            object-fit: cover;
+            display: block;
             width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform-origin: center;
+            will-change: transform;
+            backface-visibility: hidden;
         }
     }
 
