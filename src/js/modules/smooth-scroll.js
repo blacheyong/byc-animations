@@ -42,7 +42,7 @@ export default class SmoothScroll {
     let _ticking = false;
     const invokeCallback = (args) => {
       if (typeof this.scrollCallback === 'function') {
-        try { this.scrollCallback(args); } catch (e) { /* noop */ }
+        try { this.scrollCallback(args); } catch (e) { console.warn('scrollCallback error:', e); }
       }
     };
 
