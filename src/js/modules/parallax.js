@@ -110,7 +110,7 @@ export default class Parallax {
           markers: markersOpt,
         });
       } else {
-        console.warn("byc-animations: data-parallax-to value is missing:", target);
+        console.warn("byc-animations: Data-parallax-to value is missing:", target);
       }
     });
   }
