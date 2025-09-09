@@ -55,6 +55,10 @@ export default defineConfig({
             gsap: 'gsap',
             'gsap/ScrollTrigger': 'ScrollTrigger',
           },
+          // Backward-compat: if consumers used a lowercase global `lenis`,
+          // create `Lenis` alias before the UMD wrapper resolves externals.
+          banner:
+            "(function(g){try{g.Lenis=g.Lenis||g.lenis;}catch(e){}})(typeof globalThis!=='undefined'?globalThis:typeof window!=='undefined'?window:this);",
           assetFileNames: 'byc-animations.[ext]',
           exports: 'named',
           sourcemap: true,
