@@ -4,7 +4,7 @@
   "private": false,
   "version": "2.9.0",
   "engines": {
-    "node": ">=22"
+    "node": ">=20"
   },
   "files": [
     "dist",
@@ -25,11 +25,11 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "npm-run-all --parallel build:dist build:bundle copy:sass",
-    "build:dist": "microbundle build -i src/js/byc-animations.js --o ./dist",
+    "build": "npm-run-all build:dist build:bundle copy:sass",
+    "build:dist": "vite build --config vite.config.ts && sass --style=expanded --source-map src/sass/library/byc-animations.scss dist/byc-animations.css",
     "build:bundle": "npm-run-all build:bundle-full build:bundle-min",
-    "build:bundle-full": "microbundle build -i src/js/byc-animations.js --o ./bundled/byc-animations.js --no-sourcemap --no-pkg-main --external none --name BycAnimations --format umd --no-compress",
-    "build:bundle-min": "microbundle build -i src/js/byc-animations.js --o ./bundled/byc-animations.min.js --no-sourcemap --no-pkg-main --external none --name BycAnimations --format umd",
+    "build:bundle-full": "vite build --config vite.bundle.unmin.config.ts",
+    "build:bundle-min": "vite build --config vite.bundle.min.config.ts",
     "copy:sass": "copy-files-from-to",
     "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -37,8 +37,6 @@
   "devDependencies": {
     "@types/node": "^24.3.0",
     "copy-files-from-to": "^3.11.0",
-    "microbundle": "^0.15.1",
-    "npm": "^11.6.0",
     "npm-run-all": "^4.1.5",
     "rollup-plugin-visualizer": "^6.0.3",
     "sass": "^1.92.1",
@@ -46,7 +44,7 @@
     "vite-plugin-static-copy": "^3.1.2"
   },
   "dependencies": {
-    "@studio-freight/lenis": "^1.0.42",
+    "lenis": "^1.0.42",
     "gsap": "^3.12.6"
   },
   "copyFiles": [

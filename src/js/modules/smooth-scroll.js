@@ -1,5 +1,5 @@
 import { defaults } from "../options";
-// import Lenis from '@studio-freight/lenis'
+// import Lenis from 'lenis'
 
 export default class SmoothScroll {
   constructor(options = {}, Lenis) {
