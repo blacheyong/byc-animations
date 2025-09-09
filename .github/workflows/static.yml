@@ -37,6 +37,8 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
           cache-dependency-path: 'public/package-lock.json'
+      - name: Install root dependencies
+        run: npm ci
       - name: Install and build public
         working-directory: public
         run: |
