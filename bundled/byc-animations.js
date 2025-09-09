@@ -9502,7 +9502,7 @@
     scrollWrapper: null // Defer DOM resolution to runtime to be SSR-safe
   };
 
-  // import Lenis from '@studio-freight/lenis'
+  // import Lenis from '@studiolenis'
   var SmoothScroll = /*#__PURE__*/function () {
     function SmoothScroll(options, Lenis) {
       if (options === void 0) {
