@@ -1,23 +1,11 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
-import { visualizer } from 'rollup-plugin-visualizer'
+// visualizer removed to avoid TS type mismatch with Rollup types
 
 // Dist build: replicate current outputs in ./dist
 export default defineConfig({
   publicDir: false,
-  css: {
-    // Ensure CSS sourcemaps are generated for production builds
-    postcss: {
-      map: { inline: false, annotation: true },
-    },
-    preprocessorOptions: {
-      scss: {
-        // Hint source maps for Sass preprocessing
-        sourceMap: true,
-      },
-    },
-  },
   build: {
     outDir: 'dist',
     sourcemap: true,
@@ -61,10 +49,15 @@ export default defineConfig({
           entryFileNames: 'byc-animations.umd.js',
           name: 'bycAnimations',
           globals: {
-            lenis: 'lenis',
+            // Map to browser globals when consumers include UMD scripts via <script>
+            // Lenis exposes window.Lenis (capitalized)
+            lenis: 'Lenis',
             gsap: 'gsap',
             'gsap/ScrollTrigger': 'ScrollTrigger',
           },
+          // Backward-compat: if consumers used a lowercase global `lenis`,
+          // create `Lenis` alias before the UMD wrapper resolves externals.
+          banner: "(function(g){try{g.Lenis=g.Lenis||g.lenis;}catch(e){}})(typeof globalThis!=='undefined'?globalThis:typeof window!=='undefined'?window:this);",
           assetFileNames: 'byc-animations.[ext]',
           exports: 'named',
           sourcemap: true,
@@ -79,6 +72,5 @@ export default defineConfig({
         { src: 'src/sass/library/byc-animations.scss', dest: '' },
       ],
     }),
-    visualizer(),
   ],
 })

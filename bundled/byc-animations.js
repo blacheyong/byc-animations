@@ -7836,7 +7836,10 @@
     destroy(animate = true, scroll = true) {
       if (!this._isBrowser) return;
       if (this._onVisibilityChange) {
-        document.removeEventListener("visibilitychange", this._onVisibilityChange);
+        document.removeEventListener(
+          "visibilitychange",
+          this._onVisibilityChange
+        );
         this._onVisibilityChange = null;
       }
       if (animate) {
@@ -7867,7 +7870,10 @@
           const currentY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
           const offset = options && typeof options.offset === "number" ? options.offset : 0;
           const y = rect.top + currentY + offset;
-          window.scrollTo({ top: y, behavior: options && options.behavior || "smooth" });
+          window.scrollTo({
+            top: y,
+            behavior: options && options.behavior || "smooth"
+          });
         }
       } catch (_) {
       }

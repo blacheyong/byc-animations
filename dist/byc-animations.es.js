@@ -300,7 +300,10 @@ class E {
     new A(this.options, p, u), new S(this.options, p, u);
   }
   destroy(e = !0, a = !0) {
-    this._isBrowser && (this._onVisibilityChange && (document.removeEventListener("visibilitychange", this._onVisibilityChange), this._onVisibilityChange = null), e && u.killAll(), a && (this._smooth && typeof this._smooth.destroy == "function" ? this._smooth.destroy() : window.lenis && typeof window.lenis.destroy == "function" && window.lenis.destroy()));
+    this._isBrowser && (this._onVisibilityChange && (document.removeEventListener(
+      "visibilitychange",
+      this._onVisibilityChange
+    ), this._onVisibilityChange = null), e && u.killAll(), a && (this._smooth && typeof this._smooth.destroy == "function" ? this._smooth.destroy() : window.lenis && typeof window.lenis.destroy == "function" && window.lenis.destroy()));
   }
   refresh() {
     this._isBrowser && u.refresh();
@@ -315,7 +318,10 @@ class E {
         const t = typeof e == "string" ? document.querySelector(e) : e;
         if (t && typeof t.getBoundingClientRect == "function") {
           const o = t.getBoundingClientRect(), n = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0, s = a && typeof a.offset == "number" ? a.offset : 0, l = o.top + n + s;
-          window.scrollTo({ top: l, behavior: a && a.behavior || "smooth" });
+          window.scrollTo({
+            top: l,
+            behavior: a && a.behavior || "smooth"
+          });
         }
       } catch {
       }
