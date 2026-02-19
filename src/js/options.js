@@ -18,6 +18,7 @@ export const defaults = {
 
   // Smooth Scroll
   smoothScroll: true,
+  syncTouch: undefined,
   smoothTouch: false,
   smoothWheel: true,
   scrollCallback: null, // todo: testing

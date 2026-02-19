@@ -2,7 +2,7 @@
   typeof exports === "object" && typeof module !== "undefined" ? factory(exports) : typeof define === "function" && define.amd ? define(["exports"], factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, factory(global.BycAnimations = {}));
 })(this, (function(exports2) {
   "use strict";
-  var version = "1.3.11";
+  var version = "1.3.17";
   function clamp$1(min, input, max) {
     return Math.max(min, Math.min(input, max));
   }
@@ -326,7 +326,7 @@
     // same as isStopped but enabled/disabled when scroll reaches target
     _preventNextNativeScrollEvent = false;
     _resetVelocityTimeout = null;
-    __rafID = null;
+    _rafId = null;
     /**
      * Whether or not the user is touching the screen
      */
@@ -405,7 +405,10 @@
       autoToggle = false,
       // https://caniuse.com/?search=transition-behavior
       allowNestedScroll = false,
-      __experimental__naiveDimensions = false
+      // @ts-ignore: this will be deprecated in the future
+      __experimental__naiveDimensions = false,
+      naiveDimensions = __experimental__naiveDimensions,
+      stopInertiaOnNavigate = false
     } = {}) {
       window.lenisVersion = version;
       if (!wrapper || wrapper === document.documentElement) {
@@ -440,7 +443,8 @@
         anchors,
         autoToggle,
         allowNestedScroll,
-        __experimental__naiveDimensions
+        naiveDimensions,
+        stopInertiaOnNavigate
       };
       this.dimensions = new Dimensions(wrapper, content, { autoResize });
       this.updateClassName();
@@ -449,7 +453,7 @@
       this.options.wrapper.addEventListener("scrollend", this.onScrollEnd, {
         capture: true
       });
-      if (this.options.anchors && this.options.wrapper === window) {
+      if (this.options.anchors || this.options.stopInertiaOnNavigate) {
         this.options.wrapper.addEventListener(
           "click",
           this.onClick,
@@ -467,12 +471,13 @@
       });
       this.virtualScroll.on("scroll", this.onVirtualScroll);
       if (this.options.autoToggle) {
+        this.checkOverflow();
         this.rootElement.addEventListener("transitionend", this.onTransitionEnd, {
           passive: true
         });
       }
       if (this.options.autoRaf) {
-        this.__rafID = requestAnimationFrame(this.raf);
+        this._rafId = requestAnimationFrame(this.raf);
       }
     }
     /**
@@ -493,7 +498,7 @@
         this.onPointerDown,
         false
       );
-      if (this.options.anchors && this.options.wrapper === window) {
+      if (this.options.anchors || this.options.stopInertiaOnNavigate) {
         this.options.wrapper.removeEventListener(
           "click",
           this.onClick,
@@ -503,8 +508,8 @@
       this.virtualScroll.destroy();
       this.dimensions.destroy();
       this.cleanUpClassName();
-      if (this.__rafID) {
-        cancelAnimationFrame(this.__rafID);
+      if (this._rafId) {
+        cancelAnimationFrame(this._rafId);
       }
     }
     on(event, callback) {
@@ -531,15 +536,20 @@
         })
       );
     };
+    get overflow() {
+      const property = this.isHorizontal ? "overflow-x" : "overflow-y";
+      return getComputedStyle(this.rootElement)[property];
+    }
+    checkOverflow() {
+      if (["hidden", "clip"].includes(this.overflow)) {
+        this.internalStop();
+      } else {
+        this.internalStart();
+      }
+    }
     onTransitionEnd = (event) => {
       if (event.propertyName.includes("overflow")) {
-        const property = this.isHorizontal ? "overflow-x" : "overflow-y";
-        const overflow = getComputedStyle(this.rootElement)[property];
-        if (["hidden", "clip"].includes(overflow)) {
-          this.internalStop();
-        } else {
-          this.internalStart();
-        }
+        this.checkOverflow();
       }
     };
     setScroll(scroll) {
@@ -551,18 +561,28 @@
     }
     onClick = (event) => {
       const path = event.composedPath();
-      const anchor = path.find(
-        (node) => node instanceof HTMLAnchorElement && (node.getAttribute("href")?.startsWith("#") || node.getAttribute("href")?.startsWith("/#") || node.getAttribute("href")?.startsWith("./#"))
+      const anchorElements = path.filter(
+        (node) => node instanceof HTMLAnchorElement && node.getAttribute("href")
       );
-      if (anchor) {
-        const id = anchor.getAttribute("href");
-        if (id) {
-          const options = typeof this.options.anchors === "object" && this.options.anchors ? this.options.anchors : void 0;
-          let target = `#${id.split("#")[1]}`;
-          if (["#", "/#", "./#", "#top", "/#top", "./#top"].includes(id)) {
-            target = 0;
+      if (this.options.anchors) {
+        const anchor = anchorElements.find(
+          (node) => node.getAttribute("href")?.includes("#")
+        );
+        if (anchor) {
+          const href = anchor.getAttribute("href");
+          if (href) {
+            const options = typeof this.options.anchors === "object" && this.options.anchors ? this.options.anchors : void 0;
+            const target = `#${href.split("#")[1]}`;
+            this.scrollTo(target, options);
           }
-          this.scrollTo(target, options);
+        }
+      }
+      if (this.options.stopInertiaOnNavigate) {
+        const internalLink = anchorElements.find(
+          (node) => node.host === window.location.host
+        );
+        if (internalLink) {
+          this.reset();
         }
       }
     };
@@ -633,7 +653,6 @@
         programmatic: false,
         ...isSyncTouch ? {
           lerp: hasTouchInertia ? this.options.syncTouchLerp : 1
-          // immediate: !hasTouchInertia,
         } : {
           lerp: this.options.lerp,
           duration: this.options.duration,
@@ -734,7 +753,7 @@
       this.time = time;
       this.animate.advance(deltaTime * 1e-3);
       if (this.options.autoRaf) {
-        this.__rafID = requestAnimationFrame(this.raf);
+        this._rafId = requestAnimationFrame(this.raf);
       }
     };
     /**
@@ -761,19 +780,19 @@
       offset = 0,
       immediate = false,
       lock = false,
-      duration = this.options.duration,
-      easing = this.options.easing,
-      lerp: lerp2 = this.options.lerp,
+      programmatic = true,
+      // called from outside of the class
+      lerp: lerp2 = programmatic ? this.options.lerp : void 0,
+      duration = programmatic ? this.options.duration : void 0,
+      easing = programmatic ? this.options.easing : void 0,
       onStart,
       onComplete,
       force = false,
       // scroll even if stopped
-      programmatic = true,
-      // called from outside of the class
       userData
     } = {}) {
       if ((this.isStopped || this.isLocked) && !force) return;
-      if (typeof target === "string" && ["top", "left", "start"].includes(target)) {
+      if (typeof target === "string" && ["top", "left", "start", "#"].includes(target)) {
         target = 0;
       } else if (typeof target === "string" && ["bottom", "right", "end"].includes(target)) {
         target = this.limit;
@@ -781,6 +800,13 @@
         let node;
         if (typeof target === "string") {
           node = document.querySelector(target);
+          if (!node) {
+            if (target === "#top") {
+              target = 0;
+            } else {
+              console.warn("Lenis: Target not found", target);
+            }
+          }
         } else if (target instanceof HTMLElement && target?.nodeType) {
           node = target;
         }
@@ -967,7 +993,7 @@
      * The limit which is the maximum scroll value
      */
     get limit() {
-      if (this.options.__experimental__naiveDimensions) {
+      if (this.options.naiveDimensions) {
         if (this.isHorizontal) {
           return this.rootElement.scrollWidth - this.rootElement.clientWidth;
         } else {
@@ -7311,6 +7337,7 @@
     parallaxScrub: true,
     // Smooth Scroll
     smoothScroll: true,
+    syncTouch: void 0,
     smoothTouch: false,
     smoothWheel: true,
     scrollCallback: null,
@@ -7354,7 +7381,8 @@
         orientation: this.scrollOrientation,
         gestureOrientation: this.scrollGestureOrientation,
         normalizeWheel: this.scrollNormalizeWheel,
-        smoothTouch: this.smoothTouch,
+        // Lenis v1 uses `syncTouch`; keep backward compatibility with existing `smoothTouch` option.
+        syncTouch: typeof this.syncTouch === "boolean" ? this.syncTouch : this.smoothTouch,
         smoothWheel: this.smoothWheel,
         touchMultiplier: this.scrollTouchMultiplier,
         wheelMultiplier: this.scrollWheelMultiplier,
@@ -7425,7 +7453,10 @@
         this._rafId = null;
       }
       if (this._onVisibilityChange) {
-        document.removeEventListener("visibilitychange", this._onVisibilityChange);
+        document.removeEventListener(
+          "visibilitychange",
+          this._onVisibilityChange
+        );
         this._onVisibilityChange = null;
       }
       if (window.lenis && typeof window.lenis.destroy === "function") {
@@ -7439,6 +7470,7 @@
           body && body.classList && body.classList.remove(cls);
         });
       } catch (_) {
+        console.error("Error removing Lenis CSS classes");
       }
       try {
         delete window.lenis;
@@ -7713,72 +7745,74 @@
     }
     init() {
       if (!this._isBrowser || !this.wrapper) return;
-      const nodes = this.wrapper.querySelectorAll("[data-parallax-from]");
-      this.gsap.utils.toArray(nodes).forEach((target) => {
-        const toAttr = target.getAttribute("data-parallax-to");
-        if (toAttr) {
-          const fromAttr = target.getAttribute("data-parallax-from");
-          let fromObject = {};
-          let toObject = null;
-          if (fromAttr) {
+      const parallaxNodes = this.wrapper.querySelectorAll("[data-parallax-from]");
+      this.gsap.utils.toArray(parallaxNodes).forEach((element) => {
+        const parallaxToAttr = element.getAttribute("data-parallax-to");
+        if (parallaxToAttr) {
+          const parallaxFromAttr = element.getAttribute("data-parallax-from");
+          let fromProps = {};
+          let toProps = null;
+          if (parallaxFromAttr) {
             try {
-              fromObject = JSON.parse(fromAttr);
-            } catch (e) {
-              console.warn("byc-animations: invalid JSON in data-parallax-from:", fromAttr, target, e);
-              fromObject = {};
+              fromProps = JSON.parse(parallaxFromAttr);
+            } catch (err) {
+              console.warn("byc-animations: invalid JSON in data-parallax-from:", parallaxFromAttr, element, err);
+              fromProps = {};
             }
           }
           try {
-            toObject = JSON.parse(toAttr);
-          } catch (e) {
-            console.warn("byc-animations: invalid JSON in data-parallax-to:", toAttr, target, e);
-            toObject = null;
+            toProps = JSON.parse(parallaxToAttr);
+          } catch (err) {
+            console.warn("byc-animations: invalid JSON in data-parallax-to:", parallaxToAttr, element, err);
+            toProps = null;
           }
-          if (!toObject) {
-            console.warn("byc-animations: skipping parallax, data-parallax-to is missing or invalid:", target);
+          if (!toProps) {
+            console.warn("byc-animations: skipping parallax, data-parallax-to is missing or invalid:", element);
             return;
           }
-          const isScrubString = target.getAttribute("data-parallax-scrub");
-          let isScrub = this.parallaxScrub;
-          if (isScrubString !== null) {
-            const v = isScrubString.trim();
-            if (v === "true" || v === "false") {
-              isScrub = v === "true";
+          const scrubAttr = element.getAttribute("data-parallax-scrub");
+          let scrubValue = this.parallaxScrub;
+          if (scrubAttr !== null) {
+            const scrubRaw = scrubAttr.trim();
+            if (scrubRaw === "") {
+              scrubValue = this.parallaxScrub;
+            } else if (scrubRaw === "true" || scrubRaw === "false") {
+              scrubValue = scrubRaw === "true";
             } else {
-              const n = Number(v);
-              isScrub = Number.isNaN(n) ? this.parallaxScrub : n;
+              const scrubNumber = Number(scrubRaw);
+              scrubValue = Number.isNaN(scrubNumber) ? this.parallaxScrub : scrubNumber;
             }
           }
-          const thisTranslate = this.gsap.fromTo(target, fromObject, toObject);
-          const triggerSelector = target.dataset.parallaxTrigger;
-          const resolvedTrigger = triggerSelector ? this.wrapper.querySelector(triggerSelector) || triggerSelector : target;
-          let markersOpt = this.parallaxMarkers;
-          if (Object.prototype.hasOwnProperty.call(target.dataset, "parallaxMarkers")) {
-            const raw = target.dataset.parallaxMarkers;
-            if (raw === "" || raw === "true") {
-              markersOpt = true;
-            } else if (raw === "false") {
-              markersOpt = false;
-            } else if (raw && raw.trim().startsWith("{")) {
+          const parallaxTween = this.gsap.fromTo(element, fromProps, toProps);
+          const triggerSelector = element.dataset.parallaxTrigger;
+          const resolvedTrigger = triggerSelector ? this.wrapper.querySelector(triggerSelector) || triggerSelector : element;
+          let markersOption = this.parallaxMarkers;
+          if (Object.prototype.hasOwnProperty.call(element.dataset, "parallaxMarkers")) {
+            const markersRaw = element.dataset.parallaxMarkers;
+            if (markersRaw === "" || markersRaw === "true") {
+              markersOption = true;
+            } else if (markersRaw === "false") {
+              markersOption = false;
+            } else if (markersRaw && markersRaw.trim().startsWith("{")) {
               try {
-                markersOpt = JSON.parse(raw);
-              } catch (e) {
-                console.warn("byc-animations: invalid JSON in data-parallax-markers:", raw, target, e);
+                markersOption = JSON.parse(markersRaw);
+              } catch (err) {
+                console.warn("byc-animations: invalid JSON in data-parallax-markers:", markersRaw, element, err);
               }
             } else {
-              markersOpt = true;
+              markersOption = true;
             }
           }
           this.ScrollTrigger.create({
             trigger: resolvedTrigger,
-            start: target.dataset.parallaxStart ? target.dataset.parallaxStart : this.parallaxStart,
-            end: target.dataset.parallaxEnd ? target.dataset.parallaxEnd : this.parallaxEnd,
-            scrub: isScrub,
-            animation: thisTranslate,
-            markers: markersOpt
+            start: element.dataset.parallaxStart ? element.dataset.parallaxStart : this.parallaxStart,
+            end: element.dataset.parallaxEnd ? element.dataset.parallaxEnd : this.parallaxEnd,
+            scrub: scrubValue,
+            animation: parallaxTween,
+            markers: markersOption
           });
         } else {
-          console.warn("byc-animations: Data-parallax-to value is missing:", target);
+          console.warn("byc-animations: Data-parallax-to value is missing:", element);
         }
       });
     }

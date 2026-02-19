@@ -5,8 +5,10 @@ export default class Parallax {
     Object.assign(this, defaults, options);
     this.gsap = gsap;
     this.ScrollTrigger = ScrollTrigger;
+
     // SSR guard + lazy wrapper resolution
     this._isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+    
     // Scope queries to wrapper; accept Element or selector string
     if (this._isBrowser) {
       if (options.wrapper instanceof Element) {
@@ -25,92 +27,95 @@ export default class Parallax {
 
   init() {
   if (!this._isBrowser || !this.wrapper) return;
-  const nodes = this.wrapper.querySelectorAll('[data-parallax-from]');
-  this.gsap.utils.toArray(nodes).forEach((target) => {
-      const toAttr = target.getAttribute("data-parallax-to");
-      if (toAttr) {
-        const fromAttr = target.getAttribute("data-parallax-from");
-        let fromObject = {};
-        let toObject = null;
+  const parallaxNodes = this.wrapper.querySelectorAll('[data-parallax-from]');
+  this.gsap.utils.toArray(parallaxNodes).forEach((element) => {
+      const parallaxToAttr = element.getAttribute("data-parallax-to");
+      if (parallaxToAttr) {
+        const parallaxFromAttr = element.getAttribute("data-parallax-from");
+        let fromProps = {};
+        let toProps = null;
 
         // Safely parse JSON values
-        if (fromAttr) {
+        if (parallaxFromAttr) {
           try {
-            fromObject = JSON.parse(fromAttr);
-          } catch (e) {
-            console.warn("byc-animations: invalid JSON in data-parallax-from:", fromAttr, target, e);
-            fromObject = {};
+            fromProps = JSON.parse(parallaxFromAttr);
+          } catch (err) {
+            console.warn("byc-animations: invalid JSON in data-parallax-from:", parallaxFromAttr, element, err);
+            fromProps = {};
           }
         }
 
         try {
-          toObject = JSON.parse(toAttr);
-        } catch (e) {
-          console.warn("byc-animations: invalid JSON in data-parallax-to:", toAttr, target, e);
-          toObject = null;
+          toProps = JSON.parse(parallaxToAttr);
+        } catch (err) {
+          console.warn("byc-animations: invalid JSON in data-parallax-to:", parallaxToAttr, element, err);
+          toProps = null;
         }
 
-        if (!toObject) {
-          console.warn("byc-animations: skipping parallax, data-parallax-to is missing or invalid:", target);
+        if (!toProps) {
+          console.warn("byc-animations: skipping parallax, data-parallax-to is missing or invalid:", element);
           return;
         }
 
         // Normalize scrub value: boolean, number, or fallback to default option
-        const isScrubString = target.getAttribute("data-parallax-scrub");
-        let isScrub = this.parallaxScrub;
-        if (isScrubString !== null) {
-          const v = isScrubString.trim();
-          if (v === "true" || v === "false") {
-            isScrub = v === "true";
+        const scrubAttr = element.getAttribute("data-parallax-scrub");
+        let scrubValue = this.parallaxScrub;
+        if (scrubAttr !== null) {
+          const scrubRaw = scrubAttr.trim();
+          // Treat empty attribute (e.g. <div data-parallax-scrub>) as "use default"
+          if (scrubRaw === "") {
+            scrubValue = this.parallaxScrub;
+          } else if (scrubRaw === "true" || scrubRaw === "false") {
+            scrubValue = scrubRaw === "true";
           } else {
-            const n = Number(v);
-            isScrub = Number.isNaN(n) ? this.parallaxScrub : n;
+            const scrubNumber = Number(scrubRaw);
+            scrubValue = Number.isNaN(scrubNumber) ? this.parallaxScrub : scrubNumber;
           }
         }
 
-        const thisTranslate = this.gsap.fromTo(target, fromObject, toObject);
+        const parallaxTween = this.gsap.fromTo(element, fromProps, toProps);
 
         // Resolve trigger relative to wrapper when a selector is provided; fallback to global selector or the element itself
-        const triggerSelector = target.dataset.parallaxTrigger;
+        const triggerSelector = element.dataset.parallaxTrigger;
         const resolvedTrigger = triggerSelector
           ? (this.wrapper.querySelector(triggerSelector) || triggerSelector)
-          : target;
+          : element;
 
         // Resolve markers: allow per-element override via data-parallax-markers
-        let markersOpt = this.parallaxMarkers;
-        if (Object.prototype.hasOwnProperty.call(target.dataset, 'parallaxMarkers')) {
-          const raw = target.dataset.parallaxMarkers;
-          if (raw === '' || raw === 'true') {
-            markersOpt = true;
-          } else if (raw === 'false') {
-            markersOpt = false;
-          } else if (raw && raw.trim().startsWith('{')) {
+        let markersOption = this.parallaxMarkers;
+        if (Object.prototype.hasOwnProperty.call(element.dataset, 'parallaxMarkers')) {
+          const markersRaw = element.dataset.parallaxMarkers;
+          if (markersRaw === '' || markersRaw === 'true') {
+            markersOption = true;
+          } else if (markersRaw === 'false') {
+            markersOption = false;
+          } else if (markersRaw && markersRaw.trim().startsWith('{')) {
             try {
-              markersOpt = JSON.parse(raw);
-            } catch (e) {
-              console.warn('byc-animations: invalid JSON in data-parallax-markers:', raw, target, e);
+              markersOption = JSON.parse(markersRaw);
+            } catch (err) {
+              console.warn('byc-animations: invalid JSON in data-parallax-markers:', markersRaw, element, err);
               // keep fallback markersOpt
             }
           } else {
             // Any other non-empty value: treat as truthy boolean
-            markersOpt = true;
+            markersOption = true;
           }
         }
 
         this.ScrollTrigger.create({
           trigger: resolvedTrigger,
-          start: target.dataset.parallaxStart
-            ? target.dataset.parallaxStart
+          start: element.dataset.parallaxStart
+            ? element.dataset.parallaxStart
             : this.parallaxStart,
-          end: target.dataset.parallaxEnd
-            ? target.dataset.parallaxEnd
+          end: element.dataset.parallaxEnd
+            ? element.dataset.parallaxEnd
             : this.parallaxEnd,
-          scrub: isScrub,
-          animation: thisTranslate,
-          markers: markersOpt,
+          scrub: scrubValue,
+          animation: parallaxTween,
+          markers: markersOption,
         });
       } else {
-        console.warn("byc-animations: Data-parallax-to value is missing:", target);
+        console.warn("byc-animations: Data-parallax-to value is missing:", element);
       }
     });
   }

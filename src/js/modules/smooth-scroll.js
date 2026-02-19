@@ -1,14 +1,14 @@
 import { defaults } from "../options";
-// import Lenis from 'lenis'
 
 export default class SmoothScroll {
   constructor(options = {}, Lenis) {
     Object.assign(this, defaults, options);
     this.Lenis = Lenis;
-  this._rafId = null;
-  this._running = false;
-  this._isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
-  this._onVisibilityChange = null;
+    this._rafId = null;
+    this._running = false;
+    this._isBrowser =
+      typeof window !== "undefined" && typeof document !== "undefined";
+    this._onVisibilityChange = null;
 
     this.init();
   }
@@ -29,7 +29,11 @@ export default class SmoothScroll {
       orientation: this.scrollOrientation,
       gestureOrientation: this.scrollGestureOrientation,
       normalizeWheel: this.scrollNormalizeWheel,
-      smoothTouch: this.smoothTouch,
+      // Lenis v1 uses `syncTouch`; keep backward compatibility with existing `smoothTouch` option.
+      syncTouch:
+        typeof this.syncTouch === "boolean"
+          ? this.syncTouch
+          : this.smoothTouch,
       smoothWheel: this.smoothWheel,
       touchMultiplier: this.scrollTouchMultiplier,
       wheelMultiplier: this.scrollWheelMultiplier,
@@ -41,8 +45,12 @@ export default class SmoothScroll {
 
     let _ticking = false;
     const invokeCallback = (args) => {
-      if (typeof this.scrollCallback === 'function') {
-        try { this.scrollCallback(args); } catch (e) { console.warn('scrollCallback error:', e); }
+      if (typeof this.scrollCallback === "function") {
+        try {
+          this.scrollCallback(args);
+        } catch (e) {
+          console.warn("scrollCallback error:", e);
+        }
       }
     };
 
@@ -67,7 +75,7 @@ export default class SmoothScroll {
     const raf = (time) => {
       if (!this._running) return;
       // lenis is exposed globally by this module; guard in case it was destroyed elsewhere
-      if (window.lenis && typeof window.lenis.raf === 'function') {
+      if (window.lenis && typeof window.lenis.raf === "function") {
         lenis.raf(time);
       }
       this._rafId = requestAnimationFrame(raf);
@@ -83,12 +91,15 @@ export default class SmoothScroll {
           cancelAnimationFrame(this._rafId);
           this._rafId = null;
         }
-        if (window.lenis && typeof window.lenis.stop === 'function') {
+        if (window.lenis && typeof window.lenis.stop === "function") {
           window.lenis.stop();
         }
       } else {
         // Resume lenis and restart RAF only if lenis exists
-        const canResume = window.lenis && typeof window.lenis.start === 'function' && typeof window.lenis.raf === 'function';
+        const canResume =
+          window.lenis &&
+          typeof window.lenis.start === "function" &&
+          typeof window.lenis.raf === "function";
         if (canResume) {
           window.lenis.start();
           if (!this._running) {
@@ -98,11 +109,11 @@ export default class SmoothScroll {
         }
       }
     };
-    document.addEventListener('visibilitychange', this._onVisibilityChange);
+    document.addEventListener("visibilitychange", this._onVisibilityChange);
   }
 
   destroy() {
-  if (!this._isBrowser) return; // No-op on server
+    if (!this._isBrowser) return; // No-op on server
     // Stop the RAF loop
     this._running = false;
     if (this._rafId) {
@@ -111,22 +122,27 @@ export default class SmoothScroll {
     }
     // Remove visibility listener
     if (this._onVisibilityChange) {
-      document.removeEventListener('visibilitychange', this._onVisibilityChange);
+      document.removeEventListener(
+        "visibilitychange",
+        this._onVisibilityChange
+      );
       this._onVisibilityChange = null;
     }
     // Destroy lenis instance if present
-    if (window.lenis && typeof window.lenis.destroy === 'function') {
+    if (window.lenis && typeof window.lenis.destroy === "function") {
       window.lenis.destroy();
     }
     // Remove common Lenis CSS classes to restore native scroll styling
     try {
       const html = document.documentElement;
       const body = document.body;
-      ['lenis', 'lenis-smooth', 'lenis-stopped'].forEach(cls => {
+      ["lenis", "lenis-smooth", "lenis-stopped"].forEach((cls) => {
         html && html.classList && html.classList.remove(cls);
         body && body.classList && body.classList.remove(cls);
       });
-    } catch (_) { /* noop */ }
+    } catch (_) {
+      console.error("Error removing Lenis CSS classes");
+    }
     // Clean up global
     try {
       delete window.lenis;
