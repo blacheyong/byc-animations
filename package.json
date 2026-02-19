@@ -2,7 +2,7 @@
   "name": "byc-animations",
   "displayName": "BYC Animations Library",
   "private": false,
-  "version": "2.9.3",
+  "version": "2.9.4",
   "engines": {
     "node": ">=20"
   },
