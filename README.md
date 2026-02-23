@@ -173,7 +173,7 @@ You can override the following variables (need to be done before importing the B
 
 You can observe scroll state from Lenis via an optional `scrollCallback` passed to `BycAnimations`.
 
-Usage (Simplified):
+Usage:
 
 ```js
 const animations = new BycAnimations({
