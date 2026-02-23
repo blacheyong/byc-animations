@@ -1,6 +1,6 @@
 <h1 align="center">Blache Yong &amp; CO Animations Library Documentation</h1>
 
-Welcome to the Blache Yong & Co animations library! This library provides utilities for on-scroll animations, viewport entry effects, and parallax features. Powered by GSAP and ScrollTrigger, it enables dynamic and engaging animations.
+Welcome to the Blache Yong & CO animations library! This library provides utilities for on-scroll animations, viewport entry effects, and parallax features. Powered by GSAP and ScrollTrigger, it enables dynamic and engaging animations.
 
 <a href="https://blacheyong.github.io/byc-animations/" target="_blank">Visit our demo page</a>
 
