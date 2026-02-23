@@ -34,7 +34,4 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Publish to npm using OIDC Trusted Publisher
-        uses: npm/cli-action@v1
-        with:
-          command: publish
-          provenance: true
+        run: npm publish --provenance
